@@ -11,6 +11,12 @@ const PORT = 3000;
 // Serve static files from root directory
 app.use(express.static(__dirname));
 
+// Latency / Ping diagnostic endpoint
+app.get('/api/ping', (req, res) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.status(200).send('pong');
+});
+
 // Dedicated Super Admin Console routes
 app.get(['/admin', '/superadmin', '/admin.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));

@@ -17,6 +17,7 @@
     <div class="splash-hint" style="position:absolute;bottom:8%;font-size:12px;color:#777;letter-spacing:1px;font-weight:bold;text-transform:uppercase">Click anywhere to proceed &rarr;</div>
   </section>
   <section id="accountScreen" class="screen login-screen hidden">
+    <div class="corner-telemetry" title="Real-time Network Telemetry &amp; Latency"><span class="telemetry-dot"></span><span class="telemetry-clock">--/--/---- --:--:-- - 000ms</span></div>
     <form id="accountForm" class="first-login">
       <div class="swift-logo logo-login"><span>SWIFT</span></div>
       <div class="login-fields">
@@ -29,17 +30,28 @@
     </form>
   </section>
   <section id="usbScreen" class="screen usb-screen hidden">
+    <div class="corner-telemetry" title="Real-time Network Telemetry &amp; Latency"><span class="telemetry-dot"></span><span class="telemetry-clock">--/--/---- --:--:-- - 000ms</span></div>
     <h1>USB KEY AUTHENTICATION</h1>
     <div class="usb-symbol" aria-hidden="true"><div class="usb-arrow">▲</div><div class="usb-stem"></div><div class="usb-branch left"></div><div class="usb-branch right"></div><div class="usb-circle"></div><div class="usb-square"></div></div>
     <div class="usb-progress"><i></i></div><div class="screen-actions"><button id="usbBack" class="pill secondary">BACK</button><button id="usbButton" class="pill usb-button">CONNECT USB KEY</button></div>
   </section>
   <section id="operatorScreen" class="screen workspace hidden"><div class="page-shell">
-    <header class="swift-header"><div class="swift-logo logo-small"><span>SWIFT</span></div><div class="slogan small">The global provider of<br>Secure final messaging services</div></header><div class="header-rule"></div>
+    <header class="swift-header">
+      <div class="swift-logo logo-small"><span>SWIFT</span></div>
+      <div class="slogan small">The global provider of<br>Secure final messaging services</div>
+      <div class="header-telemetry" title="Real-time Network Telemetry &amp; Latency"><span class="telemetry-dot"></span><span class="telemetry-clock">--/--/---- --:--:-- - 000ms</span></div>
+    </header>
+    <div class="header-rule"></div>
     <div class="identity-row"><div><b>SWIFT BIC</b><span id="operatorHeaderBic">IDBKIDJA&nbsp;&nbsp;&nbsp;&nbsp;BANK PRAKTIKUM NUSANTARA</span></div></div>
     <form id="operatorForm" class="operator-form"><label><b>OPERATOR</b><input id="operatorName" list="operatorList" autocomplete="off" required value="iqbal"><datalist id="operatorList"><option value="iqbal"><option value="dhendy"><option value="salma"><option value="aditya"><option value="ratna"></datalist></label><label><b>OPERATOR CODE / ROLE</b><select id="operatorCode"></select></label><label><b>USERNAME</b><input id="operatorUser" required value="iqbal"></label><label class="blank"></label><label><b>PASSWORD</b><input id="operatorPassword" type="password" required value="123456"></label><div id="rolePreview" class="role-preview" aria-live="polite"></div><p id="operatorError" class="error hidden">Err. Operator, username, or password is invalid</p><div class="operator-actions"><button id="operatorBack" class="pill secondary" type="button">BACK</button><button class="pill" type="submit">LOGIN</button></div></form>
   </div></section>
   <section id="app" class="screen workspace hidden"><div class="page-shell">
-    <header class="swift-header"><div class="swift-logo logo-small"><span>SWIFT</span></div><div class="slogan small" id="appHeaderSlogan">The global provider of<br>Secure final messaging services</div></header><div class="header-rule"></div>
+    <header class="swift-header">
+      <div class="swift-logo logo-small"><span>SWIFT</span></div>
+      <div class="slogan small" id="appHeaderSlogan">The global provider of<br>Secure final messaging services</div>
+      <div class="header-telemetry" title="Real-time Network Telemetry &amp; Latency"><span class="telemetry-dot"></span><span class="telemetry-clock">--/--/---- --:--:-- - 000ms</span></div>
+    </header>
+    <div class="header-rule"></div>
     <div class="identity-row main-identity"><div><b>SWIFT BIC</b><span id="appHeaderBic">IDBKIDJA&nbsp;&nbsp;&nbsp;&nbsp;BANK PRAKTIKUM NUSANTARA <button id="openDirectory" class="bic-link">BIC DIRECTORY</button></span></div><div><b>OPERATOR</b><span id="operatorIdentity">OPERATOR_NAME&nbsp;&nbsp;&nbsp;&nbsp;OPERATOR_CODE</span></div></div>
     <nav id="mainNav" class="main-nav"><button class="pill" data-page="search">SEARCH</button><button class="pill" data-page="record">RECORD</button><button class="pill" data-page="ledger">CORE LEDGER</button><button class="pill" data-page="advice">ADVICE</button><button class="pill" data-page="analysis">ANALYSIS</button></nav>
     <main id="content"></main><div class="app-footer"><div class="footer-actions"><button id="appBack" class="pill secondary">BACK</button><button id="logout" class="pill">LOGOUT</button></div><div class="training-note" id="appFooterNote">EDUCATIONAL SIMULATION — BANK PRAKTIKUM NUSANTARA CORE BANKING &amp; SWIFT LAB</div></div>
@@ -59,8 +71,9 @@
   <dialog id="confirmDialog" class="confirm-dialog"><form method="dialog"><h2>DELETE RECORD?</h2><p id="confirmText"></p><div class="modal-actions"><button class="pill" value="cancel">CANCEL</button><button class="pill" value="confirm">DELETE</button></div></form></dialog>
   <div id="toast" class="toast"></div>
   <div id="globalLoader" class="global-loader" aria-live="polite" aria-hidden="true"><div class="loader-box"><span class="spinner"></span><b id="loaderText">LOADING</b></div></div>
-  <link rel="stylesheet" href="messages.css?v=10">
-  <script src="messages.js?v=10"></script>
-  <script src="app.js?v=10"></script>
-  <script src="messages-ui.js?v=10"></script>
+  <link rel="stylesheet" href="messages.css?v=11">
+  <script src="data/database_master.js?v=11"></script>
+  <script src="messages.js?v=11"></script>
+  <script src="app.js?v=11"></script>
+  <script src="messages-ui.js?v=11"></script>
 </body></html>

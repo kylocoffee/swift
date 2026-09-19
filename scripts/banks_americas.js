@@ -1,0 +1,806 @@
+export const americasBanks = [
+  {
+    "bic": "FRNYUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF NEW YORK",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "FRBBUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF BOSTON",
+    "country": "UNITED STATES",
+    "city": "BOSTON"
+  },
+  {
+    "bic": "FRPAUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF PHILADELPHIA",
+    "country": "UNITED STATES",
+    "city": "PHILADELPHIA"
+  },
+  {
+    "bic": "FRCLUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF CLEVELAND",
+    "country": "UNITED STATES",
+    "city": "CLEVELAND"
+  },
+  {
+    "bic": "FRRIUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF RICHMOND",
+    "country": "UNITED STATES",
+    "city": "RICHMOND"
+  },
+  {
+    "bic": "FRATUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF ATLANTA",
+    "country": "UNITED STATES",
+    "city": "ATLANTA"
+  },
+  {
+    "bic": "FRCHUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF CHICAGO",
+    "country": "UNITED STATES",
+    "city": "CHICAGO"
+  },
+  {
+    "bic": "FRSLUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF ST. LOUIS",
+    "country": "UNITED STATES",
+    "city": "ST. LOUIS"
+  },
+  {
+    "bic": "FRMNUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF MINNEAPOLIS",
+    "country": "UNITED STATES",
+    "city": "MINNEAPOLIS"
+  },
+  {
+    "bic": "FRKCUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF KANSAS CITY",
+    "country": "UNITED STATES",
+    "city": "KANSAS CITY"
+  },
+  {
+    "bic": "FRDAUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF DALLAS",
+    "country": "UNITED STATES",
+    "city": "DALLAS"
+  },
+  {
+    "bic": "FRSFUS33XXX",
+    "name": "FEDERAL RESERVE BANK OF SAN FRANCISCO",
+    "country": "UNITED STATES",
+    "city": "SAN FRANCISCO"
+  },
+  {
+    "bic": "CHASUS33XXX",
+    "name": "JPMORGAN CHASE BANK, N.A.",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "CHASUS33COL",
+    "name": "JPMORGAN CHASE BANK, N.A. (COLUMBUS)",
+    "country": "UNITED STATES",
+    "city": "COLUMBUS"
+  },
+  {
+    "bic": "BOFAUS3NXXX",
+    "name": "BANK OF AMERICA, N.A.",
+    "country": "UNITED STATES",
+    "city": "CHARLOTTE"
+  },
+  {
+    "bic": "BOFAUS3NNYC",
+    "name": "BANK OF AMERICA, N.A. (NEW YORK)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BOFAUS6SXXX",
+    "name": "BANK OF AMERICA, N.A. (SAN FRANCISCO)",
+    "country": "UNITED STATES",
+    "city": "SAN FRANCISCO"
+  },
+  {
+    "bic": "CITIUS33XXX",
+    "name": "CITIBANK, N.A.",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "CITIUS33MIA",
+    "name": "CITIBANK, N.A. (MIAMI INTERNATIONAL)",
+    "country": "UNITED STATES",
+    "city": "MIAMI"
+  },
+  {
+    "bic": "CITIUS6SXXX",
+    "name": "CITIBANK, N.A. (CALIFORNIA)",
+    "country": "UNITED STATES",
+    "city": "SAN FRANCISCO"
+  },
+  {
+    "bic": "WFBIUS6SXXX",
+    "name": "WELLS FARGO BANK, N.A.",
+    "country": "UNITED STATES",
+    "city": "SAN FRANCISCO"
+  },
+  {
+    "bic": "WFBIUS33XXX",
+    "name": "WELLS FARGO BANK, N.A. (NEW YORK)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "WFBIUS44XXX",
+    "name": "WELLS FARGO BANK, N.A. (MINNEAPOLIS)",
+    "country": "UNITED STATES",
+    "city": "MINNEAPOLIS"
+  },
+  {
+    "bic": "GSCOUS33XXX",
+    "name": "GOLDMAN SACHS BANK USA",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "MSNYUS33XXX",
+    "name": "MORGAN STANLEY BANK, N.A.",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BKTRUS33XXX",
+    "name": "THE BANK OF NEW YORK MELLON (BNY MELLON)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BKTRUS33PIT",
+    "name": "BNY MELLON, N.A. (PITTSBURGH)",
+    "country": "UNITED STATES",
+    "city": "PITTSBURGH"
+  },
+  {
+    "bic": "SBUSUS33XXX",
+    "name": "STATE STREET BANK AND TRUST COMPANY",
+    "country": "UNITED STATES",
+    "city": "BOSTON"
+  },
+  {
+    "bic": "SBUSUS33NYC",
+    "name": "STATE STREET BANK AND TRUST (NEW YORK)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "NTCOUS33XXX",
+    "name": "THE NORTHERN TRUST COMPANY",
+    "country": "UNITED STATES",
+    "city": "CHICAGO"
+  },
+  {
+    "bic": "USBKUS44XXX",
+    "name": "U.S. BANK NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "MINNEAPOLIS"
+  },
+  {
+    "bic": "USBKUS33XXX",
+    "name": "U.S. BANK N.A. (NEW YORK BRANCH)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "PNCCUS33XXX",
+    "name": "PNC BANK, NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "PITTSBURGH"
+  },
+  {
+    "bic": "PNCCUS33PHI",
+    "name": "PNC BANK, N.A. (PHILADELPHIA)",
+    "country": "UNITED STATES",
+    "city": "PHILADELPHIA"
+  },
+  {
+    "bic": "COFUS33XXXX",
+    "name": "CAPITAL ONE, NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "MCLEAN"
+  },
+  {
+    "bic": "TFCUS33XXXX",
+    "name": "TRUIST BANK",
+    "country": "UNITED STATES",
+    "city": "CHARLOTTE"
+  },
+  {
+    "bic": "TFCUS33ATL",
+    "name": "TRUIST BANK (ATLANTA)",
+    "country": "UNITED STATES",
+    "city": "ATLANTA"
+  },
+  {
+    "bic": "TDUSUS33XXX",
+    "name": "TD BANK, N.A. (USA)",
+    "country": "UNITED STATES",
+    "city": "CHERRY HILL"
+  },
+  {
+    "bic": "TDUSUS33NYC",
+    "name": "TD BANK, N.A. (NEW YORK)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "KEYBUS33XXX",
+    "name": "KEYBANK NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "CLEVELAND"
+  },
+  {
+    "bic": "MTBICNY3XXX",
+    "name": "M&T BANK (MANUFACTURERS AND TRADERS TRUST CO)",
+    "country": "UNITED STATES",
+    "city": "BUFFALO"
+  },
+  {
+    "bic": "MTBICNY3NYC",
+    "name": "M&T BANK (NEW YORK CITY)",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "FITBUS33XXX",
+    "name": "FIFTH THIRD BANK, NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "CINCINNATI"
+  },
+  {
+    "bic": "HUNTUS33XXX",
+    "name": "THE HUNTINGTON NATIONAL BANK",
+    "country": "UNITED STATES",
+    "city": "COLUMBUS"
+  },
+  {
+    "bic": "RFBIUS44XXX",
+    "name": "REGIONS BANK",
+    "country": "UNITED STATES",
+    "city": "BIRMINGHAM"
+  },
+  {
+    "bic": "COBIUS33XXX",
+    "name": "COMERICA BANK",
+    "country": "UNITED STATES",
+    "city": "DALLAS"
+  },
+  {
+    "bic": "COBIUS33DET",
+    "name": "COMERICA BANK (DETROIT)",
+    "country": "UNITED STATES",
+    "city": "DETROIT"
+  },
+  {
+    "bic": "ZIONUS44XXX",
+    "name": "ZIONS BANCORPORATION, N.A.",
+    "country": "UNITED STATES",
+    "city": "SALT LAKE CITY"
+  },
+  {
+    "bic": "FCNBCA55XXX",
+    "name": "FIRST-CITIZENS BANK & TRUST COMPANY",
+    "country": "UNITED STATES",
+    "city": "RALEIGH"
+  },
+  {
+    "bic": "SNVUS44XXXX",
+    "name": "SYNOVUS BANK",
+    "country": "UNITED STATES",
+    "city": "COLUMBUS"
+  },
+  {
+    "bic": "CFGUS33XXXX",
+    "name": "CITIZENS BANK, N.A.",
+    "country": "UNITED STATES",
+    "city": "PROVIDENCE"
+  },
+  {
+    "bic": "WALBUS33XXX",
+    "name": "WESTERN ALLIANCE BANK",
+    "country": "UNITED STATES",
+    "city": "PHOENIX"
+  },
+  {
+    "bic": "NYCBUS33XXX",
+    "name": "FLAGSTAR BANK, N.A. (FORMERLY NYCB)",
+    "country": "UNITED STATES",
+    "city": "HICKSVILLE"
+  },
+  {
+    "bic": "WBSTUS33XXX",
+    "name": "WEBSTER BANK, NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "STAMFORD"
+  },
+  {
+    "bic": "CBKCUS44XXX",
+    "name": "COMMERCE BANK",
+    "country": "UNITED STATES",
+    "city": "KANSAS CITY"
+  },
+  {
+    "bic": "FROSTX22XXX",
+    "name": "FROST BANK (CULLEN/FROST BANKERS)",
+    "country": "UNITED STATES",
+    "city": "SAN ANTONIO"
+  },
+  {
+    "bic": "EWBCUS66XXX",
+    "name": "EAST WEST BANK",
+    "country": "UNITED STATES",
+    "city": "PASADENA"
+  },
+  {
+    "bic": "BMOIUS44XXX",
+    "name": "BMO HARRIS BANK N.A.",
+    "country": "UNITED STATES",
+    "city": "CHICAGO"
+  },
+  {
+    "bic": "HSBCUS33XXX",
+    "name": "HSBC BANK USA, NATIONAL ASSOCIATION",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BBARUS33XXX",
+    "name": "BARCLAYS BANK PLC NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "DEUTUS33XXX",
+    "name": "DEUTSCHE BANK TRUST COMPANY AMERICAS",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BNPAUS3NXXX",
+    "name": "BNP PARIBAS NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "SOCGUS33XXX",
+    "name": "SOCIETE GENERALE NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "CRUSUS3NXXX",
+    "name": "CREDIT AGRICOLE CIB NEW YORK",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "UBSWUS33XXX",
+    "name": "UBS AG STAMFORD / NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "CRESUS33XXX",
+    "name": "CREDIT SUISSE NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BOTKUS33XXX",
+    "name": "MUFG BANK, LTD. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "SMBCUS33XXX",
+    "name": "SUMITOMO MITSUI BANKING CORP NEW YORK",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "MIZUUS33XXX",
+    "name": "MIZUHO BANK, LTD. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "ICBCUS33XXX",
+    "name": "INDUSTRIAL AND COMMERCIAL BANK OF CHINA NY",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BKCHUS33XXX",
+    "name": "BANK OF CHINA NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "PCBCUS33XXX",
+    "name": "CHINA CONSTRUCTION BANK NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "ABNAUS33XXX",
+    "name": "ABN AMRO BANK N.V. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "INGBUS33XXX",
+    "name": "ING FINANCIAL SERVICES LLC NEW YORK",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "RABOUS33XXX",
+    "name": "RABOBANK NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BSCHUS33XXX",
+    "name": "BANCO SANTANDER, S.A. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BBVAUS33XXX",
+    "name": "BANCO BILBAO VIZCAYA ARGENTARIA NY",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "BCITUS33XXX",
+    "name": "INTESA SANPAOLO S.P.A. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "UNCRUS33XXX",
+    "name": "UNICREDIT S.P.A. NEW YORK BRANCH",
+    "country": "UNITED STATES",
+    "city": "NEW YORK"
+  },
+  {
+    "bic": "NOCACAT2XXX",
+    "name": "BANK OF CANADA (CENTRAL BANK)",
+    "country": "CANADA",
+    "city": "OTTAWA"
+  },
+  {
+    "bic": "ROYCCAT2XXX",
+    "name": "ROYAL BANK OF CANADA (RBC)",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "ROYCCAM2XXX",
+    "name": "ROYAL BANK OF CANADA (MONTREAL)",
+    "country": "CANADA",
+    "city": "MONTREAL"
+  },
+  {
+    "bic": "TDOMCATTXXX",
+    "name": "THE TORONTO-DOMINION BANK (TD BANK)",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "NOSCCATTXXX",
+    "name": "THE BANK OF NOVA SCOTIA (SCOTIABANK)",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "BOFMCAT2XXX",
+    "name": "BANK OF MONTREAL (BMO)",
+    "country": "CANADA",
+    "city": "MONTREAL"
+  },
+  {
+    "bic": "BOFMCAT2TOR",
+    "name": "BANK OF MONTREAL (TORONTO)",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "CIBCCATTXXX",
+    "name": "CANADIAN IMPERIAL BANK OF COMMERCE (CIBC)",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "BNDCCAMMXXX",
+    "name": "NATIONAL BANK OF CANADA (BANQUE NATIONALE)",
+    "country": "CANADA",
+    "city": "MONTREAL"
+  },
+  {
+    "bic": "CCDQCA2LXXX",
+    "name": "FEDERATION DES CAISSES DESJARDINS DU QUEBEC",
+    "country": "CANADA",
+    "city": "LEVIS"
+  },
+  {
+    "bic": "BLCMCA22XXX",
+    "name": "LAURENTIAN BANK OF CANADA",
+    "country": "CANADA",
+    "city": "MONTREAL"
+  },
+  {
+    "bic": "CWBMCAT2XXX",
+    "name": "CANADIAN WESTERN BANK",
+    "country": "CANADA",
+    "city": "EDMONTON"
+  },
+  {
+    "bic": "ATBFCAT2XXX",
+    "name": "ATB FINANCIAL (ALBERTA TREASURY BRANCHES)",
+    "country": "CANADA",
+    "city": "EDMONTON"
+  },
+  {
+    "bic": "EQBLCA22XXX",
+    "name": "EQUITABLE BANK",
+    "country": "CANADA",
+    "city": "TORONTO"
+  },
+  {
+    "bic": "MNLBCAT2XXX",
+    "name": "MANULIFE BANK OF CANADA",
+    "country": "CANADA",
+    "city": "WATERLOO"
+  },
+  {
+    "bic": "HSBCCATTXXX",
+    "name": "HSBC BANK CANADA (RBC GROUP)",
+    "country": "CANADA",
+    "city": "VANCOUVER"
+  },
+  {
+    "bic": "BDMEXMMXXXX",
+    "name": "BANCO DE MEXICO (CENTRAL BANK)",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BBVAMXMMXXX",
+    "name": "BBVA MEXICO, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BNMXMXMMXXX",
+    "name": "BANCO NACIONAL DE MEXICO, S.A. (CITIBANAMEX)",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BSMXMXMMXXX",
+    "name": "BANCO SANTANDER MEXICO, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BMTEMXMMXXX",
+    "name": "BANCO MERCANTIL DEL NORTE, S.A. (BANORTE)",
+    "country": "MEXICO",
+    "city": "MONTERREY"
+  },
+  {
+    "bic": "HSBCMXMMXXX",
+    "name": "HSBC MEXICO, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "SCBAMXMMXXX",
+    "name": "SCOTIABANK INVERLAT, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "INBUMXMMXXX",
+    "name": "BANCO INBURSA, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BBAJMXMMXXX",
+    "name": "BANCO DEL BAJIO, S.A. (BANBAJIO)",
+    "country": "MEXICO",
+    "city": "LEON"
+  },
+  {
+    "bic": "AZTEMXMMXXX",
+    "name": "BANCO AZTECA, S.A.",
+    "country": "MEXICO",
+    "city": "MEXICO CITY"
+  },
+  {
+    "bic": "BCBRBRDFXXX",
+    "name": "BANCO CENTRAL DO BRASIL",
+    "country": "BRAZIL",
+    "city": "BRASILIA"
+  },
+  {
+    "bic": "ITAUBRSPXXX",
+    "name": "ITAU UNIBANCO S.A.",
+    "country": "BRAZIL",
+    "city": "SAO PAULO"
+  },
+  {
+    "bic": "BRASBRBSXXX",
+    "name": "BANCO DO BRASIL S.A.",
+    "country": "BRAZIL",
+    "city": "BRASILIA"
+  },
+  {
+    "bic": "BBDEBRSPXXX",
+    "name": "BANCO BRADESCO S.A.",
+    "country": "BRAZIL",
+    "city": "OSASCO"
+  },
+  {
+    "bic": "CEFXBRDFXXX",
+    "name": "CAIXA ECONOMICA FEDERAL",
+    "country": "BRAZIL",
+    "city": "BRASILIA"
+  },
+  {
+    "bic": "BSCHBRSPXXX",
+    "name": "BANCO SANTANDER (BRASIL) S.A.",
+    "country": "BRAZIL",
+    "city": "SAO PAULO"
+  },
+  {
+    "bic": "BTGPBRSPXXX",
+    "name": "BANCO BTG PACTUAL S.A.",
+    "country": "BRAZIL",
+    "city": "SAO PAULO"
+  },
+  {
+    "bic": "SAFRBRSPXXX",
+    "name": "BANCO SAFRA S.A.",
+    "country": "BRAZIL",
+    "city": "SAO PAULO"
+  },
+  {
+    "bic": "VOTOBRSPXXX",
+    "name": "BANCO VOTORANTIM S.A. (BV)",
+    "country": "BRAZIL",
+    "city": "SAO PAULO"
+  },
+  {
+    "bic": "BCCHCLRMXXX",
+    "name": "BANCO CENTRAL DE CHILE",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "CHILCLRMXXX",
+    "name": "BANCO DE CHILE",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "BSCHCLRMXXX",
+    "name": "BANCO SANTANDER-CHILE",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "BCICCLRMXXX",
+    "name": "BANCO DE CREDITO E INVERSIONES (BCI)",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "BECHCLRMXXX",
+    "name": "BANCO DEL ESTADO DE CHILE (BANCOESTADO)",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "CORBCLRMXXX",
+    "name": "ITAU CORPBANCA",
+    "country": "CHILE",
+    "city": "SANTIAGO"
+  },
+  {
+    "bic": "BCOLCOBMXXX",
+    "name": "BANCOLOMBIA S.A.",
+    "country": "COLOMBIA",
+    "city": "MEDELLIN"
+  },
+  {
+    "bic": "BOGOCOBMXXX",
+    "name": "BANCO DE BOGOTA S.A.",
+    "country": "COLOMBIA",
+    "city": "BOGOTA"
+  },
+  {
+    "bic": "DABVCOBMXXX",
+    "name": "BANCO DAVIVIENDA S.A.",
+    "country": "COLOMBIA",
+    "city": "BOGOTA"
+  },
+  {
+    "bic": "BBVACOBMXXX",
+    "name": "BBVA COLOMBIA S.A.",
+    "country": "COLOMBIA",
+    "city": "BOGOTA"
+  },
+  {
+    "bic": "OCCICOBMXXX",
+    "name": "BANCO DE OCCIDENTE",
+    "country": "COLOMBIA",
+    "city": "CALI"
+  },
+  {
+    "bic": "BCPLPEPLXXX",
+    "name": "BANCO DE CREDITO DEL PERU (BCP)",
+    "country": "PERU",
+    "city": "LIMA"
+  },
+  {
+    "bic": "BBVAPEPLXXX",
+    "name": "BBVA PERU",
+    "country": "PERU",
+    "city": "LIMA"
+  },
+  {
+    "bic": "SCOTPEPLXXX",
+    "name": "SCOTIABANK PERU S.A.A.",
+    "country": "PERU",
+    "city": "LIMA"
+  },
+  {
+    "bic": "BINRPEPLXXX",
+    "name": "INTERBANK (BANCO INTERNACIONAL DEL PERU)",
+    "country": "PERU",
+    "city": "LIMA"
+  },
+  {
+    "bic": "NACNMSBAXXX",
+    "name": "BANCO DE LA NACION ARGENTINA",
+    "country": "ARGENTINA",
+    "city": "BUENOS AIRES"
+  },
+  {
+    "bic": "GALIARBAXXX",
+    "name": "BANCO GALICIA Y BUENOS AIRES S.A.U.",
+    "country": "ARGENTINA",
+    "city": "BUENOS AIRES"
+  },
+  {
+    "bic": "FRBAARBAXXX",
+    "name": "BBVA ARGENTINA S.A.",
+    "country": "ARGENTINA",
+    "city": "BUENOS AIRES"
+  },
+  {
+    "bic": "BRIOARBAXXX",
+    "name": "BANCO SANTANDER ARGENTINA S.A.",
+    "country": "ARGENTINA",
+    "city": "BUENOS AIRES"
+  },
+  {
+    "bic": "MACRARBAXXX",
+    "name": "BANCO MACRO S.A.",
+    "country": "ARGENTINA",
+    "city": "BUENOS AIRES"
+  }
+];
