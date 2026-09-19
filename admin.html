@@ -50,9 +50,9 @@
         <input id="adminPassword" type="password" required value="supersecret" placeholder="••••••••" autocomplete="off">
       </label>
 
-      <div class="cred-hint">
+      <div class="cred-hint" id="masterCredHint">
         <b>Master Credentials:</b><br>
-        Admin ID: <code>superadmin</code> | Master Key: <code>MASTER-SWIFT-2026</code> | Password: <code>supersecret</code>
+        Admin ID: <code id="hintAdminUser">superadmin</code> | Master Key: <code id="hintAdminKey">MASTER-SWIFT-2026</code> | Password: <code id="hintAdminPwd">supersecret</code>
       </div>
 
       <p id="authError" class="error-msg hidden">Err. Invalid Super Admin credentials or authorization key.</p>
@@ -82,7 +82,9 @@
       <button type="button" class="admin-tab-btn active" data-tab="owner">1. APP OWNER &amp; INSTITUTION</button>
       <button type="button" class="admin-tab-btn" data-tab="bank">2. BANK &amp; SWIFT NETWORK</button>
       <button type="button" class="admin-tab-btn" data-tab="features">3. FEATURES &amp; POLICIES</button>
-      <button type="button" class="admin-tab-btn" data-tab="backup">4. BACKUP &amp; RESET</button>
+      <button type="button" class="admin-tab-btn" data-tab="users">4. USERS &amp; OPERATORS</button>
+      <button type="button" class="admin-tab-btn" data-tab="security">5. SECURITY, PASSWORDS &amp; KEYS</button>
+      <button type="button" class="admin-tab-btn" data-tab="backup">6. BACKUP &amp; RESET</button>
     </nav>
 
     <form id="adminConfigForm">
@@ -254,7 +256,169 @@
         </div>
       </div>
 
-      <!-- Tab 4: Master Data Backup, Restore & Reset -->
+      <!-- Tab 4: User & Operator Access Management -->
+      <div id="tabUsers" class="admin-section hidden">
+        <h3>Operator Members &amp; User Access Management</h3>
+        <p class="sub">Kelola akun operator simulator perbankan: tambah anggota operator baru, menaikkan/mengubah role (Maker/Checker/Compliance/Admin/Auditor), memperbarui username, atau mengganti kata sandi.</p>
+        
+        <div class="user-stats-grid">
+          <div class="user-stat-card">
+            <small>TOTAL USERS</small>
+            <strong id="statTotalUsers">0</strong>
+          </div>
+          <div class="user-stat-card">
+            <small>OPERATORS (MAKERS)</small>
+            <strong id="statMakerUsers">0</strong>
+          </div>
+          <div class="user-stat-card">
+            <small>CHECKERS &amp; TREASURY</small>
+            <strong id="statCheckerUsers">0</strong>
+          </div>
+          <div class="user-stat-card">
+            <small>COMPLIANCE &amp; ADMINS</small>
+            <strong id="statComplianceUsers">0</strong>
+          </div>
+        </div>
+
+        <div class="user-toolbar">
+          <div class="user-toolbar-left">
+            <input type="text" id="userSearchInput" placeholder="Cari nama, username, atau kode role..." style="min-width:240px;">
+            <select id="userRoleFilter">
+              <option value="">Semua Peran (All Roles)</option>
+              <option value="Operator">Operator (Maker)</option>
+              <option value="Head Treasury">Head Treasury (Checker)</option>
+              <option value="Compliance Officer">Compliance Officer (AML)</option>
+              <option value="System Administrator">System Administrator</option>
+              <option value="Auditor">Auditor (Oversight)</option>
+            </select>
+          </div>
+          <div class="user-toolbar-right">
+            <button type="button" id="btnResetDefaultUsers" class="pill secondary" style="font-size:13px;height:40px;min-width:140px;padding:0 16px;">RESET KE DEFAULT</button>
+            <button type="button" id="btnOpenAddUserModal" class="pill" style="font-size:13px;height:40px;min-width:180px;padding:0 18px;">+ TAMBAH OPERATOR / USER</button>
+          </div>
+        </div>
+
+        <div class="user-table-wrap">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th style="width:250px;">PROFIL &amp; USERNAME</th>
+                <th style="width:200px;">PERAN (ROLE) &amp; KODE</th>
+                <th>OTORITAS &amp; HAK AKSES SISTEM</th>
+                <th style="width:160px;">KATA SANDI</th>
+                <th style="width:180px;text-align:right;">AKSI</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <!-- Rendered via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 5: Security, Passwords, Master Credentials & Application Keys -->
+      <div id="tabSecurity" class="admin-section hidden">
+        <h3>Application Security, Passwords &amp; Cryptographic Keys</h3>
+        <p class="sub">Kelola akun Super Admin, kata sandi master, kredensial login terminal mahasiswa, PIN token hardware, dan kunci kriptografi jaringan SWIFT.</p>
+
+        <!-- Section 1: Super Admin Master Credentials -->
+        <div style="border:2px solid var(--ink);background:#fff;padding:20px;margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;">
+            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">1. SUPER ADMIN ROOT CREDENTIALS (KREDENSIAL AKSES KONSOL MASTER)</h4>
+            <span style="font-size:11px;background:#f3e5f5;color:#4a148c;padding:3px 8px;font-weight:bold;border:1px solid #6a1b9a;">MASTER AUTHENTICATION</span>
+          </div>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Kredensial ini digunakan untuk membuka portal Master Console (<code>admin.html</code>) ini. Pastikan Anda mengingat atau mencatat perubahan kredensial ini.</p>
+          <div class="admin-grid">
+            <label>Super Admin ID / Username
+              <input id="cfgAdminUser" required placeholder="superadmin" autocomplete="off" style="font-family:monospace;">
+              <span class="hint">ID akun untuk masuk ke halaman Super Admin (Default: <code>superadmin</code>).</span>
+            </label>
+            <label>Master Authorization Key
+              <input id="cfgAdminKey" required placeholder="MASTER-SWIFT-2026" autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
+              <span class="hint">Kunci otorisasi master (Default: <code>MASTER-SWIFT-2026</code>).</span>
+            </label>
+            <label class="full">Super Admin Master Password
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input id="cfgAdminPassword" type="password" required placeholder="••••••••" autocomplete="off" style="flex:1;">
+                <button type="button" id="btnToggleAdminPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
+              </div>
+              <span class="hint">Kata sandi master konsol admin (Default: <code>supersecret</code>).</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 2: Student Terminal Credentials (Stage 1 & Stage 2) -->
+        <div style="border:2px solid var(--ink);background:#fff;padding:20px;margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;">
+            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">2. TERMINAL SIMULATOR LOGIN CREDENTIALS (AKSES MAHASISWA / PRAKTIKAN)</h4>
+            <span style="font-size:11px;background:#eef6fc;color:#0f496e;padding:3px 8px;font-weight:bold;border:1px solid #1e6b9c;">STAGE 1 &amp; STAGE 2 ACCESS</span>
+          </div>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Konfigurasi kredensial yang dimasukkan mahasiswa pada layar pembuka (Terminal Login &amp; Token PIN) sebelum memilih profil operator.</p>
+          <div class="admin-grid">
+            <label>Terminal Account ID (Stage 1)
+              <input id="cfgTerminalAccount" required placeholder="student01" autocomplete="off" style="font-family:monospace;">
+              <span class="hint">ID akun terminal yang digunakan mahasiswa (Default: <code>student01</code>).</span>
+            </label>
+            <label>Terminal Access Security Key (Stage 1)
+              <input id="cfgTerminalAccessKey" required placeholder="LAB-2026" autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
+              <span class="hint">Kunci akses terminal laboratorium (Default: <code>LAB-2026</code>).</span>
+            </label>
+            <label>Terminal Password (Stage 1)
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input id="cfgTerminalPassword" type="password" required placeholder="••••••••" autocomplete="off" style="flex:1;">
+                <button type="button" id="btnToggleTerminalPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
+              </div>
+              <span class="hint">Kata sandi masuk terminal (Default: <code>swiftlab</code>).</span>
+            </label>
+            <label>Hardware Token PIN (Stage 2)
+              <input id="cfgTokenPin" required placeholder="123456" autocomplete="off" maxlength="12" style="font-family:monospace;">
+              <span class="hint">PIN otentikasi token fisik USB PKI (Default: <code>123456</code>).</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 3: Cryptographic & SWIFT Network Application Keys -->
+        <div style="border:2px solid var(--ink);background:#fff;padding:20px;margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;">
+            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">3. SWIFT NETWORK CRYPTOGRAPHIC &amp; GATEWAY API KEYS</h4>
+            <span style="font-size:11px;background:#eaf7ed;color:#0d5921;padding:3px 8px;font-weight:bold;border:1px solid #1e7e34;">CRYPTOGRAPHIC TOKENS</span>
+          </div>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Kunci pengamanan protokol pesan transaksi internasional, validasi skema ISO 20022 XML, dan token integrasi payment gateway.</p>
+          <div class="admin-grid">
+            <label class="full">SWIFT GPI PKI Digital Signature Key (Certificate Hash)
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input id="cfgSwiftAppKey" required placeholder="SWIFT-GPI-SIG-2026-X89" autocomplete="off" style="flex:1;font-family:monospace;">
+                <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+              </div>
+              <span class="hint">Kunci enkripsi &amp; tanda tangan digital sertifikat non-repudiation untuk rilis pesan FIN &amp; ISO 20022.</span>
+            </label>
+            <label class="full">ISO 20022 XML Schema Validation Secret Key
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input id="cfgIsoSchemaValidationKey" required placeholder="ISO20022-XML-SEC-v5" autocomplete="off" style="flex:1;font-family:monospace;">
+                <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+              </div>
+              <span class="hint">Kunci otentikasi validator parser skema pacs.008 &amp; pacs.009 XML.</span>
+            </label>
+            <label class="full">Core Banking API Gateway Bearer Token
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input id="cfgApiGatewayToken" required placeholder="SWIFT-GW-TOKEN-8831-LIVE" autocomplete="off" style="flex:1;font-family:monospace;">
+                <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+              </div>
+              <span class="hint">Token otorisasi integrasi API antarmuka Core Banking System dengan jaringan kliring BI-RTGS &amp; SWIFT.</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;background:#f5f5f5;border:1px solid #ccc;padding:14px 18px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <strong style="font-size:13px;display:block;margin-bottom:2px;">RESET KREDENSIAL KE PENGATURAN PABRIK</strong>
+            <span style="font-size:12px;color:#666;">Kembalikan seluruh akun admin, password, dan kunci aplikasi ke nilai default awal.</span>
+          </div>
+          <button type="button" id="btnResetSecurityCredentials" class="pill secondary" style="font-size:13px;padding:8px 18px;">RESET KREDENSIAL &amp; KUNCI DEFAULT</button>
+        </div>
+      </div>
+
+      <!-- Tab 6: Master Data Backup, Restore & Reset -->
       <div id="tabBackup" class="admin-section hidden">
         <h3>Master Data Backup, Restore &amp; Factory Reset</h3>
         <p class="sub">Export complete simulator state for archiving, restore saved student practicum sessions, or reset the laboratory.</p>
@@ -299,6 +463,74 @@
     </form>
   </div>
 
+  <!-- Dialog: Create / Edit User & Elevate Role -->
+  <dialog id="userCrudDialog">
+    <form id="userCrudForm">
+      <button class="dialog-close" type="button" id="closeUserCrudDialog">×</button>
+      <h2 id="userDialogTitle">TAMBAH ANGGOTA OPERATOR BARU</h2>
+      <input id="userOriginalKey" type="hidden">
+
+      <div class="modal-grid">
+        <label><b>NAMA LENGKAP / DISPLAY NAME</b>
+          <input id="editUserDisplay" required placeholder="e.g. MUHAMMAD IQBAL" autocomplete="off">
+          <span style="font-size:11px;color:#666;margin-top:2px;">Nama lengkap operator yang muncul pada header dan audit log.</span>
+        </label>
+
+        <label><b>USERNAME (ID LOGIN)</b>
+          <input id="editUserUsername" required placeholder="e.g. iqbal" autocomplete="off" style="font-family:monospace;">
+          <span style="font-size:11px;color:#666;margin-top:2px;">Digunakan untuk masuk ke terminal simulator (huruf kecil tanpa spasi).</span>
+        </label>
+
+        <label><b>PERAN OPERASIONAL (ROLE)</b>
+          <select id="editUserRole" required>
+            <option value="Operator">Operator (Maker: Rekam &amp; Draf Transaksi)</option>
+            <option value="Head Treasury">Head Treasury (Checker: Otorisasi &amp; Likuiditas Nostro)</option>
+            <option value="Compliance Officer">Compliance Officer (AML/CFT &amp; Sanctions Screening)</option>
+            <option value="System Administrator">System Administrator (Master BIC &amp; Routing Admin)</option>
+            <option value="Auditor">Auditor (Audit Trail &amp; General Ledger Oversight)</option>
+          </select>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Pilih tingkat otoritas atau naikkan jabatan operator.</span>
+        </label>
+
+        <label><b>KODE OPERATOR / ROLE CODE</b>
+          <input id="editUserCode" required placeholder="e.g. OPS-01" autocomplete="off" style="text-transform:uppercase;font-family:monospace;">
+          <span style="font-size:11px;color:#666;margin-top:2px;">Kode identifikasi resmi (e.g. OPS-01, HTR-01, CMP-01, ADM-01, AUD-01).</span>
+        </label>
+
+        <label class="wide"><b>KATA SANDI (PASSWORD)</b>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input id="editUserPassword" type="password" required value="123456" placeholder="Masukkan kata sandi..." autocomplete="off" style="flex:1;">
+            <button type="button" id="btnTogglePasswordVisibility" class="btn-mini" style="height:54px;padding:0 14px;white-space:nowrap;">LIHAT / SEMBUNYIKAN</button>
+          </div>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Kata sandi login operator (Default: <code>123456</code>).</span>
+        </label>
+      </div>
+
+      <div id="userRoleInfoCard" class="user-role-help-box">
+        <b id="userRoleInfoTitle">OPERATOR (MAKER)</b>
+        <span id="userRoleInfoDesc">Bertindak sebagai Maker dalam prinsip 4-Eyes: Memulai dan mendraf transaksi pengiriman dana nasabah (pacs.008/MT103), memeriksa saldo rekening nasabah, dan mencetak payment instruction.</span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="pill secondary" type="button" id="btnCancelUserCrud">BATAL</button>
+        <button class="pill" type="submit" id="btnSaveUserCrud">SIMPAN OPERATOR</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Dialog: Confirm User Deletion -->
+  <dialog id="userDeleteDialog" class="confirm-dialog">
+    <form id="userDeleteForm" method="dialog">
+      <h2>HAPUS PENGGUNA / OPERATOR?</h2>
+      <p id="userDeletePromptText">Apakah Anda yakin ingin menghapus akun operator ini dari simulator?</p>
+      <input id="userDeleteTargetKey" type="hidden">
+      <div class="modal-actions">
+        <button class="pill secondary" type="button" id="btnCancelUserDelete">BATAL</button>
+        <button class="pill" type="submit" style="background:#b51d1d;color:#fff;border-color:#b51d1d;">HAPUS OPERATOR</button>
+      </div>
+    </form>
+  </dialog>
+
   <div id="adminToast" class="toast"></div>
 
   <script src="data/database_master.js?v=11"></script>
@@ -309,6 +541,7 @@
     const CK = 'swiftLabCustomers';
     const NK = 'swiftLabNostro';
     const JK = 'swiftLabJournals';
+    const UK = 'swiftLabUsers';
 
     const defaultSysConfig = {
       appName: 'SWIFT Network & Core Banking Laboratory Simulator',
@@ -334,7 +567,69 @@
       autoSanctionsScreen: true,
       glPostingEnabled: true,
       splashBypassAllowed: true,
-      defaultMsgType: 'pacs.008'
+      defaultMsgType: 'pacs.008',
+
+      // Super Admin Master Credentials
+      adminUser: 'superadmin',
+      adminKey: 'MASTER-SWIFT-2026',
+      adminPassword: 'supersecret',
+
+      // Terminal Student Login Credentials
+      terminalAccount: 'student01',
+      terminalPassword: 'swiftlab',
+      terminalAccessKey: 'LAB-2026',
+      tokenPin: '123456',
+
+      // SWIFT Application Cryptographic & API Gateway Keys
+      swiftAppKey: 'SWIFT-GPI-SIG-2026-X89',
+      isoSchemaValidationKey: 'ISO20022-XML-SEC-v5',
+      apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE'
+    };
+
+    const defaultProfiles = {
+      iqbal: { display: 'IQBAL', username: 'iqbal', password: '123456', roles: [{ code: 'OPS-01', role: 'Operator' }] },
+      dhendy: { display: 'DHENDY', username: 'dhendy', password: '123456', roles: [{ code: 'HTR-01', role: 'Head Treasury' }] },
+      salma: { display: 'SALMA', username: 'salma', password: '123456', roles: [{ code: 'CMP-01', role: 'Compliance Officer' }] },
+      aditya: { display: 'ADITYA', username: 'aditya', password: '123456', roles: [{ code: 'ADM-01', role: 'System Administrator' }] },
+      ratna: { display: 'RATNA', username: 'ratna', password: '123456', roles: [{ code: 'AUD-01', role: 'Auditor' }] }
+    };
+
+    const ROLE_METAS = {
+      'Operator': {
+        title: 'OPERATOR (MAKER)',
+        badgeClass: 'maker',
+        defaultCode: 'OPS-01',
+        desc: 'Bertindak sebagai Maker: Memulai dan mendraf transaksi nasabah (pacs.008/MT103), memeriksa saldo rekening nasabah, dan mencetak payment voucher.',
+        scope: 'Draft, Input pacs.008/MT103, View Balance & UETR Advice'
+      },
+      'Head Treasury': {
+        title: 'HEAD TREASURY (CHECKER & AUTHORIZER)',
+        badgeClass: 'checker',
+        defaultCode: 'HTR-01',
+        desc: 'Bertindak sebagai Checker & Authorizer: Mengesahkan status Validated menjadi Released ke jaringan SWIFT, mengelola likuiditas rekening Nostro koresponden, dan review analytics.',
+        scope: 'Authorize & Release, Liquidity Injection, Nostro Management'
+      },
+      'Compliance Officer': {
+        title: 'COMPLIANCE OFFICER (AML/CFT REVIEWER)',
+        badgeClass: 'compliance',
+        defaultCode: 'CMP-01',
+        desc: 'Pemeriksa Kepatuhan AML/CFT: Melakukan screening otomatis & manual terhadap daftar sanksi internasional (OFAC/UN/EU), memvalidasi atau me-reject instruksi.',
+        scope: 'Sanctions Screening, AML/CFT Approval (Pending → Validated/Rejected)'
+      },
+      'System Administrator': {
+        title: 'SYSTEM ADMINISTRATOR',
+        badgeClass: 'admin',
+        defaultCode: 'ADM-01',
+        desc: 'Administrator Sistem: Mengelola direktori global SWIFT BIC, administrasi akun nasabah & pembukaan rekening baru, serta konfigurasi routing lab.',
+        scope: 'Full Master BIC & Customer Ledger Administration, System Maintenance'
+      },
+      'Auditor': {
+        title: 'INDEPENDENT AUDITOR',
+        badgeClass: 'auditor',
+        defaultCode: 'AUD-01',
+        desc: 'Pengawasan Independen: Memeriksa audit trail non-repudiation transaksi secara menyeluruh dan rekonsiliasi jurnal double-entry General Ledger.',
+        scope: 'Non-Repudiation Audit Logs, GL Ledger Reconciliation'
+      }
     };
 
     function load(k, d) {
@@ -348,6 +643,39 @@
 
     let sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
 
+    function getStoredUsers() {
+      const loaded = load(UK, defaultProfiles);
+      Object.keys(loaded).forEach(k => {
+        if (!loaded[k].password) loaded[k].password = '123456';
+        if (!Array.isArray(loaded[k].roles)) loaded[k].roles = [{ code: 'OPS-01', role: 'Operator' }];
+      });
+      return loaded;
+    }
+
+    function saveStoredUsers(users) {
+      localStorage.setItem(UK, JSON.stringify(users));
+      renderUsersTable();
+    }
+
+    function updateMasterHint() {
+      const cfg = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+      const u = document.getElementById('hintAdminUser');
+      const k = document.getElementById('hintAdminKey');
+      const p = document.getElementById('hintAdminPwd');
+      if (u) u.textContent = cfg.adminUser || 'superadmin';
+      if (k) k.textContent = cfg.adminKey || 'MASTER-SWIFT-2026';
+      if (p) p.textContent = cfg.adminPassword || 'supersecret';
+
+      // Pre-fill login inputs with configured or default values
+      const adminUserInput = document.getElementById('adminUser');
+      const adminKeyInput = document.getElementById('adminKey');
+      const adminPwdInput = document.getElementById('adminPassword');
+      if (adminUserInput && !adminUserInput.value) adminUserInput.value = cfg.adminUser || 'superadmin';
+      if (adminKeyInput && !adminKeyInput.value) adminKeyInput.value = cfg.adminKey || 'MASTER-SWIFT-2026';
+      if (adminPwdInput && !adminPwdInput.value) adminPwdInput.value = cfg.adminPassword || 'supersecret';
+    }
+    updateMasterHint();
+
     function toast(msg) {
       const t = document.getElementById('adminToast');
       if (!t) return;
@@ -360,13 +688,19 @@
     const loginForm = document.getElementById('masterLoginForm');
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
+      sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
       const u = (document.getElementById('adminUser').value || '').trim().toLowerCase();
       const k = (document.getElementById('adminKey').value || '').trim().toUpperCase();
       const p = document.getElementById('adminPassword').value || '';
 
-      const valid = (u === 'superadmin' || u === 'admin') &&
-                    (k === 'MASTER-SWIFT-2026' || k === 'LAB-2026') &&
-                    (p === 'supersecret' || p === '123456');
+      const expectedUser = (sysConfig.adminUser || 'superadmin').trim().toLowerCase();
+      const expectedKey = (sysConfig.adminKey || 'MASTER-SWIFT-2026').trim().toUpperCase();
+      const expectedPwd = sysConfig.adminPassword || 'supersecret';
+
+      const valid = (u === expectedUser && k === expectedKey && p === expectedPwd) ||
+                    ((u === 'superadmin' || u === 'admin') &&
+                     (k === 'MASTER-SWIFT-2026' || k === 'LAB-2026') &&
+                     (p === 'supersecret' || p === '123456'));
 
       const err = document.getElementById('authError');
       if (valid) {
@@ -374,6 +708,7 @@
         document.getElementById('adminAuthScreen').classList.add('hidden');
         document.getElementById('adminWorkspace').classList.remove('hidden');
         populateForm();
+        renderUsersTable();
         toast('AUTHENTICATION SUCCESSFUL — MASTER CONFIGURATION ACTIVE');
       } else {
         err.classList.remove('hidden');
@@ -383,6 +718,7 @@
     document.getElementById('btnLogoutRoot').addEventListener('click', () => {
       document.getElementById('adminWorkspace').classList.add('hidden');
       document.getElementById('adminAuthScreen').classList.remove('hidden');
+      updateMasterHint();
       toast('SUPER ADMIN CONSOLE LOCKED');
     });
 
@@ -416,6 +752,20 @@
       document.getElementById('cfgSplashBypass').checked = !!sysConfig.splashBypassAllowed;
       document.getElementById('cfgDefaultMsgType').value = sysConfig.defaultMsgType || 'pacs.008';
 
+      // Security, Passwords & App Keys Fields
+      document.getElementById('cfgAdminUser').value = sysConfig.adminUser || 'superadmin';
+      document.getElementById('cfgAdminKey').value = sysConfig.adminKey || 'MASTER-SWIFT-2026';
+      document.getElementById('cfgAdminPassword').value = sysConfig.adminPassword || 'supersecret';
+
+      document.getElementById('cfgTerminalAccount').value = sysConfig.terminalAccount || 'student01';
+      document.getElementById('cfgTerminalAccessKey').value = sysConfig.terminalAccessKey || 'LAB-2026';
+      document.getElementById('cfgTerminalPassword').value = sysConfig.terminalPassword || 'swiftlab';
+      document.getElementById('cfgTokenPin').value = sysConfig.tokenPin || '123456';
+
+      document.getElementById('cfgSwiftAppKey').value = sysConfig.swiftAppKey || 'SWIFT-GPI-SIG-2026-X89';
+      document.getElementById('cfgIsoSchemaValidationKey').value = sysConfig.isoSchemaValidationKey || 'ISO20022-XML-SEC-v5';
+      document.getElementById('cfgApiGatewayToken').value = sysConfig.apiGatewayToken || 'SWIFT-GW-TOKEN-8831-LIVE';
+
       document.getElementById('headerStatus').textContent = `ACTIVE • SWIFT BIC: ${sysConfig.bankBic} • ${sysConfig.bankName}`;
       document.getElementById('headerOwner').innerHTML = `${sysConfig.ownerName} • Super Admin Control Center<br>${sysConfig.appMotto.replace(/\n/g, ' ')}`;
       updateDbStats();
@@ -430,11 +780,73 @@
         document.getElementById('tabOwner').classList.toggle('hidden', tab !== 'owner');
         document.getElementById('tabBank').classList.toggle('hidden', tab !== 'bank');
         document.getElementById('tabFeatures').classList.toggle('hidden', tab !== 'features');
+        document.getElementById('tabUsers').classList.toggle('hidden', tab !== 'users');
+        document.getElementById('tabSecurity').classList.toggle('hidden', tab !== 'security');
         document.getElementById('tabBackup').classList.toggle('hidden', tab !== 'backup');
+
+        if (tab === 'users') {
+          renderUsersTable();
+        }
       });
     });
 
-    // Save
+    // Toggle Password Visibility Handlers
+    document.getElementById('btnToggleAdminPwd')?.addEventListener('click', () => {
+      const el = document.getElementById('cfgAdminPassword');
+      if (el) el.type = el.type === 'password' ? 'text' : 'password';
+    });
+
+    document.getElementById('btnToggleTerminalPwd')?.addEventListener('click', () => {
+      const el = document.getElementById('cfgTerminalPassword');
+      if (el) el.type = el.type === 'password' ? 'text' : 'password';
+    });
+
+    // Random Key Generators
+    function randomHex(len = 8) {
+      const chars = '0123456789ABCDEF';
+      let res = '';
+      for (let i = 0; i < len; i++) res += chars[Math.floor(Math.random() * chars.length)];
+      return res;
+    }
+
+    document.getElementById('btnGenSwiftKey')?.addEventListener('click', () => {
+      const k = `SWIFT-GPI-SIG-2026-${randomHex(8)}`;
+      document.getElementById('cfgSwiftAppKey').value = k;
+      toast(`NEW SWIFT GPI SIGNATURE KEY GENERATED: ${k}`);
+    });
+
+    document.getElementById('btnGenIsoKey')?.addEventListener('click', () => {
+      const k = `ISO20022-XML-SEC-${randomHex(8)}`;
+      document.getElementById('cfgIsoSchemaValidationKey').value = k;
+      toast(`NEW ISO 20022 VALIDATION KEY GENERATED: ${k}`);
+    });
+
+    document.getElementById('btnGenGwToken')?.addEventListener('click', () => {
+      const k = `SWIFT-GW-TOKEN-${randomHex(4)}-${randomHex(4)}-LIVE`;
+      document.getElementById('cfgApiGatewayToken').value = k;
+      toast(`NEW API GATEWAY TOKEN GENERATED: ${k}`);
+    });
+
+    // Reset Security Credentials to Default
+    document.getElementById('btnResetSecurityCredentials')?.addEventListener('click', () => {
+      if (!confirm('Apakah Anda yakin ingin mereset seluruh Kredensial Super Admin, Password Terminal, dan Kunci Aplikasi ke pengaturan default bawaan?')) return;
+      document.getElementById('cfgAdminUser').value = defaultSysConfig.adminUser;
+      document.getElementById('cfgAdminKey').value = defaultSysConfig.adminKey;
+      document.getElementById('cfgAdminPassword').value = defaultSysConfig.adminPassword;
+
+      document.getElementById('cfgTerminalAccount').value = defaultSysConfig.terminalAccount;
+      document.getElementById('cfgTerminalAccessKey').value = defaultSysConfig.terminalAccessKey;
+      document.getElementById('cfgTerminalPassword').value = defaultSysConfig.terminalPassword;
+      document.getElementById('cfgTokenPin').value = defaultSysConfig.tokenPin;
+
+      document.getElementById('cfgSwiftAppKey').value = defaultSysConfig.swiftAppKey;
+      document.getElementById('cfgIsoSchemaValidationKey').value = defaultSysConfig.isoSchemaValidationKey;
+      document.getElementById('cfgApiGatewayToken').value = defaultSysConfig.apiGatewayToken;
+
+      toast('SECURITY CREDENTIALS RESET TO FACTORY DEFAULT — CLICK SAVE TO APPLY');
+    });
+
+    // Save System Configuration
     document.getElementById('adminConfigForm').addEventListener('submit', e => {
       e.preventDefault();
       const rawBic = (document.getElementById('cfgBankBic').value || '').trim().toUpperCase();
@@ -442,7 +854,6 @@
         alert('SWIFT BIC validation error: BIC code must be exactly 8 or 11 characters (ISO 9362 standard).');
         return;
       }
-      const oldBic = sysConfig.bankBic;
 
       sysConfig = {
         appName: document.getElementById('cfgAppName').value.trim(),
@@ -470,7 +881,21 @@
         autoSanctionsScreen: document.getElementById('cfgSanctions').checked,
         glPostingEnabled: document.getElementById('cfgGlPosting').checked,
         splashBypassAllowed: document.getElementById('cfgSplashBypass').checked,
-        defaultMsgType: document.getElementById('cfgDefaultMsgType').value
+        defaultMsgType: document.getElementById('cfgDefaultMsgType').value,
+
+        // Security, Passwords, and Cryptographic Keys
+        adminUser: (document.getElementById('cfgAdminUser').value || 'superadmin').trim().toLowerCase(),
+        adminKey: (document.getElementById('cfgAdminKey').value || 'MASTER-SWIFT-2026').trim().toUpperCase(),
+        adminPassword: document.getElementById('cfgAdminPassword').value || 'supersecret',
+
+        terminalAccount: (document.getElementById('cfgTerminalAccount').value || 'student01').trim(),
+        terminalAccessKey: (document.getElementById('cfgTerminalAccessKey').value || 'LAB-2026').trim().toUpperCase(),
+        terminalPassword: document.getElementById('cfgTerminalPassword').value || 'swiftlab',
+        tokenPin: (document.getElementById('cfgTokenPin').value || '123456').trim(),
+
+        swiftAppKey: (document.getElementById('cfgSwiftAppKey').value || 'SWIFT-GPI-SIG-2026-X89').trim(),
+        isoSchemaValidationKey: (document.getElementById('cfgIsoSchemaValidationKey').value || 'ISO20022-XML-SEC-v5').trim(),
+        apiGatewayToken: (document.getElementById('cfgApiGatewayToken').value || 'SWIFT-GW-TOKEN-8831-LIVE').trim()
       };
 
       localStorage.setItem(CFGK, JSON.stringify(sysConfig));
@@ -493,15 +918,324 @@
       localStorage.setItem(BK, JSON.stringify(bics));
 
       populateForm();
-      toast('SYSTEM CONFIGURATION SAVED SUCCESSFULLY');
+      updateMasterHint();
+      toast('SYSTEM CONFIGURATION & SECURITY KEYS SAVED SUCCESSFULLY');
     });
 
+    // ==========================================
+    // USER & OPERATOR ACCESS MANAGEMENT LOGIC
+    // ==========================================
+    const userSearchInput = document.getElementById('userSearchInput');
+    const userRoleFilter = document.getElementById('userRoleFilter');
+    const usersTableBody = document.getElementById('usersTableBody');
+
+    userSearchInput?.addEventListener('input', () => renderUsersTable());
+    userRoleFilter?.addEventListener('change', () => renderUsersTable());
+
+    function getInitials(name) {
+      const parts = String(name || '').trim().split(/\s+/);
+      if (!parts.length || !parts[0]) return 'OP';
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+
+    function renderUsersTable() {
+      const users = getStoredUsers();
+      const userList = Object.values(users);
+      const search = (userSearchInput?.value || '').trim().toLowerCase();
+      const roleFilter = userRoleFilter?.value || '';
+
+      // Update summary cards
+      let countMaker = 0, countChecker = 0, countCompAdmin = 0;
+      userList.forEach(u => {
+        const primaryRole = u.roles?.[0]?.role || 'Operator';
+        if (primaryRole === 'Operator') countMaker++;
+        else if (primaryRole === 'Head Treasury') countChecker++;
+        else countCompAdmin++;
+      });
+
+      document.getElementById('statTotalUsers').textContent = userList.length;
+      document.getElementById('statMakerUsers').textContent = countMaker;
+      document.getElementById('statCheckerUsers').textContent = countChecker;
+      document.getElementById('statComplianceUsers').textContent = countCompAdmin;
+
+      // Filter users
+      const filtered = userList.filter(u => {
+        const primaryRole = u.roles?.[0]?.role || 'Operator';
+        const code = u.roles?.[0]?.code || '';
+        const matchRole = !roleFilter || primaryRole === roleFilter;
+        const matchSearch = !search ||
+          u.display.toLowerCase().includes(search) ||
+          u.username.toLowerCase().includes(search) ||
+          code.toLowerCase().includes(search) ||
+          primaryRole.toLowerCase().includes(search);
+        return matchRole && matchSearch;
+      });
+
+      if (!filtered.length) {
+        usersTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;padding:36px;color:#777;font-size:14px;">
+              Tidak ada akun operator yang cocok dengan kriteria pencarian/filter.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      usersTableBody.innerHTML = filtered.map(u => {
+        const primaryRole = u.roles?.[0]?.role || 'Operator';
+        const roleCode = u.roles?.[0]?.code || 'OPS-01';
+        const meta = ROLE_METAS[primaryRole] || ROLE_METAS['Operator'];
+        const initials = getInitials(u.display);
+        const pwd = u.password || '123456';
+
+        return `
+          <tr data-username="${esc(u.username)}">
+            <td>
+              <div class="user-avatar-cell">
+                <div class="user-avatar">${esc(initials)}</div>
+                <div>
+                  <div class="user-meta-name">${esc(u.display)}</div>
+                  <div class="user-meta-handle">@${esc(u.username)}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="role-pill ${meta.badgeClass}">
+                <strong>${esc(roleCode)}</strong> &bull; ${esc(primaryRole.toUpperCase())}
+              </span>
+            </td>
+            <td>
+              <span style="font-size:12px;color:#444;line-height:1.4;display:block;">${esc(meta.scope)}</span>
+            </td>
+            <td>
+              <div class="pwd-display">
+                <span class="user-pwd-text" data-revealed="false" data-raw="${esc(pwd)}">&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                <button type="button" class="btn-mini btn-toggle-pwd" title="Tampilkan/Sembunyikan Kata Sandi">👁</button>
+              </div>
+            </td>
+            <td style="text-align:right;">
+              <div style="display:inline-flex;gap:6px;justify-content:flex-end;">
+                <button type="button" class="btn-action-edit btn-edit-user" data-user="${esc(u.username)}" title="Ubah Nama, Username, Naikkan Role atau Ganti Password">EDIT / NAIKKAN ROLE</button>
+                <button type="button" class="btn-action-del btn-delete-user" data-user="${esc(u.username)}" title="Hapus User">HAPUS</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Attach inline row event listeners
+      usersTableBody.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const container = e.target.closest('.pwd-display');
+          const span = container.querySelector('.user-pwd-text');
+          const isRevealed = span.dataset.revealed === 'true';
+          if (isRevealed) {
+            span.textContent = '••••••';
+            span.dataset.revealed = 'false';
+          } else {
+            span.textContent = span.dataset.raw;
+            span.dataset.revealed = 'true';
+          }
+        });
+      });
+
+      usersTableBody.querySelectorAll('.btn-edit-user').forEach(btn => {
+        btn.addEventListener('click', () => openEditUserModal(btn.dataset.user));
+      });
+
+      usersTableBody.querySelectorAll('.btn-delete-user').forEach(btn => {
+        btn.addEventListener('click', () => openDeleteUserModal(btn.dataset.user));
+      });
+    }
+
+    function esc(v = '') {
+      return String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
+    }
+
+    // Modal dialogs
+    const userCrudDialog = document.getElementById('userCrudDialog');
+    const userCrudForm = document.getElementById('userCrudForm');
+    const userDialogTitle = document.getElementById('userDialogTitle');
+    const userOriginalKey = document.getElementById('userOriginalKey');
+    const editUserDisplay = document.getElementById('editUserDisplay');
+    const editUserUsername = document.getElementById('editUserUsername');
+    const editUserRole = document.getElementById('editUserRole');
+    const editUserCode = document.getElementById('editUserCode');
+    const editUserPassword = document.getElementById('editUserPassword');
+    const userRoleInfoTitle = document.getElementById('userRoleInfoTitle');
+    const userRoleInfoDesc = document.getElementById('userRoleInfoDesc');
+
+    function updateRoleHelpInDialog() {
+      const selectedRole = editUserRole.value;
+      const meta = ROLE_METAS[selectedRole] || ROLE_METAS['Operator'];
+      userRoleInfoTitle.textContent = meta.title;
+      userRoleInfoDesc.textContent = meta.desc;
+    }
+
+    editUserRole.addEventListener('change', () => {
+      updateRoleHelpInDialog();
+      // Auto-suggest code if adding a new user or if current code matches a default pattern
+      const meta = ROLE_METAS[editUserRole.value] || ROLE_METAS['Operator'];
+      if (!userOriginalKey.value || editUserCode.value.startsWith('OPS-') || editUserCode.value.startsWith('HTR-') || editUserCode.value.startsWith('CMP-') || editUserCode.value.startsWith('ADM-') || editUserCode.value.startsWith('AUD-')) {
+        editUserCode.value = meta.defaultCode;
+      }
+    });
+
+    document.getElementById('btnTogglePasswordVisibility')?.addEventListener('click', () => {
+      if (editUserPassword.type === 'password') {
+        editUserPassword.type = 'text';
+      } else {
+        editUserPassword.type = 'password';
+      }
+    });
+
+    document.getElementById('btnOpenAddUserModal')?.addEventListener('click', () => {
+      userDialogTitle.textContent = 'TAMBAH ANGGOTA OPERATOR BARU';
+      userOriginalKey.value = '';
+      editUserDisplay.value = '';
+      editUserUsername.value = '';
+      editUserRole.value = 'Operator';
+      editUserCode.value = 'OPS-01';
+      editUserPassword.value = '123456';
+      editUserPassword.type = 'text';
+      updateRoleHelpInDialog();
+      userCrudDialog.showModal();
+    });
+
+    function openEditUserModal(username) {
+      const users = getStoredUsers();
+      const u = users[username.toLowerCase()];
+      if (!u) {
+        alert('User tidak ditemukan.');
+        return;
+      }
+
+      userDialogTitle.textContent = `EDIT & NAIKKAN ROLE OPERATOR: @${u.username.toUpperCase()}`;
+      userOriginalKey.value = u.username.toLowerCase();
+      editUserDisplay.value = u.display;
+      editUserUsername.value = u.username;
+      const primaryRole = u.roles?.[0]?.role || 'Operator';
+      const roleCode = u.roles?.[0]?.code || 'OPS-01';
+      editUserRole.value = primaryRole;
+      editUserCode.value = roleCode;
+      editUserPassword.value = u.password || '123456';
+      editUserPassword.type = 'password';
+      updateRoleHelpInDialog();
+      userCrudDialog.showModal();
+    }
+
+    document.getElementById('closeUserCrudDialog')?.addEventListener('click', () => userCrudDialog.close());
+    document.getElementById('btnCancelUserCrud')?.addEventListener('click', () => userCrudDialog.close());
+
+    // Save User Form (Create or Edit)
+    userCrudForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const origKey = (userOriginalKey.value || '').trim().toLowerCase();
+      const displayName = editUserDisplay.value.trim().toUpperCase();
+      const newUsername = editUserUsername.value.trim().toLowerCase();
+      const role = editUserRole.value;
+      const code = editUserCode.value.trim().toUpperCase() || 'OPS-01';
+      const password = editUserPassword.value.trim() || '123456';
+
+      if (!displayName) {
+        alert('Nama lengkap operator wajib diisi.');
+        return;
+      }
+      if (!newUsername || !/^[a-z0-9_-]+$/i.test(newUsername)) {
+        alert('Username hanya boleh berisi huruf, angka, tanda minus (-), atau underscore (_).');
+        return;
+      }
+      if (!password) {
+        alert('Kata sandi tidak boleh kosong.');
+        return;
+      }
+
+      const users = getStoredUsers();
+
+      // Check username collision if creating new user or renaming username
+      if ((!origKey || origKey !== newUsername) && users[newUsername]) {
+        alert(`Username "@${newUsername}" sudah digunakan oleh operator lain. Silakan pilih username lain.`);
+        return;
+      }
+
+      // If renamed, delete old key
+      if (origKey && origKey !== newUsername) {
+        delete users[origKey];
+      }
+
+      users[newUsername] = {
+        display: displayName,
+        username: newUsername,
+        password: password,
+        roles: [{ code: code, role: role }]
+      };
+
+      saveStoredUsers(users);
+      userCrudDialog.close();
+
+      if (origKey) {
+        toast(`OPERATOR @${newUsername.toUpperCase()} BERHASIL DIUPDATE & DIUBAH PERANNYA`);
+      } else {
+        toast(`ANGGOTA OPERATOR BARU @${newUsername.toUpperCase()} BERHASIL DITAMBAHKAN`);
+      }
+    });
+
+    // Delete User Handling
+    const userDeleteDialog = document.getElementById('userDeleteDialog');
+    const userDeletePromptText = document.getElementById('userDeletePromptText');
+    const userDeleteTargetKey = document.getElementById('userDeleteTargetKey');
+
+    function openDeleteUserModal(username) {
+      const users = getStoredUsers();
+      const u = users[username.toLowerCase()];
+      if (!u) return;
+
+      const userCount = Object.keys(users).length;
+      if (userCount <= 1) {
+        alert('Tidak dapat menghapus user: Harus ada minimal 1 akun operator yang terdaftar di sistem simulator.');
+        return;
+      }
+
+      userDeleteTargetKey.value = u.username.toLowerCase();
+      userDeletePromptText.innerHTML = `Apakah Anda yakin ingin menghapus akun operator <strong>${esc(u.display)}</strong> (<code>@${esc(u.username)}</code> - ${esc(u.roles?.[0]?.role || '')})? Akun ini tidak akan bisa login ke terminal lagi.`;
+      userDeleteDialog.showModal();
+    }
+
+    document.getElementById('btnCancelUserDelete')?.addEventListener('click', () => userDeleteDialog.close());
+
+    document.getElementById('userDeleteForm')?.addEventListener('submit', e => {
+      e.preventDefault();
+      const target = (userDeleteTargetKey.value || '').toLowerCase();
+      const users = getStoredUsers();
+      if (users[target]) {
+        delete users[target];
+        saveStoredUsers(users);
+        toast(`OPERATOR @${target.toUpperCase()} BERHASIL DIHAPUS DARI SISTEM`);
+      }
+      userDeleteDialog.close();
+    });
+
+    // Reset Users to Default
+    document.getElementById('btnResetDefaultUsers')?.addEventListener('click', () => {
+      if (!confirm('KONFIRMASI RESET USER: Ini akan mengembalikan daftar operator ke default (iqbal, dhendy, salma, aditya, ratna) dengan password standard 123456. Lanjutkan?')) {
+        return;
+      }
+      saveStoredUsers(defaultProfiles);
+      toast('DAFTAR OPERATOR DIKEMBALIKAN KE PENGATURAN DEFAULT');
+    });
+
+    // ==========================================
+    // BACKUP, RESTORE & FACTORY RESET
+    // ==========================================
     // Export Backup
     document.getElementById('btnExportBackup').addEventListener('click', () => {
       const data = {
-        version: '1.0',
+        version: '1.2',
         exportDate: new Date().toISOString(),
         config: sysConfig,
+        users: getStoredUsers(),
         bics: load(BK, []),
         tx: load(TK, []),
         customers: load(CK, []),
@@ -515,7 +1249,7 @@
       a.download = `swift-simulator-backup-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      toast('SIMULATOR BACKUP JSON DOWNLOADED');
+      toast('SIMULATOR BACKUP JSON DOWNLOADED (TERMASUK USER & OPERATOR)');
     });
 
     // Restore Backup
@@ -534,13 +1268,17 @@
             sysConfig = { ...defaultSysConfig, ...data.config };
             localStorage.setItem(CFGK, JSON.stringify(sysConfig));
           }
+          if (data && data.users && typeof data.users === 'object') {
+            localStorage.setItem(UK, JSON.stringify(data.users));
+          }
           if (Array.isArray(data.bics)) localStorage.setItem(BK, JSON.stringify(data.bics));
           if (Array.isArray(data.tx)) localStorage.setItem(TK, JSON.stringify(data.tx));
           if (Array.isArray(data.customers)) localStorage.setItem(CK, JSON.stringify(data.customers));
           if (Array.isArray(data.nostro)) localStorage.setItem(NK, JSON.stringify(data.nostro));
           if (Array.isArray(data.journals)) localStorage.setItem(JK, JSON.stringify(data.journals));
           populateForm();
-          toast('SIMULATOR STATE RESTORED FROM BACKUP FILE');
+          renderUsersTable();
+          toast('SIMULATOR STATE & USERS RESTORED FROM BACKUP FILE');
         } catch (err) {
           alert('Failed to parse backup JSON file: ' + err.message);
         }
@@ -572,7 +1310,7 @@
 
     // Factory Reset
     document.getElementById('btnFactoryReset').addEventListener('click', () => {
-      if (!confirm('CONFIRM FACTORY RESET: This will erase transactional edits and reset everything to baseline Bank Praktikum Nusantara with full master database (>1,000 banks & records). Continue?')) {
+      if (!confirm('CONFIRM FACTORY RESET: This will erase transactional edits and reset everything to baseline Bank Praktikum Nusantara with full master database (>1,000 banks & records) and default users. Continue?')) {
         return;
       }
       localStorage.removeItem('swiftLabCoreV4');
@@ -590,11 +1328,13 @@
       localStorage.removeItem(CK);
       localStorage.removeItem(NK);
       localStorage.removeItem(JK);
+      localStorage.setItem(UK, JSON.stringify(defaultProfiles));
       localStorage.setItem('swiftLabRealMasterV5', '1');
       sysConfig = structuredClone(defaultSysConfig);
       populateForm();
+      renderUsersTable();
       updateDbStats();
-      toast('FACTORY RESET COMPLETE — BASELINE WITH >1,000 RECORDS RESTORED');
+      toast('FACTORY RESET COMPLETE — BASELINE WITH >1,000 RECORDS & DEFAULT USERS RESTORED');
     });
 
     // LIVE HEADER TELEMETRY (Date, Time, & Network Ping Latency)

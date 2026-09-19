@@ -1,15 +1,26 @@
 const queryRoot = r => typeof r === 'string' ? document.querySelector(r) : r;
 const $ = (s, r = document) => queryRoot(r)?.querySelector(s), $$ = (s, r = document) => [...(queryRoot(r)?.querySelectorAll(s) || [])];
 const TK = 'swiftLabTransactions', BK = 'swiftLabBics', SK = 'swiftLabSession';
-const CK = 'swiftLabCustomers', NK = 'swiftLabNostro', JK = 'swiftLabJournals';
+const CK = 'swiftLabCustomers', NK = 'swiftLabNostro', JK = 'swiftLabJournals', UK = 'swiftLabUsers';
 
-const PROFILES = {
-  iqbal: { display: 'IQBAL', username: 'iqbal', roles: [{ code: 'OPS-01', role: 'Operator' }] },
-  dhendy: { display: 'DHENDY', username: 'dhendy', roles: [{ code: 'HTR-01', role: 'Head Treasury' }] },
-  salma: { display: 'SALMA', username: 'salma', roles: [{ code: 'CMP-01', role: 'Compliance Officer' }] },
-  aditya: { display: 'ADITYA', username: 'aditya', roles: [{ code: 'ADM-01', role: 'System Administrator' }] },
-  ratna: { display: 'RATNA', username: 'ratna', roles: [{ code: 'AUD-01', role: 'Auditor' }] }
+const defaultProfiles = {
+  iqbal: { display: 'IQBAL', username: 'iqbal', password: '123456', roles: [{ code: 'OPS-01', role: 'Operator' }] },
+  dhendy: { display: 'DHENDY', username: 'dhendy', password: '123456', roles: [{ code: 'HTR-01', role: 'Head Treasury' }] },
+  salma: { display: 'SALMA', username: 'salma', password: '123456', roles: [{ code: 'CMP-01', role: 'Compliance Officer' }] },
+  aditya: { display: 'ADITYA', username: 'aditya', password: '123456', roles: [{ code: 'ADM-01', role: 'System Administrator' }] },
+  ratna: { display: 'RATNA', username: 'ratna', password: '123456', roles: [{ code: 'AUD-01', role: 'Auditor' }] }
 };
+
+function getStoredProfiles() {
+  const loaded = load(UK, defaultProfiles);
+  Object.keys(loaded).forEach(k => {
+    if (!loaded[k].password) loaded[k].password = '123456';
+    if (!Array.isArray(loaded[k].roles)) loaded[k].roles = [{ code: 'OPS-01', role: 'Operator' }];
+  });
+  return loaded;
+}
+
+let PROFILES = getStoredProfiles();
 
 const RIGHTS = {
   'Operator': { search: 1, view: 1, create: 1, edit: 1, export: 1, print: 1, ledgerView: 1 },
@@ -256,7 +267,23 @@ const defaultSysConfig = {
   autoSanctionsScreen: true,
   glPostingEnabled: true,
   splashBypassAllowed: true,
-  defaultMsgType: 'pacs.008'
+  defaultMsgType: 'pacs.008',
+
+  // Super Admin Master Credentials
+  adminUser: 'superadmin',
+  adminKey: 'MASTER-SWIFT-2026',
+  adminPassword: 'supersecret',
+
+  // Terminal Student Login Credentials
+  terminalAccount: 'student01',
+  terminalPassword: 'swiftlab',
+  terminalAccessKey: 'LAB-2026',
+  tokenPin: '123456',
+
+  // SWIFT Application Cryptographic & API Gateway Keys
+  swiftAppKey: 'SWIFT-GPI-SIG-2026-X89',
+  isoSchemaValidationKey: 'ISO20022-XML-SEC-v5',
+  apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE'
 };
 
 let sysConfig = load(CFGK, defaultSysConfig);
@@ -336,7 +363,12 @@ const persist = () => {
 const esc = (v = '') => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
 const code = () => crypto.randomUUID();
 const normName = v => String(v || '').trim().toLowerCase();
-const profileFor = name => PROFILES[normName(name)] || null;
+const profileFor = name => {
+  const k = normName(name);
+  PROFILES = getStoredProfiles();
+  if (PROFILES[k]) return PROFILES[k];
+  return Object.values(PROFILES).find(p => normName(p.username) === k || normName(p.display) === k) || null;
+};
 const can = right => !!(activeSession && RIGHTS[activeSession.role]?.[right]);
 
 function note(msg) {
@@ -452,12 +484,19 @@ let pending = null, currentView = 'menu', viewHistory = ['menu'], activeSession 
 // 1. Student / Lab Account Authentication
 $('#accountForm')?.addEventListener('submit', e => {
   e.preventDefault();
+  sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
   const acc = ($('#account')?.value || '').trim();
   const pwd = $('#accountPassword')?.value || '';
   const key = ($('#accountKey')?.value || '').trim().toUpperCase();
 
-  // Accept student/demo credentials or any valid non-empty inputs
-  const ok = (acc && pwd === 'swiftlab' && key === 'LAB-2026') || (acc && pwd.length >= 3 && key.length >= 2);
+  const expAcc = (sysConfig.terminalAccount || 'student01').trim();
+  const expPwd = sysConfig.terminalPassword || 'swiftlab';
+  const expKey = (sysConfig.terminalAccessKey || 'LAB-2026').trim().toUpperCase();
+
+  // Accept configured credentials or standard fallback
+  const ok = (acc === expAcc && pwd === expPwd && key === expKey) ||
+             (acc && pwd === 'swiftlab' && key === 'LAB-2026') ||
+             (acc && pwd.length >= 3 && key.length >= 2);
   $('#accountError')?.classList.toggle('hidden', !!ok);
   if (ok) {
     show('usbScreen');
@@ -496,9 +535,18 @@ $('#usbButton')?.addEventListener('click', () => {
   }, 450);
 });
 
+function syncOperatorDatalist() {
+  const dl = $('#operatorList');
+  if (dl) {
+    PROFILES = getStoredProfiles();
+    dl.innerHTML = Object.values(PROFILES).map(p => `<option value="${esc(p.username)}">${esc(p.display)} (${esc(p.roles[0]?.role || '')})</option>`).join('');
+  }
+}
+
 // 3. Operator Selection & Role Handling
 function updateOperatorRole() {
-  const p = profileFor($('#operatorName')?.value);
+  const entered = $('#operatorName')?.value || '';
+  const p = profileFor(entered);
   if (!p) {
     if ($('#operatorCode')) $('#operatorCode').innerHTML = '<option value="">Unknown Operator</option>';
     if ($('#rolePreview')) $('#rolePreview').innerHTML = '';
@@ -519,13 +567,23 @@ $('#operatorCode')?.addEventListener('change', () => {
   if ($('#rolePreview')) $('#rolePreview').innerHTML = `<strong>${esc((role || '').toUpperCase())}</strong><span>${esc(ROLE_INFO[role] || '')}</span>`;
 });
 updateOperatorRole();
+syncOperatorDatalist();
 
 $('#operatorForm')?.addEventListener('submit', e => {
   e.preventDefault();
-  const p = profileFor($('#operatorName').value);
-  const opt = $('#operatorCode').selectedOptions[0];
+  const enteredName = $('#operatorName')?.value || '';
+  const p = profileFor(enteredName);
+  const opt = $('#operatorCode')?.selectedOptions[0];
   const role = opt?.dataset.role;
-  const ok = p && p.username === $('#operatorUser').value.trim().toLowerCase() && $('#operatorPassword').value === '123456' && p.roles.some(r => r.code === opt.value && r.role === role);
+  const enteredUser = ($('#operatorUser')?.value || '').trim().toLowerCase();
+  const enteredPwd = $('#operatorPassword')?.value || '';
+  const expectedPwd = p?.password || '123456';
+
+  const userMatches = p && (normName(p.username) === enteredUser || normName(p.display) === enteredUser);
+  const roleMatches = p && p.roles && p.roles.some(r => r.code === opt?.value && r.role === role);
+  const pwdMatches = enteredPwd === expectedPwd;
+
+  const ok = Boolean(p && userMatches && roleMatches && pwdMatches);
   $('#operatorError')?.classList.toggle('hidden', !!ok);
   if (ok) {
     const s = { name: p.display, username: p.username, code: opt.value, role };
@@ -535,8 +593,8 @@ $('#operatorForm')?.addEventListener('submit', e => {
 });
 
 function resolveSession(s) {
-  const p = profileFor(s?.name);
-  const r = p?.roles.find(x => x.code === s?.code);
+  const p = profileFor(s?.name) || profileFor(s?.username);
+  const r = p?.roles.find(x => x.code === s?.code) || p?.roles[0];
   return p && r ? { name: p.display, username: p.username, code: r.code, role: r.role } : null;
 }
 

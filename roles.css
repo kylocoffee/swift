@@ -134,8 +134,45 @@ input:checked + .toggle-slider:before{transform:translateX(26px)}
 .backup-card h4{margin:0 0 8px;font-size:16px}
 .backup-card p{margin:0 0 16px;font-size:13px;color:#555;line-height:1.5}
 .admin-actions-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:32px;padding-top:20px;border-top:1px solid var(--ink);flex-wrap:wrap}
+
+/* User & Operator Management Styles */
+.user-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;background:#f9f8f6;border:1px solid #ddd;padding:14px 18px}
+.user-toolbar-left{display:flex;gap:12px;align-items:center;flex-wrap:wrap;flex:1}
+.user-toolbar-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.user-toolbar input,.user-toolbar select{height:40px;border:1px solid var(--ink);padding:6px 12px;font-size:13px;background:#fff}
+.user-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+.user-stat-card{border:1px solid var(--ink);background:#fff;padding:14px 18px}
+.user-stat-card small{display:block;font-size:11px;color:#666;font-weight:bold;text-transform:uppercase;margin-bottom:4px}
+.user-stat-card strong{font-size:24px;color:var(--ink)}
+.user-table-wrap{border:1px solid var(--ink);background:#fff;overflow-x:auto}
+.user-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
+.user-table th{background:var(--paper);border-bottom:2px solid var(--ink);padding:12px 14px;font-weight:bold;white-space:nowrap}
+.user-table td{padding:12px 14px;border-bottom:1px solid #e0e0e0;vertical-align:middle}
+.user-table tr:hover td{background:#faf8f5}
+.user-avatar-cell{display:flex;align-items:center;gap:12px}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:#111;color:#fff;display:inline-grid;place-items:center;font-weight:bold;font-size:13px;letter-spacing:1px;flex:none}
+.user-meta-name{font-weight:bold;font-size:14px;color:#111}
+.user-meta-handle{font-size:12px;color:#666;font-family:monospace}
+.role-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;font-size:11px;font-weight:bold;border:1px solid #111;background:#fff;border-radius:3px;white-space:nowrap}
+.role-pill.maker{border-color:#1e6b9c;color:#0f496e;background:#eef6fc}
+.role-pill.checker{border-color:#1e7e34;color:#0d5921;background:#eaf7ed}
+.role-pill.compliance{border-color:#8a6d1c;color:#634b07;background:#fdfae8}
+.role-pill.admin{border-color:#6a1b9a;color:#4a148c;background:#f3e5f5}
+.role-pill.auditor{border-color:#c25400;color:#8a3b00;background:#fff3e6}
+.pwd-display{display:inline-flex;align-items:center;gap:8px;font-family:monospace;background:#eee;padding:4px 8px;border:1px solid #ccc;font-size:12px}
+.btn-mini{border:1px solid var(--ink);background:var(--paper);padding:3px 8px;font-size:11px;font-weight:bold;cursor:pointer}
+.btn-mini:hover{background:#e0e0e0}
+.btn-action-edit{border:1px solid var(--ink);background:var(--paper);padding:6px 12px;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap}
+.btn-action-edit:hover{background:#111;color:#fff}
+.btn-action-del{border:1px solid #b51d1d;background:#fffaf8;color:#b51d1d;padding:6px 12px;font-size:12px;font-weight:bold;cursor:pointer;white-space:nowrap}
+.btn-action-del:hover{background:#b51d1d;color:#fff}
+.user-role-help-box{margin-top:10px;padding:12px 14px;background:#f5f5f5;border:1px solid #ccc;font-size:12px;line-height:1.5}
+.user-role-help-box b{display:block;margin-bottom:4px;color:#111}
+
 @media(max-width:768px){
   .admin-section{padding:18px 16px}
   .admin-grid{grid-template-columns:1fr}
   .policy-toggle-card{flex-direction:column;align-items:flex-start}
+  .user-toolbar{flex-direction:column;align-items:stretch}
+  .user-toolbar-left,.user-toolbar-right{width:100%}
 }

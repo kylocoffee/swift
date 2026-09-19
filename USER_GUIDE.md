@@ -208,36 +208,39 @@ Under the **BIC DIRECTORY** module:
 
 ## 6. Super Admin & Master Configuration Console
 
-The **Super Admin Console** provides instructors, laboratory directors, and system administrators with granular, real-time control over the simulator's institutional identity, SWIFT routing configuration, compliance policies, and complete data persistence.
+The **Super Admin Console** (`admin.html`) provides instructors, laboratory directors, and system administrators with granular, real-time control over the simulator's institutional identity, SWIFT routing configuration, operator access control (User CRUD), security credentials & cryptographic keys, compliance policies, and complete data persistence.
 
 ```
-+-----------------------------------------------------------------------------------------+
-|                              SUPER ADMIN CONTROL CENTER                                 |
-+---------------------+---------------------+---------------------+-----------------------+
-| 1. Owner & Org Info | 2. Bank & SWIFT BIC | 3. Policy Controls  | 4. Backup & Reset     |
-+---------------------+---------------------+---------------------+-----------------------+
-| • Institution Name  | • Bank Name         | • Four-Eyes (Maker- | • Export JSON State   |
-| • Lab Supervisor    | • SWIFT BIC Code    |   Checker Enforce)  | • Restore JSON State  |
-| • Contact Email/Tel | • Base Currency     | • Strict Balance    | • Factory Baseline    |
-| • Registered Office | • Telex Fees        | • Auto Sanctions    |   Erase & Reset       |
-| • Simulator License | • Clearing Network  | • GL Auto-Posting   | • One-Click App Login |
-+---------------------+---------------------+---------------------+-----------------------+
++-------------------------------------------------------------------------------------------------------------------+
+|                                            SUPER ADMIN CONTROL CENTER                                             |
++---------------------+---------------------+---------------------+---------------------+---------------------------+
+| 1. Owner & Org Info | 2. Bank & SWIFT BIC | 3. Policy Controls  | 4. User Management  | 5. Security & Keys        |
++---------------------+---------------------+---------------------+---------------------+---------------------------+
+| • Institution Name  | • Bank Name         | • Four-Eyes (Maker- | • Add New Operator  | • Super Admin Account     |
+| • Lab Supervisor    | • SWIFT BIC Code    |   Checker Enforce)  | • Edit Username/PWD | • Super Admin Password    |
+| • Contact Email/Tel | • Base Currency     | • Strict Balance    | • Promote/Assign    | • Master Auth Key         |
+| • Registered Office | • Telex Fees        | • Auto Sanctions    |   Multiple Roles    | • Student Terminal Login  |
+| • Simulator License | • Clearing Network  | • GL Auto-Posting   | • Delete / Deactivate| • USB Token PIN           |
+| • Application Motto | • Default Standard  | • Fast Splash Pass  | • Instant Search    | • SWIFT PKI / API Keys    |
++---------------------+---------------------+---------------------+---------------------+---------------------------+
+|                                    6. Master Data Backup, Restore & Factory Reset                                 |
++-------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### 6.1. Independent Super Admin Access (`admin.html`) & Academic Security Isolation
 
-Untuk menjaga integritas laboratorium praktikum dan mencegah mahasiswa mengubah konfigurasi kepemilikan, nama bank, BIC, atau aturan saldo, **Super Admin telah dipisahkan secara fisik menjadi file mandiri (`admin.html`)**.
+Untuk menjaga integritas laboratorium praktikum dan mencegah mahasiswa mengubah konfigurasi kepemilikan, nama bank, BIC, atau aturan saldo, **Super Admin dipisahkan secara fisik menjadi file mandiri (`admin.html`)**.
 
 > **Catatan Keamanan Mahasiswa**: File `index.html` murni hanya berisi antarmuka terminal perbankan mahasiswa. Tidak ada tombol, modal, link, maupun skrip Super Admin di dalam `index.html`. Mahasiswa yang memeriksa source code `index.html` tidak akan menemukan form login admin maupun master key.
 
 #### Cara Mengakses Portal Super Admin (Khusus Dosen / Instruktur):
 1. **URL Mandiri Khusus Admin**: Buka `http://<host>:3000/admin` atau `http://<host>:3000/admin.html` langsung di browser Anda.
-2. **Kredensial Master Super Admin**:
-   - **Admin Identifier**: `superadmin` *(atau `admin`)*
-   - **Master Access Key**: `MASTER-SWIFT-2026` *(atau `LAB-2026`)*
-   - **Administrative Password**: `supersecret` *(atau `123456`)*
+2. **Kredensial Default Super Admin**:
+   - **Admin Identifier / Username**: `superadmin` *(atau nilai baru yang dikonfigurasi)*
+   - **Master Authorization Key**: `MASTER-SWIFT-2026` *(atau nilai baru yang dikonfigurasi)*
+   - **Administrative Password**: `supersecret` *(atau nilai baru yang dikonfigurasi)*
 
-Setelah login di `admin.html`, instruktur dapat mengedit seluruh konfigurasi sistem. Hasil simpanan otomatis tersinkronisasi ke simulator mahasiswa melalui browser database storage (`localStorage`). Terdapat juga tombol shortcut `OPEN STUDENT SIMULATOR ↗` di dalam admin console untuk membuka aplikasi mahasiswa di tab baru.
+Setelah login di `admin.html`, instruktur dapat mengedit seluruh konfigurasi sistem, mengelola user operator mahasiswa, serta mengubah kata sandi dan kunci aplikasi. Hasil simpanan otomatis tersinkronisasi ke simulator mahasiswa melalui browser database storage (`localStorage`).
 
 ---
 
@@ -299,12 +302,102 @@ This tab governs the educational strictness and automated controls of the simula
 
 ---
 
-### 6.5. Tab 4: Master Data Backup, Restore & Factory Baseline Reset
+### 6.5. Tab 4: User & Operator Access Control (Create, Edit & Delete Users)
+
+In modern commercial banking, segregation of duties and user lifecycle management are critical operational controls. The **User & Operator Access Management** tab empowers instructors and Super Admins to manage student accounts and assign banking roles dynamically.
+
+#### 1. Creating a New Operator Account:
+1. Navigate to **4. USERS & OPERATORS** tab in `admin.html`.
+2. Click **+ CREATE NEW OPERATOR USER**.
+3. Fill in the operator modal form:
+   - **Operator Display Name**: Full name or display label (e.g., `FARHAN RAMADHAN`).
+   - **Terminal Username (ID)**: Alphanumeric login identifier (e.g., `farhan`).
+   - **Account Password**: Password used at the operator login step (default: `123456`).
+   - **Assigned Role**: Select from the 5 standard banking roles:
+     - `Operator (Maker)` - Code `OPS-01`
+     - `Head Treasury (Checker)` - Code `HTR-01`
+     - `Compliance Officer` - Code `CMP-01`
+     - `System Administrator` - Code `ADM-01`
+     - `Auditor` - Code `AUD-01`
+   - **Custom Operator Code**: Optional custom staff ID (e.g., `OPS-09`, `HTR-03`).
+4. Click **SAVE OPERATOR USER**. The account is immediately created and available in the student login terminal datalist.
+
+#### 2. Editing & Promoting/Demoting User Roles:
+1. In the operators table, locate the target user and click **EDIT / PROMOTE**.
+2. You can:
+   - Modify the user's display name or username.
+   - Update their terminal login password.
+   - **Promote / Change Role**: Elevate an `Operator (Maker)` to `Head Treasury (Checker)` or assign them to `Compliance Officer`.
+   - Update their staff identifier code.
+3. Click **SAVE OPERATOR USER**. The changes take effect instantly.
+
+#### 3. Deleting an Operator User:
+1. Click **DELETE** on the operator's row in the table.
+2. Confirm the safety prompt.
+3. The user is permanently removed from the system and will no longer appear on the simulator's login screen.
+
+---
+
+### 6.6. Tab 5: Application Security, Passwords & Cryptographic Keys
+
+The **Security, Passwords & Application Keys** tab provides Super Admins with full authority over master access credentials, student terminal credentials, and network encryption keys:
+
+```
++---------------------------------------------------------------------------------------------------+
+|                        SECURITY, PASSWORDS & MASTER CREDENTIALS MATRIX                            |
++---------------------------------------------------------------------------------------------------+
+| 1. Super Admin Root Credentials:                                                                  |
+|    • Super Admin Username (Default: 'superadmin')                                                 |
+|    • Master Authorization Key (Default: 'MASTER-SWIFT-2026')                                      |
+|    • Master Console Password (Default: 'supersecret', with show/hide toggle)                      |
+|                                                                                                   |
+| 2. Terminal Simulator Login Credentials (Stage 1 & Stage 2):                                      |
+|    • Terminal Account ID (Default: 'student01')                                                   |
+|    • Terminal Access Security Key (Default: 'LAB-2026')                                           |
+|    • Terminal Password (Default: 'swiftlab', with show/hide toggle)                               |
+|    • Hardware Token PIN (Default: '123456')                                                       |
+|                                                                                                   |
+| 3. SWIFT Network Cryptographic & Gateway API Keys:                                               |
+|    • SWIFT GPI PKI Digital Signature Key (Certificate Hash) [⚡ Generate Key Button]              |
+|    • ISO 20022 XML Schema Validation Secret Key [⚡ Generate Key Button]                         |
+|    • Core Banking API Gateway Bearer Token [⚡ Generate Key Button]                               |
+|                                                                                                   |
+| 4. Security Factory Reset:                                                                        |
+|    • Button: 'RESET KREDENSIAL & KUNCI DEFAULT' to restore baseline security settings             |
++---------------------------------------------------------------------------------------------------+
+```
+
+#### How to Change Super Admin Credentials:
+1. Log in to `admin.html`.
+2. Click the **5. SECURITY, PASSWORDS & KEYS** tab.
+3. Under **1. SUPER ADMIN ROOT CREDENTIALS**:
+   - Change **Super Admin ID / Username** to your desired admin handle.
+   - Change **Master Authorization Key** (e.g., `PROF-HENDRA-KEY-2026`).
+   - Change **Super Admin Master Password** (click **LIHAT** to toggle visibility).
+4. Click **SAVE SYSTEM CONFIGURATION** at the bottom right.
+5. The next time anyone accesses `admin.html`, they must provide these newly saved credentials to log in.
+
+#### How to Change Student Terminal Login Credentials:
+1. Under **2. TERMINAL SIMULATOR LOGIN CREDENTIALS**:
+   - Update **Terminal Account ID** (e.g., `kelas-a-2026`).
+   - Update **Terminal Access Security Key** (e.g., `FINANCE-KEY-01`).
+   - Update **Terminal Password** (e.g., `banking2026`).
+   - Update **Hardware Token PIN** (e.g., `889900`).
+2. Click **SAVE SYSTEM CONFIGURATION**.
+3. Students accessing `index.html` will now use these updated credentials to pass Stage 1 and Stage 2 login.
+
+#### Managing Cryptographic Keys & API Tokens:
+- Super Admins can generate new unique 256-bit cryptographic keys on-demand by clicking the **GENERATE BARU ⚡** buttons.
+- Click **RESET KREDENSIAL & KUNCI DEFAULT** at any time to revert all security credentials to the standard factory default.
+
+---
+
+### 6.7. Tab 6: Master Data Backup, Restore & Factory Baseline Reset
 
 To facilitate repeatable semester practicums across student cohorts, the Super Admin console includes complete data portability:
 
 - **Export Full Simulation State (`JSON`)**:
-  Downloads a single, structured `.json` file containing all system configurations, registered bank BICs, active customer accounts with current balances, correspondent Nostro balances, transaction histories with complete UETR audit trails, and double-entry General Ledger journals.
+  Downloads a single, structured `.json` file containing all system configurations, registered bank BICs, active customer accounts with current balances, correspondent Nostro balances, transaction histories with complete UETR audit trails, operator accounts, security credentials, and double-entry General Ledger journals.
 - **Restore / Import Laboratory State**:
   Uploads a previously saved `.json` file to restore the exact laboratory state (useful for grading student assignments or loading pre-configured case study scenarios).
 - **Reset Simulator to Factory Baseline**:
