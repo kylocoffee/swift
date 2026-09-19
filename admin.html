@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Dedicated Super Admin & Master Configuration Console for SWIFT Lab Simulator.">
   <title>Super Admin Master Console — SWIFT Lab</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='black' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="override.css">
   <link rel="stylesheet" href="navigation.css">
@@ -77,9 +77,10 @@
       <button type="button" class="admin-tab-btn active" data-tab="owner">1. APP OWNER &amp; INSTITUTION</button>
       <button type="button" class="admin-tab-btn" data-tab="bank">2. BANK &amp; SWIFT NETWORK</button>
       <button type="button" class="admin-tab-btn" data-tab="features">3. FEATURES &amp; POLICIES</button>
-      <button type="button" class="admin-tab-btn" data-tab="users">4. USERS &amp; OPERATORS</button>
-      <button type="button" class="admin-tab-btn" data-tab="security">5. SECURITY, PASSWORDS &amp; KEYS</button>
-      <button type="button" class="admin-tab-btn" data-tab="backup">6. BACKUP &amp; RESET</button>
+      <button type="button" class="admin-tab-btn" data-tab="guidance">4. DYNAMIC GUIDANCE &amp; MATRIX</button>
+      <button type="button" class="admin-tab-btn" data-tab="users">5. USERS &amp; OPERATORS</button>
+      <button type="button" class="admin-tab-btn" data-tab="security">6. SECURITY, PASSWORDS &amp; KEYS</button>
+      <button type="button" class="admin-tab-btn" data-tab="backup">7. BACKUP &amp; RESET</button>
     </nav>
 
     <form id="adminConfigForm">
@@ -251,7 +252,79 @@
         </div>
       </div>
 
-      <!-- Tab 4: User & Operator Access Management -->
+      <!-- Tab 4: Dynamic Guidance & Access Matrix -->
+      <div id="tabGuidance" class="admin-section hidden">
+        <h3>Dynamic Welcome Guidance &amp; Access Matrix Customization</h3>
+        <p class="sub">Sesuaikan teks judul, instruksi, deskripsi role matrix, serta kotak petunjuk operasional (Four-Eyes Principle / SOP Laboratorium) yang muncul pada halaman utama terminal perbankan mahasiswa.</p>
+        
+        <div class="policy-toggle-card" style="margin-bottom:20px;">
+          <div class="policy-info">
+            <b>Tampilkan Box Access Matrix (Role Hub)</b>
+            <span>Menampilkan atau menyembunyikan grid matriks hak akses peranan operator di halaman beranda terminal.</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgWelcomeShowMatrix" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="admin-grid">
+          <label class="full">Judul Header Access Matrix
+            <input id="cfgWelcomeMatrixTitle" required>
+            <span class="hint">Judul banner matriks (Default: <code>CORE BANKING &amp; SWIFT LAB ACCESS MATRIX</code>).</span>
+          </label>
+          <label class="full">Subjudul / Deskripsi Matriks
+            <textarea id="cfgWelcomeMatrixSubtitle" rows="2" required></textarea>
+            <span class="hint">Instruksi navigasi di bawah judul matriks.</span>
+          </label>
+          <label class="full">Deskripsi Peran: OPERATOR (MAKER)
+            <textarea id="cfgRoleDescOperator" rows="2" required></textarea>
+            <span class="hint">Teks penjelasan tugas Operator (Maker) di kartu matriks.</span>
+          </label>
+          <label class="full">Deskripsi Peran: HEAD TREASURY (CHECKER)
+            <textarea id="cfgRoleDescTreasury" rows="2" required></textarea>
+            <span class="hint">Teks penjelasan tugas Head Treasury (Checker &amp; Authorizer).</span>
+          </label>
+          <label class="full">Deskripsi Peran: COMPLIANCE OFFICER
+            <textarea id="cfgRoleDescCompliance" rows="2" required></textarea>
+            <span class="hint">Teks penjelasan tugas Compliance &amp; AML/CFT Screener.</span>
+          </label>
+          <label class="full">Deskripsi Peran: SYSTEM ADMINISTRATOR
+            <textarea id="cfgRoleDescAdmin" rows="2" required></textarea>
+            <span class="hint">Teks penjelasan tugas Administrator Sistem simulator.</span>
+          </label>
+          <label class="full">Deskripsi Peran: AUDITOR
+            <textarea id="cfgRoleDescAuditor" rows="2" required></textarea>
+            <span class="hint">Teks penjelasan tugas Auditor pengawasan independen.</span>
+          </label>
+        </div>
+
+        <div style="margin-top:28px;border-top:2px solid var(--ink);padding-top:20px;">
+          <div class="policy-toggle-card" style="margin-bottom:20px;">
+            <div class="policy-info">
+              <b>Tampilkan Box Petunjuk Operasional / Four-Eyes Principle Banner</b>
+              <span>Menampilkan atau menyembunyikan kotak petunjuk operasional dan aturan tata kelola perbankan di bagian bawah halaman.</span>
+            </div>
+            <label class="toggle-switch">
+              <input id="cfgWelcomeShowGuidance" type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="admin-grid">
+            <label class="full">Judul Box Petunjuk Operasional
+              <input id="cfgWelcomeGuidanceTitle" required>
+              <span class="hint">Judul kotak petunjuk operasional (Default: <code>FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS</code>).</span>
+            </label>
+            <label class="full">Konten &amp; Poin-Poin Petunjuk Operasional (Multi-line)
+              <textarea id="cfgWelcomeGuidanceContent" rows="6" required></textarea>
+              <span class="hint">Tuliskan aturan operasional, SOP, atau petunjuk praktikum per baris (mendukung teks biasa berbutir atau tag format HTML seperti <code>&lt;strong&gt;</code>).</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: User & Operator Access Management -->
       <div id="tabUsers" class="admin-section hidden">
         <h3>Operator Members &amp; User Access Management</h3>
         <p class="sub">Kelola akun operator simulator perbankan: tambah anggota operator baru, menaikkan/mengubah role (Maker/Checker/Compliance/Admin/Auditor), memperbarui username, atau mengganti kata sandi.</p>
@@ -578,7 +651,21 @@
       // SWIFT Application Cryptographic & API Gateway Keys
       swiftAppKey: 'SWIFT-GPI-SIG-2026-X89',
       isoSchemaValidationKey: 'ISO20022-XML-SEC-v5',
-      apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE'
+      apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE',
+
+      // Dynamic Welcome Matrix & Operational Guidance Box Configuration
+      welcomeShowMatrix: true,
+      welcomeMatrixTitle: 'CORE BANKING & SWIFT LAB ACCESS MATRIX',
+      welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
+      roleDescOperator: 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.',
+      roleDescTreasury: 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.',
+      roleDescCompliance: 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.',
+      roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.',
+      roleDescAuditor: 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.',
+
+      welcomeShowGuidance: true,
+      welcomeGuidanceTitle: 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS',
+      welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.'
     };
 
     const defaultProfiles = {
@@ -737,6 +824,20 @@
       document.getElementById('cfgSplashBypass').checked = !!sysConfig.splashBypassAllowed;
       document.getElementById('cfgDefaultMsgType').value = sysConfig.defaultMsgType || 'pacs.008';
 
+      // Dynamic Welcome Guidance & Matrix Fields
+      document.getElementById('cfgWelcomeShowMatrix').checked = sysConfig.welcomeShowMatrix !== false;
+      document.getElementById('cfgWelcomeMatrixTitle').value = sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT LAB ACCESS MATRIX';
+      document.getElementById('cfgWelcomeMatrixSubtitle').value = sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.';
+      document.getElementById('cfgRoleDescOperator').value = sysConfig.roleDescOperator || 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.';
+      document.getElementById('cfgRoleDescTreasury').value = sysConfig.roleDescTreasury || 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.';
+      document.getElementById('cfgRoleDescCompliance').value = sysConfig.roleDescCompliance || 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.';
+      document.getElementById('cfgRoleDescAdmin').value = sysConfig.roleDescAdmin || 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.';
+      document.getElementById('cfgRoleDescAuditor').value = sysConfig.roleDescAuditor || 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.';
+
+      document.getElementById('cfgWelcomeShowGuidance').checked = sysConfig.welcomeShowGuidance !== false;
+      document.getElementById('cfgWelcomeGuidanceTitle').value = sysConfig.welcomeGuidanceTitle || 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS';
+      document.getElementById('cfgWelcomeGuidanceContent').value = sysConfig.welcomeGuidanceContent || '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.';
+
       // Security, Passwords & App Keys Fields
       document.getElementById('cfgAdminUser').value = sysConfig.adminUser || 'superadmin';
       document.getElementById('cfgAdminKey').value = sysConfig.adminKey || 'MASTER-SWIFT-2026';
@@ -765,6 +866,7 @@
         document.getElementById('tabOwner').classList.toggle('hidden', tab !== 'owner');
         document.getElementById('tabBank').classList.toggle('hidden', tab !== 'bank');
         document.getElementById('tabFeatures').classList.toggle('hidden', tab !== 'features');
+        document.getElementById('tabGuidance').classList.toggle('hidden', tab !== 'guidance');
         document.getElementById('tabUsers').classList.toggle('hidden', tab !== 'users');
         document.getElementById('tabSecurity').classList.toggle('hidden', tab !== 'security');
         document.getElementById('tabBackup').classList.toggle('hidden', tab !== 'backup');
@@ -867,6 +969,20 @@
         glPostingEnabled: document.getElementById('cfgGlPosting').checked,
         splashBypassAllowed: document.getElementById('cfgSplashBypass').checked,
         defaultMsgType: document.getElementById('cfgDefaultMsgType').value,
+
+        // Dynamic Welcome Matrix & Operational Guidance
+        welcomeShowMatrix: document.getElementById('cfgWelcomeShowMatrix').checked,
+        welcomeMatrixTitle: document.getElementById('cfgWelcomeMatrixTitle').value.trim(),
+        welcomeMatrixSubtitle: document.getElementById('cfgWelcomeMatrixSubtitle').value.trim(),
+        roleDescOperator: document.getElementById('cfgRoleDescOperator').value.trim(),
+        roleDescTreasury: document.getElementById('cfgRoleDescTreasury').value.trim(),
+        roleDescCompliance: document.getElementById('cfgRoleDescCompliance').value.trim(),
+        roleDescAdmin: document.getElementById('cfgRoleDescAdmin').value.trim(),
+        roleDescAuditor: document.getElementById('cfgRoleDescAuditor').value.trim(),
+
+        welcomeShowGuidance: document.getElementById('cfgWelcomeShowGuidance').checked,
+        welcomeGuidanceTitle: document.getElementById('cfgWelcomeGuidanceTitle').value.trim(),
+        welcomeGuidanceContent: document.getElementById('cfgWelcomeGuidanceContent').value.trim(),
 
         // Security, Passwords, and Cryptographic Keys
         adminUser: (document.getElementById('cfgAdminUser').value || 'superadmin').trim().toLowerCase(),

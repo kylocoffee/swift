@@ -283,11 +283,36 @@ const defaultSysConfig = {
   // SWIFT Application Cryptographic & API Gateway Keys
   swiftAppKey: 'SWIFT-GPI-SIG-2026-X89',
   isoSchemaValidationKey: 'ISO20022-XML-SEC-v5',
-  apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE'
+  apiGatewayToken: 'SWIFT-GW-TOKEN-8831-LIVE',
+
+  // Dynamic Welcome Matrix & Operational Guidance Box Configuration
+  welcomeShowMatrix: true,
+  welcomeMatrixTitle: 'CORE BANKING & SWIFT LAB ACCESS MATRIX',
+  welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
+  roleDescOperator: 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.',
+  roleDescTreasury: 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.',
+  roleDescCompliance: 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.',
+  roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.',
+  roleDescAuditor: 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.',
+
+  welcomeShowGuidance: true,
+  welcomeGuidanceTitle: 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS',
+  welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.'
 };
 
 let sysConfig = load(CFGK, defaultSysConfig);
 sysConfig = { ...defaultSysConfig, ...sysConfig };
+
+function updateFooterInfo() {
+  const footerNote = $('#appFooterNote');
+  if (!footerNote) return;
+  const bic = sysConfig.bankBic || 'IDBKIDJA';
+  const bank = sysConfig.bankName || 'BANK PRAKTIKUM NUSANTARA';
+  const opInfo = activeSession 
+    ? `${activeSession.name.toUpperCase()} (${activeSession.code} &bull; ${activeSession.role.toUpperCase()})`
+    : 'UNASSIGNED';
+  footerNote.innerHTML = `SWIFT BIC: ${esc(bic)} &nbsp;|&nbsp; BANK: ${esc(bank)} &nbsp;|&nbsp; OPERATOR: ${opInfo}`;
+}
 
 function applySysConfig() {
   // Update header BICs and Bank Names across screens
@@ -307,8 +332,8 @@ function applySysConfig() {
   if (appSlogan) appSlogan.innerHTML = esc(sysConfig.appMotto).replace(/\n/g, '<br>');
   const saSlogan = $('#superAdminHeaderSlogan');
   if (saSlogan) saSlogan.innerHTML = `${esc(sysConfig.ownerName)} &bull; Super Admin Control Center<br>${esc(sysConfig.appMotto).replace(/\n/g, ' ')}`;
-  const footerNote = $('#appFooterNote');
-  if (footerNote) footerNote.textContent = `EDUCATIONAL SIMULATION — ${sysConfig.bankName} CORE BANKING & SWIFT LAB`;
+  
+  updateFooterInfo();
 
   // Synchronize primary BIC entry in local directory
   let primaryBicIdx = bics.findIndex(b => b.bic === sysConfig.bankBic);
@@ -555,23 +580,14 @@ function updateOperatorRole() {
   const p = profileFor(entered);
   if (!p) {
     if ($('#operatorCode')) $('#operatorCode').innerHTML = '<option value="">Select Role</option>';
-    if ($('#rolePreview')) $('#rolePreview').innerHTML = '';
     return;
   }
   if ($('#operatorCode')) {
     $('#operatorCode').innerHTML = p.roles.map(r => `<option value="${r.code}" data-role="${r.role}">${r.code} - ${r.role.toUpperCase()}</option>`).join('');
   }
-  const role = p.roles[0]?.role;
-  if ($('#rolePreview')) {
-    $('#rolePreview').innerHTML = `<strong>${esc((role || '').toUpperCase())}</strong><span>${esc(ROLE_INFO[role] || '')}</span>`;
-  }
 }
 
 $('#operatorName')?.addEventListener('input', updateOperatorRole);
-$('#operatorCode')?.addEventListener('change', () => {
-  const role = $('#operatorCode').selectedOptions[0]?.dataset.role;
-  if ($('#rolePreview')) $('#rolePreview').innerHTML = `<strong>${esc((role || '').toUpperCase())}</strong><span>${esc(ROLE_INFO[role] || '')}</span>`;
-});
 updateOperatorRole();
 syncOperatorDatalist();
 
@@ -621,27 +637,57 @@ function applyPermissions() {
 
 function renderMenu() {
   const roles = Object.keys(RIGHTS);
-  $('#content').innerHTML = `
-    <div class="content-page role-matrix">
-      <h3>CORE BANKING &amp; SWIFT LAB ACCESS MATRIX</h3>
-      <p style="margin-bottom:14px;color:#555;font-size:13px">Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.</p>
+  const roleCustomMap = {
+    operator: sysConfig.roleDescOperator || ROLE_INFO.operator,
+    treasury: sysConfig.roleDescTreasury || ROLE_INFO.treasury,
+    compliance: sysConfig.roleDescCompliance || ROLE_INFO.compliance,
+    admin: sysConfig.roleDescAdmin || ROLE_INFO.admin,
+    auditor: sysConfig.roleDescAuditor || ROLE_INFO.auditor
+  };
+
+  let matrixHtml = '';
+  if (sysConfig.welcomeShowMatrix !== false) {
+    matrixHtml = `
+      <h3>${esc(sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT LAB ACCESS MATRIX')}</h3>
+      <p style="margin-bottom:14px;color:#555;font-size:13px">${esc(sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.')}</p>
       <div class="role-matrix-grid">
         ${roles.map(r => `
-          <article class="role-card ${r === activeSession.role ? 'active' : ''}">
+          <article class="role-card ${r === activeSession?.role ? 'active' : ''}">
             <b>${esc(r.toUpperCase())}</b>
-            ${esc(ROLE_INFO[r])}
+            ${esc(roleCustomMap[r] || ROLE_INFO[r])}
           </article>
         `).join('')}
       </div>
+    `;
+  }
+
+  let guidanceHtml = '';
+  if (sysConfig.welcomeShowGuidance !== false) {
+    const rawContent = sysConfig.welcomeGuidanceContent || '';
+    let renderedLines = '';
+    if (rawContent.includes('<') && rawContent.includes('>')) {
+      renderedLines = rawContent;
+    } else {
+      renderedLines = rawContent.split('\n').filter(l => l.trim().length > 0).map(line => {
+        let l = line.trim();
+        return `<div style="margin-bottom:6px">${esc(l)}</div>`;
+      }).join('');
+    }
+
+    guidanceHtml = `
       <div style="margin-top:24px;border:2px solid var(--ink);background:#fff;padding:18px">
-        <h4 style="margin:0 0 8px;font-size:14px;text-transform:uppercase">Four-Eyes Principle (Maker-Checker Oversight) in Banking Operations</h4>
-        <p style="font-size:13px;line-height:1.6;margin:0">
-          • <strong>Operator (Maker)</strong>: Inputs and drafts customer payment instructions (Outward Remittance) under <em>Pending</em> status.<br>
-          • <strong>Compliance Officer</strong>: Executes AML/CFT &amp; Sanctions Screening, verifying parties against sanctions lists and elevating status to <em>Validated</em>.<br>
-          • <strong>Head Treasury (Checker)</strong>: Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under <em>Released</em> status.<br>
-          • <strong>Auditor</strong>: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.
-        </p>
+        <h4 style="margin:0 0 8px;font-size:14px;text-transform:uppercase">${esc(sysConfig.welcomeGuidanceTitle || 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS')}</h4>
+        <div style="font-size:13px;line-height:1.6;margin:0">
+          ${renderedLines}
+        </div>
       </div>
+    `;
+  }
+
+  $('#content').innerHTML = `
+    <div class="content-page role-matrix">
+      ${matrixHtml}
+      ${guidanceHtml}
     </div>
   `;
 }
@@ -656,6 +702,7 @@ function openApp(s) {
   sessionStorage.setItem(SK, JSON.stringify(activeSession));
   show('app');
   $('#operatorIdentity').innerHTML = `${esc(activeSession.name)}&nbsp;&nbsp; ${esc(activeSession.code)} <i class="role-badge">${esc(activeSession.role.toUpperCase())}</i>`;
+  updateFooterInfo();
   currentView = 'menu';
   viewHistory = ['menu'];
   applyPermissions();
