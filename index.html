@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="SWIFT banking laboratory simulator for educational use.">
+  <title>SWIFT APP PROJECT</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='black' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="override.css"><link rel="stylesheet" href="navigation.css"><link rel="stylesheet" href="tracking.css"><link rel="stylesheet" href="roles.css">
+</head>
+<body>
+  <section id="splash" class="screen splash-screen">
+    <div class="splash-brand"><div class="swift-logo logo-large"><span>SWIFT</span></div><div class="slogan">The global provider of<br>Secure final messaging services</div></div>
+    <div class="loading-dots"><i></i><i></i><i></i></div>
+  </section>
+  <section id="accountScreen" class="screen login-screen hidden">
+    <form id="accountForm" class="first-login">
+      <div class="swift-logo logo-login"><span>SWIFT</span></div>
+      <div class="login-fields">
+        <label><b>Account</b><input id="account" required value="student01"></label>
+        <label><b>Password</b><input id="accountPassword" type="password" required value="swiftlab"></label>
+        <label><b>Key</b><input id="accountKey" required value="LAB-2026"></label>
+        <p id="accountError" class="error hidden">Err. Invalid Login Attempt</p>
+        <button class="pill" type="submit">Login</button>
+      </div>
+    </form>
+  </section>
+  <section id="usbScreen" class="screen usb-screen hidden">
+    <h1>USB KEY AUTHENTICATION</h1>
+    <div class="usb-symbol" aria-hidden="true"><div class="usb-arrow">▲</div><div class="usb-stem"></div><div class="usb-branch left"></div><div class="usb-branch right"></div><div class="usb-circle"></div><div class="usb-square"></div></div>
+    <div class="usb-progress"><i></i></div><div class="screen-actions"><button id="usbBack" class="pill secondary">BACK</button><button id="usbButton" class="pill usb-button">CONNECT USB KEY</button></div>
+  </section>
+  <section id="operatorScreen" class="screen workspace hidden"><div class="page-shell">
+    <header class="swift-header"><div class="swift-logo logo-small"><span>SWIFT</span></div><div class="slogan small">The global provider of<br>Secure final messaging services</div></header><div class="header-rule"></div>
+    <div class="identity-row"><div><b>SWIFT BIC</b><span>IDBKIDJA&nbsp;&nbsp;&nbsp;&nbsp;BANK PRAKTIKUM NUSANTARA</span></div></div>
+    <form id="operatorForm" class="operator-form"><label><b>OPERATOR</b><input id="operatorName" list="operatorList" autocomplete="off" required value="iqbal"><datalist id="operatorList"><option value="iqbal"><option value="dhendy"><option value="salma"><option value="aditya"><option value="ratna"></datalist></label><label><b>OPERATOR CODE / ROLE</b><select id="operatorCode"></select></label><label><b>USERNAME</b><input id="operatorUser" required value="iqbal"></label><label class="blank"></label><label><b>PASSWORD</b><input id="operatorPassword" type="password" required value="123456"></label><div id="rolePreview" class="role-preview" aria-live="polite"></div><p id="operatorError" class="error hidden">Err. Operator, username, or password is invalid</p><div class="operator-actions"><button id="operatorBack" class="pill secondary" type="button">BACK</button><button class="pill" type="submit">LOGIN</button></div></form>
+  </div></section>
+  <section id="app" class="screen workspace hidden"><div class="page-shell">
+    <header class="swift-header"><div class="swift-logo logo-small"><span>SWIFT</span></div><div class="slogan small">The global provider of<br>Secure final messaging services</div></header><div class="header-rule"></div>
+    <div class="identity-row main-identity"><div><b>SWIFT BIC</b><span>IDBKIDJA&nbsp;&nbsp;&nbsp;&nbsp;BANK PRAKTIKUM NUSANTARA <button id="openDirectory" class="bic-link">BIC DIRECTORY</button></span></div><div><b>OPERATOR</b><span id="operatorIdentity">OPERATOR_NAME&nbsp;&nbsp;&nbsp;&nbsp;OPERATOR_CODE</span></div></div>
+    <nav id="mainNav" class="main-nav"><button class="pill" data-page="search">SEARCH</button><button class="pill" data-page="record">RECORD</button><button class="pill" data-page="print">PRINT</button><button class="pill" data-page="analysis">ANALYSIS</button></nav>
+    <main id="content"></main><div class="app-footer"><div class="footer-actions"><button id="appBack" class="pill secondary">BACK</button><button id="logout" class="pill">LOGOUT</button></div><div class="training-note">EDUCATIONAL SIMULATION - NOT CONNECTED TO THE SWIFT NETWORK</div></div>
+  </div></section>
+  <dialog id="txDialog"><form id="txForm"><button class="dialog-close" type="button" data-close>×</button><h2 id="txTitle">RECORD TRANSACTION</h2><input id="editId" type="hidden"><div class="modal-grid"><label><b>TRN / UETR</b><input id="trn" placeholder="AUTO GENERATED"></label><label><b>MESSAGE TYPE</b><select id="type"><option>pacs.008</option><option>pacs.009</option><option>MT103</option><option>MT202</option></select></label><label><b>SENDER BIC</b><input id="sender" value="IDBKIDJA" required></label><label><b>RECEIVER BIC</b><input id="receiver" required></label><label><b>CURRENCY</b><select id="currency"><option>USD</option><option>EUR</option><option>IDR</option><option>SGD</option><option>JPY</option></select></label><label><b>AMOUNT</b><input id="amount" type="number" step="0.01" min="0.01" required></label><label><b>VALUE DATE</b><input id="valueDate" type="date" required></label><label><b>STATUS</b><select id="status"><option>Pending</option><option>Validated</option><option>Released</option><option>Rejected</option></select></label><label class="wide"><b>NARRATIVE</b><textarea id="narrative" rows="3"></textarea></label></div><div class="modal-actions"><button class="pill" type="button" data-close>CANCEL</button><button class="pill" type="submit">SAVE</button></div></form></dialog>
+  <dialog id="bicDialog"><form id="bicForm"><button class="dialog-close" type="button" data-close-bic>×</button><h2 id="bicTitle">ADD BIC</h2><input id="oldBic" type="hidden"><label><b>BIC CODE</b><input id="bicCode" required></label><label><b>BANK NAME</b><input id="bicName" required></label><label><b>COUNTRY</b><input id="bicCountry" required></label><label><b>CITY</b><input id="bicCity" required></label><div class="modal-actions"><button class="pill" type="button" data-close-bic>CANCEL</button><button class="pill" type="submit">SAVE</button></div></form></dialog>
+  <dialog id="uetrDialog" class="tracking-dialog"><div class="tracking-shell"><button class="dialog-close" type="button" id="closeTracking">×</button><div id="trackingContent"></div><div class="tracking-actions"><button class="pill secondary" type="button" id="trackingBack">BACK</button><button class="pill hidden" type="button" id="updateTrackingStatus">UPDATE STATUS</button><button class="pill" type="button" id="downloadMessage">DOWNLOAD</button><button class="pill" type="button" id="printTracking">PRINT</button></div></div></dialog>
+  <dialog id="exportDialog"><form id="exportForm"><button class="dialog-close" type="button" data-close-export>×</button><h2>DOWNLOAD PAYMENT MESSAGE</h2><p class="export-reference">UETR: <b id="exportUetr"></b></p><label><b>MESSAGE FORMAT</b><select id="exportFormat"><option value="original">Original transaction format</option><option value="MT103">SWIFT MT103 — Customer transfer</option><option value="MT202">SWIFT MT202 — Financial institution transfer</option><option value="pacs.008">ISO 20022 pacs.008 — FI to FI customer credit transfer</option><option value="pacs.009">ISO 20022 pacs.009 — Financial institution credit transfer</option><option value="json">JSON — Training record and audit trail</option><option value="csv">CSV — Transaction summary</option></select></label><div id="exportHelp" class="export-help"></div><div class="modal-actions"><button class="pill" type="button" data-close-export>CANCEL</button><button class="pill" type="submit">DOWNLOAD FILE</button></div></form></dialog>
+  <dialog id="statusDialog"><form id="statusForm"><button class="dialog-close" type="button" data-close-status>×</button><h2>UPDATE UETR STATUS</h2><input id="statusTxId" type="hidden"><div class="status-current">CURRENT STATUS: <b id="currentStatus"></b></div><label><b>NEW STATUS</b><select id="newStatus"></select></label><label><b>REVIEW / APPROVAL NOTE</b><textarea id="statusNote" rows="4" required placeholder="Explain the operational decision"></textarea></label><div class="modal-actions"><button class="pill" type="button" data-close-status>CANCEL</button><button class="pill" type="submit">AUTHORIZE</button></div></form></dialog>
+  <dialog id="confirmDialog" class="confirm-dialog"><form method="dialog"><h2>DELETE RECORD?</h2><p id="confirmText"></p><div class="modal-actions"><button class="pill" value="cancel">CANCEL</button><button class="pill" value="confirm">DELETE</button></div></form></dialog>
+  <div id="toast" class="toast"></div>
+  <div id="globalLoader" class="global-loader" aria-live="polite" aria-hidden="true"><div class="loader-box"><span class="spinner"></span><b id="loaderText">LOADING</b></div></div>
+  <link rel="stylesheet" href="messages.css?v=10">
+  <script src="messages.js?v=10"></script>
+  <script src="app.js?v=10"></script>
+  <script src="messages-ui.js?v=10"></script>
+</body></html>
