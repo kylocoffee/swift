@@ -34,7 +34,7 @@ if (modalGrid) {
   ` + paymentInputs.map(([id, label, max]) => `
     <label>
       <b>${label}</b>
-      ${id.endsWith('Address') ? `<textarea id="pay-${id}" rows="3" maxlength="${max}" placeholder="Up to 3 lines, 35 chars each"></textarea>` : `<input id="pay-${id}" maxlength="${max}" ${id==='uetr'?'readonly':''}>`}
+      ${id.endsWith('Address') ? `<textarea id="pay-${id}" rows="3" maxlength="${max}"></textarea>` : `<input id="pay-${id}" maxlength="${max}" ${id==='uetr'?'readonly':''}>`}
     </label>
   `).join('') + `
     <label>

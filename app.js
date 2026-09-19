@@ -400,6 +400,12 @@ function audit(t, action, noteText = '', from = '', to = '') {
 function show(id) {
   $$('.screen').forEach(x => x.classList.add('hidden'));
   $('#' + id)?.classList.remove('hidden');
+  if (id === 'accountScreen') {
+    applySysConfig();
+  } else if (id === 'operatorScreen') {
+    syncOperatorDatalist();
+    updateOperatorRole();
+  }
 }
 
 function syncDatalists() {
@@ -548,7 +554,7 @@ function updateOperatorRole() {
   const entered = $('#operatorName')?.value || '';
   const p = profileFor(entered);
   if (!p) {
-    if ($('#operatorCode')) $('#operatorCode').innerHTML = '<option value="">Unknown Operator</option>';
+    if ($('#operatorCode')) $('#operatorCode').innerHTML = '<option value="">Select Role</option>';
     if ($('#rolePreview')) $('#rolePreview').innerHTML = '';
     return;
   }
@@ -768,10 +774,10 @@ function renderSearch() {
   $('#content').innerHTML = `
     <div class="content-page">
       <div class="search-form">
-        <label><b>TRN / UETR / PARTY NAME</b><input id="searchQ" autocomplete="off" placeholder="Search reference number or party name"></label>
+        <label><b>TRN / UETR / PARTY NAME</b><input id="searchQ" autocomplete="off"></label>
         <label><b>START DATE</b><input id="dateFrom" type="date"></label>
         <label><b>END DATE</b><input id="dateTo" type="date"></label>
-        <label class="bic-field"><b>BIC</b><input id="searchBic" autocomplete="off" placeholder="IDBKIDJA, CITIUS33..."></label>
+        <label class="bic-field"><b>BIC</b><input id="searchBic" autocomplete="off"></label>
         <button id="searchBtn" type="button" class="pill search-button">SEARCH</button>
       </div>
       <div id="resultArea"></div>
@@ -855,6 +861,12 @@ $('#txForm')?.addEventListener('submit', e => {
   if (id && !can('edit')) return denied();
   if (!id && !can('create')) return denied();
 
+  const rawAmt = Number($('#amount').value);
+  if (isNaN(rawAmt) || rawAmt <= 0) {
+    alert('TRANSACTION AMOUNT ERROR: Amount must be a positive number greater than 0.');
+    return;
+  }
+
   const old = id ? tx.find(x => x.id === id) : null;
   const newId = id || ('T' + String(tx.length + 1).padStart(3, '0'));
   const rawTrn = $('#trn').value.trim().toUpperCase() || ('TRN' + Date.now());
@@ -868,7 +880,7 @@ $('#txForm')?.addEventListener('submit', e => {
     sender: $('#sender').value.trim().toUpperCase(),
     receiver: $('#receiver').value.trim().toUpperCase(),
     currency: $('#currency').value,
-    amount: Number($('#amount').value),
+    amount: rawAmt,
     status: old ? old.status : 'Pending',
     narrative: $('#narrative').value.trim(),
     audit: old?.audit || []
@@ -922,7 +934,7 @@ function renderDirectory() {
         ${can('bicManage') ? '<button id="addBic" class="pill" style="height:36px;min-width:130px;font-size:12.5px;">ADD BIC CODE</button>' : ''}
       </div>
       <div class="directory-toolbar" style="display:grid;grid-template-columns:1.8fr 1.2fr auto;gap:12px;align-items:end;">
-        <label><b>SEARCH BIC DIRECTORY</b><input id="bicSearch" placeholder="Search BIC code, bank name, country, or city"></label>
+        <label><b>SEARCH BIC DIRECTORY</b><input id="bicSearch"></label>
         <label><b>FILTER BY COUNTRY</b>
           <select id="bicCountryFilter" style="height:36px;width:100%;border:1px solid var(--ink);background:#fff;padding:4px 10px;font-size:13px;">
             <option value="">ALL COUNTRIES (${bics.length.toLocaleString()} BANKS)</option>
@@ -2026,11 +2038,11 @@ function openTracking(t) {
   $('#trackingContent').innerHTML = `
     <div class="tracking-dashboard-header">
       <div class="swift-logo tracking-logo"><span>SWIFT</span></div>
-      <div class="slogan tracking-slogan">The global provider of<br>Secure final messaging services</div>
+      <div class="slogan tracking-slogan">${esc(sysConfig.appMotto).replace(/\n/g, '<br>')}</div>
     </div>
     <div class="tracking-header-rule"></div>
     <div class="tracking-identity">
-      <div><b>SWIFT BIC</b><span>IDBKIDJA&nbsp;&nbsp; BANK PRAKTIKUM NUSANTARA</span></div>
+      <div><b>SWIFT BIC</b><span>${esc(sysConfig.bankBic)}&nbsp;&nbsp; ${esc(sysConfig.bankName)}</span></div>
       <div><b>OPERATOR</b><span>${esc(operator)}</span></div>
     </div>
     <div class="tracking-title">

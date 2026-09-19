@@ -39,21 +39,16 @@
     </div>
     <p class="desc">Restricted administrative access. Configure institutional ownership, bank identity, SWIFT BIC routing, operational policies, and laboratory database snapshots.</p>
     
-    <form id="masterLoginForm" class="auth-fields">
+    <form id="masterLoginForm" class="auth-fields" autocomplete="off">
       <label>Admin ID
-        <input id="adminUser" required value="superadmin" placeholder="superadmin" autocomplete="off">
+        <input id="adminUser" required autocomplete="off">
       </label>
       <label>Master Key
-        <input id="adminKey" required value="MASTER-SWIFT-2026" placeholder="MASTER-SWIFT-2026" autocomplete="off">
+        <input id="adminKey" required autocomplete="off">
       </label>
       <label>Password
-        <input id="adminPassword" type="password" required value="supersecret" placeholder="••••••••" autocomplete="off">
+        <input id="adminPassword" type="password" required autocomplete="new-password">
       </label>
-
-      <div class="cred-hint" id="masterCredHint">
-        <b>Master Credentials:</b><br>
-        Admin ID: <code id="hintAdminUser">superadmin</code> | Master Key: <code id="hintAdminKey">MASTER-SWIFT-2026</code> | Password: <code id="hintAdminPwd">supersecret</code>
-      </div>
 
       <p id="authError" class="error-msg hidden">Err. Invalid Super Admin credentials or authorization key.</p>
 
@@ -94,43 +89,43 @@
         <p class="sub">Configure the institutional ownership, laboratory supervisor details, and legal registration display.</p>
         <div class="admin-grid">
           <label>Application Display Title
-            <input id="cfgAppName" required placeholder="SWIFT Network &amp; Core Banking Laboratory Simulator">
+            <input id="cfgAppName" required>
             <span class="hint">Title displayed in headers, browser tabs, and official vouchers.</span>
           </label>
           <label>App Owner / Organization Name
-            <input id="cfgOwnerName" required placeholder="Bank Praktikum Nusantara">
+            <input id="cfgOwnerName" required>
             <span class="hint">The legal or academic entity owning and operating this simulator.</span>
           </label>
           <label>Lead Contact Person / Supervisor
-            <input id="cfgOwnerContact" required placeholder="Prof. Dr. Hendra Pratama, M.Sc.">
+            <input id="cfgOwnerContact" required>
             <span class="hint">Head of Banking Laboratory / Department Chair.</span>
           </label>
           <label>Supervisor Official Title
-            <input id="cfgOwnerTitle" required placeholder="Head of International Banking Laboratory">
+            <input id="cfgOwnerTitle" required>
             <span class="hint">Academic or institutional designation.</span>
           </label>
           <label>Official Contact Email
-            <input id="cfgOwnerEmail" type="email" required placeholder="lab.banking@nusantara-bank.ac.id">
+            <input id="cfgOwnerEmail" type="email" required>
             <span class="hint">Primary administrative correspondence address.</span>
           </label>
           <label>Official Contact Telephone
-            <input id="cfgOwnerPhone" required placeholder="+62 21 5299-8800">
+            <input id="cfgOwnerPhone" required>
             <span class="hint">Direct line to the laboratory control desk.</span>
           </label>
           <label class="full">Institution / Faculty / Department Affiliation
-            <input id="cfgOwnerInstitution" required placeholder="Faculty of Economics &amp; Business - Banking &amp; Finance Department">
+            <input id="cfgOwnerInstitution" required>
             <span class="hint">University department or financial institute administering the lab.</span>
           </label>
           <label>Laboratory License / Simulation Registry No.
-            <input id="cfgLicenseNo" required placeholder="OJK-LAB-SIM/2026/099-BPN">
+            <input id="cfgLicenseNo" required>
             <span class="hint">Regulatory or internal course accreditation code.</span>
           </label>
           <label>Application Banner Motto
-            <input id="cfgAppMotto" required placeholder="The global provider of Secure final messaging services">
+            <input id="cfgAppMotto" required>
             <span class="hint">Tagline displayed under the SWIFT header logo.</span>
           </label>
           <label class="full">Registered Operational Head Office Address
-            <textarea id="cfgHeadOfficeAddress" rows="2" required placeholder="JL JEND SUDIRMAN KAV 1, JAKARTA 10220&#10;INDONESIA"></textarea>
+            <textarea id="cfgHeadOfficeAddress" rows="2" required></textarea>
             <span class="hint">Physical address printed on official settlement vouchers and payment advice.</span>
           </label>
         </div>
@@ -142,19 +137,19 @@
         <p class="sub">Define the local bank's name, primary Business Identifier Code (ISO 9362), and clearing parameters.</p>
         <div class="admin-grid">
           <label>Primary Bank Name
-            <input id="cfgBankName" required placeholder="BANK PRAKTIKUM NUSANTARA">
+            <input id="cfgBankName" required>
             <span class="hint">Name of the host commercial bank simulated in the lab.</span>
           </label>
           <label>Primary Bank SWIFT BIC (8 or 11 Chars)
-            <input id="cfgBankBic" maxlength="11" required placeholder="IDBKIDJA" style="text-transform:uppercase;">
+            <input id="cfgBankBic" maxlength="11" required style="text-transform:uppercase;">
             <span class="hint">ISO 9362 BIC identifier (e.g. IDBKIDJA or IDBKIDJAXXX).</span>
           </label>
           <label>Operating Country
-            <input id="cfgBankCountry" required placeholder="INDONESIA">
+            <input id="cfgBankCountry" required>
             <span class="hint">Country where the primary institution is domiciled.</span>
           </label>
           <label>Operating City
-            <input id="cfgBankCity" required placeholder="JAKARTA">
+            <input id="cfgBankCity" required>
             <span class="hint">City of primary treasury and settlement operations.</span>
           </label>
           <label>Base Operating Currency
@@ -169,15 +164,15 @@
             <span class="hint">Primary institutional reporting currency.</span>
           </label>
           <label>Standard Telex/SWIFT Fee (USD)
-            <input id="cfgTelexFeeUsd" type="number" step="1" min="0" required placeholder="25">
+            <input id="cfgTelexFeeUsd" type="number" step="1" min="0" required>
             <span class="hint">Commission charged on outward customer transfers in USD.</span>
           </label>
           <label>Standard Telex/SWIFT Fee (IDR)
-            <input id="cfgTelexFeeIdr" type="number" step="1000" min="0" required placeholder="50000">
+            <input id="cfgTelexFeeIdr" type="number" step="1000" min="0" required>
             <span class="hint">Commission charged on outward domestic RTGS / FX transfers.</span>
           </label>
           <label>Settlement &amp; Clearing Network
-            <input id="cfgSettlementNetwork" required placeholder="BI-RTGS &amp; SWIFT GPI">
+            <input id="cfgSettlementNetwork" required>
             <span class="hint">Primary clearing rails utilized (e.g. BI-RTGS, FEDWIRE, CHIPS, TARGET2).</span>
           </label>
         </div>
@@ -282,7 +277,7 @@
 
         <div class="user-toolbar">
           <div class="user-toolbar-left">
-            <input type="text" id="userSearchInput" placeholder="Cari nama, username, atau kode role..." style="min-width:240px;">
+            <input type="text" id="userSearchInput" style="min-width:240px;">
             <select id="userRoleFilter">
               <option value="">Semua Peran (All Roles)</option>
               <option value="Operator">Operator (Maker)</option>
@@ -330,16 +325,16 @@
           <p style="font-size:13px;color:#555;margin-bottom:16px;">Kredensial ini digunakan untuk membuka portal Master Console (<code>admin.html</code>) ini. Pastikan Anda mengingat atau mencatat perubahan kredensial ini.</p>
           <div class="admin-grid">
             <label>Super Admin ID / Username
-              <input id="cfgAdminUser" required placeholder="superadmin" autocomplete="off" style="font-family:monospace;">
+              <input id="cfgAdminUser" required autocomplete="off" style="font-family:monospace;">
               <span class="hint">ID akun untuk masuk ke halaman Super Admin (Default: <code>superadmin</code>).</span>
             </label>
             <label>Master Authorization Key
-              <input id="cfgAdminKey" required placeholder="MASTER-SWIFT-2026" autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
+              <input id="cfgAdminKey" required autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
               <span class="hint">Kunci otorisasi master (Default: <code>MASTER-SWIFT-2026</code>).</span>
             </label>
             <label class="full">Super Admin Master Password
               <div style="display:flex;gap:8px;align-items:center;">
-                <input id="cfgAdminPassword" type="password" required placeholder="••••••••" autocomplete="off" style="flex:1;">
+                <input id="cfgAdminPassword" type="password" required autocomplete="off" style="flex:1;">
                 <button type="button" id="btnToggleAdminPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
               </div>
               <span class="hint">Kata sandi master konsol admin (Default: <code>supersecret</code>).</span>
@@ -356,22 +351,22 @@
           <p style="font-size:13px;color:#555;margin-bottom:16px;">Konfigurasi kredensial yang dimasukkan mahasiswa pada layar pembuka (Terminal Login &amp; Token PIN) sebelum memilih profil operator.</p>
           <div class="admin-grid">
             <label>Terminal Account ID (Stage 1)
-              <input id="cfgTerminalAccount" required placeholder="student01" autocomplete="off" style="font-family:monospace;">
+              <input id="cfgTerminalAccount" required autocomplete="off" style="font-family:monospace;">
               <span class="hint">ID akun terminal yang digunakan mahasiswa (Default: <code>student01</code>).</span>
             </label>
             <label>Terminal Access Security Key (Stage 1)
-              <input id="cfgTerminalAccessKey" required placeholder="LAB-2026" autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
+              <input id="cfgTerminalAccessKey" required autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
               <span class="hint">Kunci akses terminal laboratorium (Default: <code>LAB-2026</code>).</span>
             </label>
             <label>Terminal Password (Stage 1)
               <div style="display:flex;gap:8px;align-items:center;">
-                <input id="cfgTerminalPassword" type="password" required placeholder="••••••••" autocomplete="off" style="flex:1;">
+                <input id="cfgTerminalPassword" type="password" required autocomplete="off" style="flex:1;">
                 <button type="button" id="btnToggleTerminalPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
               </div>
               <span class="hint">Kata sandi masuk terminal (Default: <code>swiftlab</code>).</span>
             </label>
             <label>Hardware Token PIN (Stage 2)
-              <input id="cfgTokenPin" required placeholder="123456" autocomplete="off" maxlength="12" style="font-family:monospace;">
+              <input id="cfgTokenPin" required autocomplete="off" maxlength="12" style="font-family:monospace;">
               <span class="hint">PIN otentikasi token fisik USB PKI (Default: <code>123456</code>).</span>
             </label>
           </div>
@@ -387,21 +382,21 @@
           <div class="admin-grid">
             <label class="full">SWIFT GPI PKI Digital Signature Key (Certificate Hash)
               <div style="display:flex;gap:8px;align-items:center;">
-                <input id="cfgSwiftAppKey" required placeholder="SWIFT-GPI-SIG-2026-X89" autocomplete="off" style="flex:1;font-family:monospace;">
+                <input id="cfgSwiftAppKey" required autocomplete="off" style="flex:1;font-family:monospace;">
                 <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
               </div>
               <span class="hint">Kunci enkripsi &amp; tanda tangan digital sertifikat non-repudiation untuk rilis pesan FIN &amp; ISO 20022.</span>
             </label>
             <label class="full">ISO 20022 XML Schema Validation Secret Key
               <div style="display:flex;gap:8px;align-items:center;">
-                <input id="cfgIsoSchemaValidationKey" required placeholder="ISO20022-XML-SEC-v5" autocomplete="off" style="flex:1;font-family:monospace;">
+                <input id="cfgIsoSchemaValidationKey" required autocomplete="off" style="flex:1;font-family:monospace;">
                 <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
               </div>
               <span class="hint">Kunci otentikasi validator parser skema pacs.008 &amp; pacs.009 XML.</span>
             </label>
             <label class="full">Core Banking API Gateway Bearer Token
               <div style="display:flex;gap:8px;align-items:center;">
-                <input id="cfgApiGatewayToken" required placeholder="SWIFT-GW-TOKEN-8831-LIVE" autocomplete="off" style="flex:1;font-family:monospace;">
+                <input id="cfgApiGatewayToken" required autocomplete="off" style="flex:1;font-family:monospace;">
                 <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
               </div>
               <span class="hint">Token otorisasi integrasi API antarmuka Core Banking System dengan jaringan kliring BI-RTGS &amp; SWIFT.</span>
@@ -472,12 +467,12 @@
 
       <div class="modal-grid">
         <label><b>NAMA LENGKAP / DISPLAY NAME</b>
-          <input id="editUserDisplay" required placeholder="e.g. MUHAMMAD IQBAL" autocomplete="off">
+          <input id="editUserDisplay" required autocomplete="off">
           <span style="font-size:11px;color:#666;margin-top:2px;">Nama lengkap operator yang muncul pada header dan audit log.</span>
         </label>
 
         <label><b>USERNAME (ID LOGIN)</b>
-          <input id="editUserUsername" required placeholder="e.g. iqbal" autocomplete="off" style="font-family:monospace;">
+          <input id="editUserUsername" required autocomplete="off" style="font-family:monospace;">
           <span style="font-size:11px;color:#666;margin-top:2px;">Digunakan untuk masuk ke terminal simulator (huruf kecil tanpa spasi).</span>
         </label>
 
@@ -493,13 +488,13 @@
         </label>
 
         <label><b>KODE OPERATOR / ROLE CODE</b>
-          <input id="editUserCode" required placeholder="e.g. OPS-01" autocomplete="off" style="text-transform:uppercase;font-family:monospace;">
+          <input id="editUserCode" required autocomplete="off" style="text-transform:uppercase;font-family:monospace;">
           <span style="font-size:11px;color:#666;margin-top:2px;">Kode identifikasi resmi (e.g. OPS-01, HTR-01, CMP-01, ADM-01, AUD-01).</span>
         </label>
 
         <label class="wide"><b>KATA SANDI (PASSWORD)</b>
           <div style="display:flex;gap:8px;align-items:center;">
-            <input id="editUserPassword" type="password" required value="123456" placeholder="Masukkan kata sandi..." autocomplete="off" style="flex:1;">
+            <input id="editUserPassword" type="password" required value="123456" autocomplete="off" style="flex:1;">
             <button type="button" id="btnTogglePasswordVisibility" class="btn-mini" style="height:54px;padding:0 14px;white-space:nowrap;">LIHAT / SEMBUNYIKAN</button>
           </div>
           <span style="font-size:11px;color:#666;margin-top:2px;">Kata sandi login operator (Default: <code>123456</code>).</span>
@@ -658,21 +653,11 @@
     }
 
     function updateMasterHint() {
-      const cfg = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
-      const u = document.getElementById('hintAdminUser');
-      const k = document.getElementById('hintAdminKey');
-      const p = document.getElementById('hintAdminPwd');
-      if (u) u.textContent = cfg.adminUser || 'superadmin';
-      if (k) k.textContent = cfg.adminKey || 'MASTER-SWIFT-2026';
-      if (p) p.textContent = cfg.adminPassword || 'supersecret';
-
-      // Pre-fill login inputs with configured or default values
+      // Clear sensitive auth inputs upon lock
       const adminUserInput = document.getElementById('adminUser');
       const adminKeyInput = document.getElementById('adminKey');
       const adminPwdInput = document.getElementById('adminPassword');
-      if (adminUserInput && !adminUserInput.value) adminUserInput.value = cfg.adminUser || 'superadmin';
-      if (adminKeyInput && !adminKeyInput.value) adminKeyInput.value = cfg.adminKey || 'MASTER-SWIFT-2026';
-      if (adminPwdInput && !adminPwdInput.value) adminPwdInput.value = cfg.adminPassword || 'supersecret';
+      if (adminPwdInput) adminPwdInput.value = '';
     }
     updateMasterHint();
 
