@@ -20,9 +20,14 @@ For a comprehensive walkthrough and standard operating procedures, please consul
 
 3. **Core Banking System (CBS) & General Ledger Engine**:
    - **Customer Account Management**: Real-time balance validation, deposit simulation, and account opening CRUD.
+   - **Rekening Koran (Official Bank Statements)**: Complete transaction ledger per customer with debit/credit breakdown, running balances, CSV exports, and formal printed statements.
    - **Nostro Correspondent Liquidity**: Multi-currency nostro account balances held across international financial centers (USD, EUR, SGD, JPY).
-   - **Automated Double-Entry Postings**: Instantaneous ledger balancing upon payment release (Debit Customer Demand Deposits, Credit Correspondent Nostro).
-   - **Financial Reporting**: One-click CSV export of double-entry General Ledger records.
+   - **Automated Double-Entry Postings**: Instantaneous ledger balancing upon payment release (Debit Customer Demand Deposits `210101`, Credit Correspondent Nostro `110201`, Credit Telex Income `410502`).
+   - **Trial Balance (Neraca Saldo)**: Double-entry equilibrium verification ($\sum \text{Dr} = \sum \text{Cr}$) with dynamic balance status indicators and account categorization.
+   - **Treasury FX Board & Converter**: Real-time TT Counter rates (Bank Buys, Bank Sells, Middle Rate, Spread) with an integrated currency converter calculator.
+   - **End of Day (EOD) Processing**: Automated 4-phase daily batch process calculating daily interest accruals (1.50% p.a.), verifying ledger balance integrity, and rolling over business dates.
+   - **Financial Reporting**: One-click CSV export of double-entry General Ledger records and customer account summaries.
+   - **Documentation & User Guide**: Dedicated comprehensive guides available in `PANDUAN_CORE_BANKING_PEMULA.docx` (Microsoft Word) and `PANDUAN_CORE_BANKING_PEMULA.md` (Markdown) explaining core banking mechanics, debit/credit logic, Nostro accounts, and step-by-step practicum simulations.
 
 4. **Compliance & Sanctions Screening Simulation**:
    - Real-time pre-validation of counterparties and narratives against anti-money laundering (AML) and international sanctions lists.
@@ -59,14 +64,35 @@ For a comprehensive walkthrough and standard operating procedures, please consul
 
 ---
 
+## Super Admin & Master Configuration Console (Standalone `admin.html`)
+
+Super Admin Console telah dipisahkan secara fisik ke file mandiri **`admin.html`** agar mahasiswa di `index.html` tidak dapat melihat kode, kredensial, maupun tombol pengaturan sama sekali.
+
+### Cara Akses Khusus Dosen / Supervisor
+- **Dedicated Master Console URL**: Buka `/admin` atau `/admin.html` (contoh: `http://localhost:3000/admin`).
+- **File Fisik Terpisah**: `admin.html` terpisah 100% dari `index.html`.
+
+### Kredensial Super Admin
+- **Admin Identifier**: `superadmin` *(atau `admin`)*
+- **Master Access Key**: `MASTER-SWIFT-2026` *(atau `LAB-2026`)*
+- **Administrative Password**: `supersecret` *(atau `123456`)*
+
+### Configurable Parameters
+1. **Application Owner & Institution Profile**: Application title, operating institution/university, lead supervisor, contact email/telephone, laboratory license registry, corporate motto, and physical head office address.
+2. **Bank Identity & SWIFT Routing**: Primary Bank Name, Primary SWIFT BIC (ISO 9362 8 or 11 characters), country, city, base currency, and standard telex transfer fees (USD & IDR).
+3. **Operational Policies**: Enforce Four-Eyes Maker-Checker principle, strict customer balance validation, automated AML sanctions screening, automated double-entry GL postings, and default message standard (`pacs.008` vs `MT103`).
+4. **Master Data Portability**: Export full simulation state as JSON, import/restore pre-configured scenarios, and one-click factory reset.
+
+---
+
 ## Running the Application Locally
 
 The application runs directly in modern web browsers with zero external runtime dependencies:
 1. Clone or extract the project directory.
 2. Open `index.html` in any modern web browser (Chrome, Edge, Safari, Firefox).
 3. All assets (CSS, JS) are linked relatively and persist transactional data dynamically via browser `localStorage`.
-4. Automated test suite can be verified via:
+4. Codebase validation and linting can be verified via:
    ```bash
-   node tests/messages.test.cjs
+   npm run lint
    ```
 

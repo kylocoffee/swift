@@ -11,6 +11,11 @@ const PORT = 3000;
 // Serve static files from root directory
 app.use(express.static(__dirname));
 
+// Dedicated Super Admin Console routes
+app.get(['/admin', '/superadmin', '/admin.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 // Fallback to index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

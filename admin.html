@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Dedicated Super Admin & Master Configuration Console for SWIFT Lab Simulator.">
+  <title>Super Admin Master Console — SWIFT Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='black' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="override.css">
+  <link rel="stylesheet" href="navigation.css">
+  <link rel="stylesheet" href="roles.css">
+  <style>
+    .super-admin-body { background: #f0ede8; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; }
+    .auth-box { max-width: 600px; margin: 60px auto; background: #fff; border: 3px solid #111; padding: 36px 40px; }
+    .auth-box h2 { margin: 0 0 8px; font-size: 24px; letter-spacing: 1px; }
+    .auth-box p.desc { margin: 0 0 24px; font-size: 13px; color: #555; line-height: 1.4; border-bottom: 2px solid #ddd; padding-bottom: 12px; }
+    .auth-fields { display: flex; flex-direction: column; gap: 18px; }
+    .auth-fields label { display: grid; grid-template-columns: 140px 1fr; align-items: center; font-size: 15px; font-weight: bold; }
+    .auth-fields input { height: 44px; border: 2px solid #111; padding: 6px 12px; font-size: 14px; }
+    .cred-hint { background: #f7f7f7; border: 1px solid #ccc; padding: 10px 14px; font-size: 11px; line-height: 1.5; color: #444; }
+    .cred-hint code { background: #eaeaea; padding: 1px 5px; font-weight: bold; }
+    .error-msg { color: #d00; font-size: 13px; font-weight: bold; margin: 0; }
+  </style>
+</head>
+<body class="super-admin-body">
+
+  <!-- Gate: Master Authentication Screen -->
+  <div id="adminAuthScreen" class="auth-box">
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:16px;">
+      <div class="swift-logo logo-small" style="width:72px;height:72px;border-width:3px;">
+        <span style="font-size:18px;border-width:2px;">ROOT</span>
+      </div>
+      <div>
+        <h2 style="margin:0;">SUPER ADMIN CONSOLE</h2>
+        <span style="font-size:12px;color:#555;text-transform:uppercase;letter-spacing:1px;">Laboratory Master Governance</span>
+      </div>
+    </div>
+    <p class="desc">Restricted administrative access. Configure institutional ownership, bank identity, SWIFT BIC routing, operational policies, and laboratory database snapshots.</p>
+    
+    <form id="masterLoginForm" class="auth-fields">
+      <label>Admin ID
+        <input id="adminUser" required value="superadmin" placeholder="superadmin" autocomplete="off">
+      </label>
+      <label>Master Key
+        <input id="adminKey" required value="MASTER-SWIFT-2026" placeholder="MASTER-SWIFT-2026" autocomplete="off">
+      </label>
+      <label>Password
+        <input id="adminPassword" type="password" required value="supersecret" placeholder="••••••••" autocomplete="off">
+      </label>
+
+      <div class="cred-hint">
+        <b>Master Credentials:</b><br>
+        Admin ID: <code>superadmin</code> | Master Key: <code>MASTER-SWIFT-2026</code> | Password: <code>supersecret</code>
+      </div>
+
+      <p id="authError" class="error-msg hidden">Err. Invalid Super Admin credentials or authorization key.</p>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <a href="/" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;font-size:14px;height:42px;min-width:140px;">← RETURN TO APP</a>
+        <button class="pill" type="submit" style="font-size:16px;height:44px;min-width:160px;">AUTHENTICATE</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Main Console: Visible only after authentication -->
+  <div id="adminWorkspace" class="page-shell hidden" style="max-width:1200px;margin:30px auto;">
+    <header class="swift-header">
+      <div class="swift-logo logo-small"><span>ROOT</span></div>
+      <div class="slogan small" id="headerOwner">Super Admin Control Center<br>System Configuration &amp; Bank Identity</div>
+    </header>
+    <div class="header-rule"></div>
+
+    <div class="identity-row">
+      <div><b>SYSTEM STATUS</b><span id="headerStatus">ACTIVE • SWIFT BIC: IDBKIDJA</span></div>
+      <div><b>AUTHENTICATED USER</b><span>SUPER ADMINISTRATOR • MASTER CONTROLLER</span></div>
+    </div>
+
+    <nav class="admin-tabs">
+      <button type="button" class="admin-tab-btn active" data-tab="owner">1. APP OWNER &amp; INSTITUTION</button>
+      <button type="button" class="admin-tab-btn" data-tab="bank">2. BANK &amp; SWIFT NETWORK</button>
+      <button type="button" class="admin-tab-btn" data-tab="features">3. FEATURES &amp; POLICIES</button>
+      <button type="button" class="admin-tab-btn" data-tab="backup">4. BACKUP &amp; RESET</button>
+    </nav>
+
+    <form id="adminConfigForm">
+      <!-- Tab 1: Owner Details -->
+      <div id="tabOwner" class="admin-section">
+        <h3>Application Owner &amp; Institution Profile</h3>
+        <p class="sub">Configure the institutional ownership, laboratory supervisor details, and legal registration display.</p>
+        <div class="admin-grid">
+          <label>Application Display Title
+            <input id="cfgAppName" required placeholder="SWIFT Network &amp; Core Banking Laboratory Simulator">
+            <span class="hint">Title displayed in headers, browser tabs, and official vouchers.</span>
+          </label>
+          <label>App Owner / Organization Name
+            <input id="cfgOwnerName" required placeholder="Bank Praktikum Nusantara">
+            <span class="hint">The legal or academic entity owning and operating this simulator.</span>
+          </label>
+          <label>Lead Contact Person / Supervisor
+            <input id="cfgOwnerContact" required placeholder="Prof. Dr. Hendra Pratama, M.Sc.">
+            <span class="hint">Head of Banking Laboratory / Department Chair.</span>
+          </label>
+          <label>Supervisor Official Title
+            <input id="cfgOwnerTitle" required placeholder="Head of International Banking Laboratory">
+            <span class="hint">Academic or institutional designation.</span>
+          </label>
+          <label>Official Contact Email
+            <input id="cfgOwnerEmail" type="email" required placeholder="lab.banking@nusantara-bank.ac.id">
+            <span class="hint">Primary administrative correspondence address.</span>
+          </label>
+          <label>Official Contact Telephone
+            <input id="cfgOwnerPhone" required placeholder="+62 21 5299-8800">
+            <span class="hint">Direct line to the laboratory control desk.</span>
+          </label>
+          <label class="full">Institution / Faculty / Department Affiliation
+            <input id="cfgOwnerInstitution" required placeholder="Faculty of Economics &amp; Business - Banking &amp; Finance Department">
+            <span class="hint">University department or financial institute administering the lab.</span>
+          </label>
+          <label>Laboratory License / Simulation Registry No.
+            <input id="cfgLicenseNo" required placeholder="OJK-LAB-SIM/2026/099-BPN">
+            <span class="hint">Regulatory or internal course accreditation code.</span>
+          </label>
+          <label>Application Banner Motto
+            <input id="cfgAppMotto" required placeholder="The global provider of Secure final messaging services">
+            <span class="hint">Tagline displayed under the SWIFT header logo.</span>
+          </label>
+          <label class="full">Registered Operational Head Office Address
+            <textarea id="cfgHeadOfficeAddress" rows="2" required placeholder="JL JEND SUDIRMAN KAV 1, JAKARTA 10220&#10;INDONESIA"></textarea>
+            <span class="hint">Physical address printed on official settlement vouchers and payment advice.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Tab 2: Bank Identity & SWIFT Network -->
+      <div id="tabBank" class="admin-section hidden">
+        <h3>Primary Bank Identity &amp; SWIFT Network Routing</h3>
+        <p class="sub">Define the local bank's name, primary Business Identifier Code (ISO 9362), and clearing parameters.</p>
+        <div class="admin-grid">
+          <label>Primary Bank Name
+            <input id="cfgBankName" required placeholder="BANK PRAKTIKUM NUSANTARA">
+            <span class="hint">Name of the host commercial bank simulated in the lab.</span>
+          </label>
+          <label>Primary Bank SWIFT BIC (8 or 11 Chars)
+            <input id="cfgBankBic" maxlength="11" required placeholder="IDBKIDJA" style="text-transform:uppercase;">
+            <span class="hint">ISO 9362 BIC identifier (e.g. IDBKIDJA or IDBKIDJAXXX).</span>
+          </label>
+          <label>Operating Country
+            <input id="cfgBankCountry" required placeholder="INDONESIA">
+            <span class="hint">Country where the primary institution is domiciled.</span>
+          </label>
+          <label>Operating City
+            <input id="cfgBankCity" required placeholder="JAKARTA">
+            <span class="hint">City of primary treasury and settlement operations.</span>
+          </label>
+          <label>Base Operating Currency
+            <select id="cfgBaseCurrency">
+              <option value="USD">USD — US Dollar</option>
+              <option value="IDR">IDR — Indonesian Rupiah</option>
+              <option value="EUR">EUR — Euro</option>
+              <option value="SGD">SGD — Singapore Dollar</option>
+              <option value="JPY">JPY — Japanese Yen</option>
+              <option value="GBP">GBP — British Pound</option>
+            </select>
+            <span class="hint">Primary institutional reporting currency.</span>
+          </label>
+          <label>Standard Telex/SWIFT Fee (USD)
+            <input id="cfgTelexFeeUsd" type="number" step="1" min="0" required placeholder="25">
+            <span class="hint">Commission charged on outward customer transfers in USD.</span>
+          </label>
+          <label>Standard Telex/SWIFT Fee (IDR)
+            <input id="cfgTelexFeeIdr" type="number" step="1000" min="0" required placeholder="50000">
+            <span class="hint">Commission charged on outward domestic RTGS / FX transfers.</span>
+          </label>
+          <label>Settlement &amp; Clearing Network
+            <input id="cfgSettlementNetwork" required placeholder="BI-RTGS &amp; SWIFT GPI">
+            <span class="hint">Primary clearing rails utilized (e.g. BI-RTGS, FEDWIRE, CHIPS, TARGET2).</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Tab 3: System Features & Policies -->
+      <div id="tabFeatures" class="admin-section hidden">
+        <h3>System Governance &amp; Educational Controls</h3>
+        <p class="sub">Enable or enforce core banking compliance policies, maker-checker authorization, and automated validation rules.</p>
+        
+        <div class="policy-toggle-card" id="cardMakerChecker">
+          <div class="policy-info">
+            <b>Four-Eyes Principle (Strict Maker-Checker Enforcement)</b>
+            <span>When enabled, operators cannot authorize instructions they drafted themselves. Releasing a transaction requires logging in as a distinct Checker role.</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgMakerChecker" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="policy-toggle-card" id="cardBalanceCheck">
+          <div class="policy-info">
+            <b>Strict Customer Account Balance Validation</b>
+            <span>When enabled, the Core Banking engine rejects outward customer transfers exceeding the ordering customer's available ledger balance.</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgBalanceCheck" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="policy-toggle-card" id="cardSanctions">
+          <div class="policy-info">
+            <b>Automated AML &amp; Sanctions Screening Simulation</b>
+            <span>When enabled, real-time sanctions screening automatically inspects payment counterparties against international watchlists (OFAC/UN).</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgSanctions" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="policy-toggle-card" id="cardGlPosting">
+          <div class="policy-info">
+            <b>Automated Double-Entry General Ledger (GL) Postings</b>
+            <span>When enabled, releasing a transaction automatically records synchronous double-entry debits (Demand Deposits) and credits (Correspondent Nostro Account) into the Core Banking General Ledger.</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgGlPosting" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="policy-toggle-card" id="cardSplashBypass">
+          <div class="policy-info">
+            <b>Fast Splash Screen / Instant Proceed</b>
+            <span>Allows clicking anywhere on the student splash screen to instantly skip animations and proceed directly to terminal login.</span>
+          </div>
+          <label class="toggle-switch">
+            <input id="cfgSplashBypass" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div style="margin-top:20px;border-top:1px solid #ddd;padding-top:18px;">
+          <div class="admin-grid">
+            <label>Default Payment Message Standard
+              <select id="cfgDefaultMsgType">
+                <option value="pacs.008">ISO 20022 XML (pacs.008 — Customer Credit Transfer)</option>
+                <option value="MT103">SWIFT FIN (MT103 — Single Customer Credit Transfer)</option>
+              </select>
+              <span class="hint">Pre-selected message standard when opening the New Transaction form.</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Master Data Backup, Restore & Reset -->
+      <div id="tabBackup" class="admin-section hidden">
+        <h3>Master Data Backup, Restore &amp; Factory Reset</h3>
+        <p class="sub">Export complete simulator state for archiving, restore saved student practicum sessions, or reset the laboratory.</p>
+        
+        <div class="backup-card">
+          <h4>Export Complete Laboratory State (JSON)</h4>
+          <p>Download a comprehensive JSON snapshot containing all system configuration, BIC directories, customer accounts, Nostro liquidity pools, transactions, and General Ledger journals.</p>
+          <button id="btnExportBackup" class="pill" type="button">DOWNLOAD FULL BACKUP (JSON)</button>
+        </div>
+
+        <div class="backup-card">
+          <h4>Restore / Import Laboratory State (JSON)</h4>
+          <p>Upload a previously exported simulator JSON file to restore the exact environment state. Caution: This replaces current data.</p>
+          <input id="backupFileInput" type="file" accept=".json" style="display:none;">
+          <button id="btnTriggerRestore" class="pill secondary" type="button">SELECT &amp; RESTORE BACKUP FILE</button>
+        </div>
+
+        <div class="backup-card" style="border-color:#b51d1d;background:#fffaf8;">
+          <h4 style="color:#b51d1d;">Reset Simulator to Factory Baseline</h4>
+          <p>Erase all student transactional records, reset account balances, and restore initial educational seeds and default Bank Praktikum Nusantara configuration.</p>
+          <button id="btnFactoryReset" class="pill" type="button" style="border-color:#b51d1d;color:#b51d1d;">RESET TO FACTORY BASELINE</button>
+        </div>
+      </div>
+
+      <div class="admin-actions-bar">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <button id="btnLogoutRoot" class="pill secondary" type="button">LOCK CONSOLE</button>
+          <a href="/" target="_blank" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;">OPEN STUDENT SIMULATOR ↗</a>
+        </div>
+        <button id="btnSaveConfig" class="pill" type="submit">SAVE SYSTEM CONFIGURATION</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="adminToast" class="toast"></div>
+
+  <script>
+    const CFGK = 'swiftLabSysConfig';
+    const TK = 'swiftLabTransactions';
+    const BK = 'swiftLabBics';
+    const CK = 'swiftLabCustomers';
+    const NK = 'swiftLabNostro';
+    const JK = 'swiftLabJournals';
+
+    const defaultSysConfig = {
+      appName: 'SWIFT Network & Core Banking Laboratory Simulator',
+      ownerName: 'Bank Praktikum Nusantara',
+      ownerContact: 'Prof. Dr. Hendra Pratama, M.Sc.',
+      ownerTitle: 'Head of International Banking Laboratory',
+      ownerEmail: 'lab.banking@nusantara-bank.ac.id',
+      ownerPhone: '+62 21 5299-8800',
+      ownerInstitution: 'Faculty of Economics & Business - Banking & Finance Department',
+      licenseNo: 'OJK-LAB-SIM/2026/099-BPN',
+      appMotto: 'The global provider of\nSecure final messaging services',
+      headOfficeAddress: 'JL JEND SUDIRMAN KAV 1, JAKARTA 10220\nINDONESIA',
+      bankName: 'BANK PRAKTIKUM NUSANTARA',
+      bankBic: 'IDBKIDJA',
+      bankCountry: 'INDONESIA',
+      bankCity: 'JAKARTA',
+      baseCurrency: 'USD',
+      telexFeeUsd: 25.00,
+      telexFeeIdr: 50000.00,
+      settlementNetwork: 'BI-RTGS & SWIFT GPI',
+      makerCheckerEnforced: true,
+      balanceCheckStrict: true,
+      autoSanctionsScreen: true,
+      glPostingEnabled: true,
+      splashBypassAllowed: true,
+      defaultMsgType: 'pacs.008'
+    };
+
+    function load(k, d) {
+      try {
+        const raw = localStorage.getItem(k);
+        return raw ? JSON.parse(raw) : structuredClone(d);
+      } catch {
+        return structuredClone(d);
+      }
+    }
+
+    let sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+
+    function toast(msg) {
+      const t = document.getElementById('adminToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    // Login Form Handler
+    const loginForm = document.getElementById('masterLoginForm');
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const u = (document.getElementById('adminUser').value || '').trim().toLowerCase();
+      const k = (document.getElementById('adminKey').value || '').trim().toUpperCase();
+      const p = document.getElementById('adminPassword').value || '';
+
+      const valid = (u === 'superadmin' || u === 'admin') &&
+                    (k === 'MASTER-SWIFT-2026' || k === 'LAB-2026') &&
+                    (p === 'supersecret' || p === '123456');
+
+      const err = document.getElementById('authError');
+      if (valid) {
+        err.classList.add('hidden');
+        document.getElementById('adminAuthScreen').classList.add('hidden');
+        document.getElementById('adminWorkspace').classList.remove('hidden');
+        populateForm();
+        toast('AUTHENTICATION SUCCESSFUL — MASTER CONFIGURATION ACTIVE');
+      } else {
+        err.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btnLogoutRoot').addEventListener('click', () => {
+      document.getElementById('adminWorkspace').classList.add('hidden');
+      document.getElementById('adminAuthScreen').classList.remove('hidden');
+      toast('SUPER ADMIN CONSOLE LOCKED');
+    });
+
+    // Populate configuration fields
+    function populateForm() {
+      sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+      document.getElementById('cfgAppName').value = sysConfig.appName || '';
+      document.getElementById('cfgOwnerName').value = sysConfig.ownerName || '';
+      document.getElementById('cfgOwnerContact').value = sysConfig.ownerContact || '';
+      document.getElementById('cfgOwnerTitle').value = sysConfig.ownerTitle || '';
+      document.getElementById('cfgOwnerEmail').value = sysConfig.ownerEmail || '';
+      document.getElementById('cfgOwnerPhone').value = sysConfig.ownerPhone || '';
+      document.getElementById('cfgOwnerInstitution').value = sysConfig.ownerInstitution || '';
+      document.getElementById('cfgLicenseNo').value = sysConfig.licenseNo || '';
+      document.getElementById('cfgAppMotto').value = sysConfig.appMotto || '';
+      document.getElementById('cfgHeadOfficeAddress').value = sysConfig.headOfficeAddress || '';
+
+      document.getElementById('cfgBankName').value = sysConfig.bankName || '';
+      document.getElementById('cfgBankBic').value = sysConfig.bankBic || '';
+      document.getElementById('cfgBankCountry').value = sysConfig.bankCountry || '';
+      document.getElementById('cfgBankCity').value = sysConfig.bankCity || '';
+      document.getElementById('cfgBaseCurrency').value = sysConfig.baseCurrency || 'USD';
+      document.getElementById('cfgTelexFeeUsd').value = sysConfig.telexFeeUsd ?? 25;
+      document.getElementById('cfgTelexFeeIdr').value = sysConfig.telexFeeIdr ?? 50000;
+      document.getElementById('cfgSettlementNetwork').value = sysConfig.settlementNetwork || 'BI-RTGS & SWIFT GPI';
+
+      document.getElementById('cfgMakerChecker').checked = !!sysConfig.makerCheckerEnforced;
+      document.getElementById('cfgBalanceCheck').checked = !!sysConfig.balanceCheckStrict;
+      document.getElementById('cfgSanctions').checked = !!sysConfig.autoSanctionsScreen;
+      document.getElementById('cfgGlPosting').checked = !!sysConfig.glPostingEnabled;
+      document.getElementById('cfgSplashBypass').checked = !!sysConfig.splashBypassAllowed;
+      document.getElementById('cfgDefaultMsgType').value = sysConfig.defaultMsgType || 'pacs.008';
+
+      document.getElementById('headerStatus').textContent = `ACTIVE • SWIFT BIC: ${sysConfig.bankBic} • ${sysConfig.bankName}`;
+      document.getElementById('headerOwner').innerHTML = `${sysConfig.ownerName} • Super Admin Control Center<br>${sysConfig.appMotto.replace(/\n/g, ' ')}`;
+    }
+
+    // Tabs
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.getElementById('tabOwner').classList.toggle('hidden', tab !== 'owner');
+        document.getElementById('tabBank').classList.toggle('hidden', tab !== 'bank');
+        document.getElementById('tabFeatures').classList.toggle('hidden', tab !== 'features');
+        document.getElementById('tabBackup').classList.toggle('hidden', tab !== 'backup');
+      });
+    });
+
+    // Save
+    document.getElementById('adminConfigForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const rawBic = (document.getElementById('cfgBankBic').value || '').trim().toUpperCase();
+      if (rawBic.length !== 8 && rawBic.length !== 11) {
+        alert('SWIFT BIC validation error: BIC code must be exactly 8 or 11 characters (ISO 9362 standard).');
+        return;
+      }
+      const oldBic = sysConfig.bankBic;
+
+      sysConfig = {
+        appName: document.getElementById('cfgAppName').value.trim(),
+        ownerName: document.getElementById('cfgOwnerName').value.trim(),
+        ownerContact: document.getElementById('cfgOwnerContact').value.trim(),
+        ownerTitle: document.getElementById('cfgOwnerTitle').value.trim(),
+        ownerEmail: document.getElementById('cfgOwnerEmail').value.trim(),
+        ownerPhone: document.getElementById('cfgOwnerPhone').value.trim(),
+        ownerInstitution: document.getElementById('cfgOwnerInstitution').value.trim(),
+        licenseNo: document.getElementById('cfgLicenseNo').value.trim(),
+        appMotto: document.getElementById('cfgAppMotto').value.trim(),
+        headOfficeAddress: document.getElementById('cfgHeadOfficeAddress').value.trim(),
+
+        bankName: document.getElementById('cfgBankName').value.trim().toUpperCase(),
+        bankBic: rawBic,
+        bankCountry: document.getElementById('cfgBankCountry').value.trim().toUpperCase(),
+        bankCity: document.getElementById('cfgBankCity').value.trim().toUpperCase(),
+        baseCurrency: document.getElementById('cfgBaseCurrency').value,
+        telexFeeUsd: Number(document.getElementById('cfgTelexFeeUsd').value) || 25,
+        telexFeeIdr: Number(document.getElementById('cfgTelexFeeIdr').value) || 50000,
+        settlementNetwork: document.getElementById('cfgSettlementNetwork').value.trim(),
+
+        makerCheckerEnforced: document.getElementById('cfgMakerChecker').checked,
+        balanceCheckStrict: document.getElementById('cfgBalanceCheck').checked,
+        autoSanctionsScreen: document.getElementById('cfgSanctions').checked,
+        glPostingEnabled: document.getElementById('cfgGlPosting').checked,
+        splashBypassAllowed: document.getElementById('cfgSplashBypass').checked,
+        defaultMsgType: document.getElementById('cfgDefaultMsgType').value
+      };
+
+      localStorage.setItem(CFGK, JSON.stringify(sysConfig));
+
+      // Update BIC in directory if changed
+      let bics = load(BK, []);
+      let primaryIdx = bics.findIndex(b => b.bic === sysConfig.bankBic);
+      if (primaryIdx >= 0) {
+        bics[primaryIdx].name = sysConfig.bankName;
+        bics[primaryIdx].country = sysConfig.bankCountry;
+        bics[primaryIdx].city = sysConfig.bankCity;
+      } else {
+        bics.unshift({
+          bic: sysConfig.bankBic,
+          name: sysConfig.bankName,
+          country: sysConfig.bankCountry,
+          city: sysConfig.bankCity
+        });
+      }
+      localStorage.setItem(BK, JSON.stringify(bics));
+
+      populateForm();
+      toast('SYSTEM CONFIGURATION SAVED SUCCESSFULLY');
+    });
+
+    // Export Backup
+    document.getElementById('btnExportBackup').addEventListener('click', () => {
+      const data = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        config: sysConfig,
+        bics: load(BK, []),
+        tx: load(TK, []),
+        customers: load(CK, []),
+        nostro: load(NK, []),
+        journals: load(JK, [])
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `swift-simulator-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('SIMULATOR BACKUP JSON DOWNLOADED');
+    });
+
+    // Restore Backup
+    document.getElementById('btnTriggerRestore').addEventListener('click', () => {
+      document.getElementById('backupFileInput').click();
+    });
+
+    document.getElementById('backupFileInput').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (data && data.config) {
+            sysConfig = { ...defaultSysConfig, ...data.config };
+            localStorage.setItem(CFGK, JSON.stringify(sysConfig));
+          }
+          if (Array.isArray(data.bics)) localStorage.setItem(BK, JSON.stringify(data.bics));
+          if (Array.isArray(data.tx)) localStorage.setItem(TK, JSON.stringify(data.tx));
+          if (Array.isArray(data.customers)) localStorage.setItem(CK, JSON.stringify(data.customers));
+          if (Array.isArray(data.nostro)) localStorage.setItem(NK, JSON.stringify(data.nostro));
+          if (Array.isArray(data.journals)) localStorage.setItem(JK, JSON.stringify(data.journals));
+          populateForm();
+          toast('SIMULATOR STATE RESTORED FROM BACKUP FILE');
+        } catch (err) {
+          alert('Failed to parse backup JSON file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // Factory Reset
+    document.getElementById('btnFactoryReset').addEventListener('click', () => {
+      if (!confirm('CONFIRM FACTORY RESET: This will erase all transaction records and reset everything to baseline Bank Praktikum Nusantara. Continue?')) {
+        return;
+      }
+      localStorage.removeItem('swiftLabCoreV4');
+      localStorage.removeItem(CFGK);
+      localStorage.removeItem(TK);
+      localStorage.removeItem(BK);
+      localStorage.removeItem(CK);
+      localStorage.removeItem(NK);
+      localStorage.removeItem(JK);
+      sysConfig = structuredClone(defaultSysConfig);
+      populateForm();
+      toast('FACTORY RESET COMPLETE — RESTORED TO BASELINE');
+    });
+  </script>
+</body>
+</html>

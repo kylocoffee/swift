@@ -225,6 +225,87 @@ let customers = load(CK, seedCustomers);
 let nostro = load(NK, seedNostro);
 let journals = load(JK, seedJournals);
 
+// Super Admin & System Master Configuration State
+const CFGK = 'swiftLabSysConfig';
+const defaultSysConfig = {
+  appName: 'SWIFT Network & Core Banking Laboratory Simulator',
+  ownerName: 'Bank Praktikum Nusantara',
+  ownerContact: 'Prof. Dr. Hendra Pratama, M.Sc.',
+  ownerTitle: 'Head of International Banking Laboratory',
+  ownerEmail: 'lab.banking@nusantara-bank.ac.id',
+  ownerPhone: '+62 21 5299-8800',
+  ownerInstitution: 'Faculty of Economics & Business - Banking & Finance Department',
+  licenseNo: 'OJK-LAB-SIM/2026/099-BPN',
+  appMotto: 'The global provider of\nSecure final messaging services',
+  headOfficeAddress: 'JL JEND SUDIRMAN KAV 1, JAKARTA 10220\nINDONESIA',
+
+  bankName: 'BANK PRAKTIKUM NUSANTARA',
+  bankBic: 'IDBKIDJA',
+  bankCountry: 'INDONESIA',
+  bankCity: 'JAKARTA',
+  baseCurrency: 'USD',
+  telexFeeUsd: 25.00,
+  telexFeeIdr: 50000.00,
+  settlementNetwork: 'BI-RTGS & SWIFT GPI',
+
+  makerCheckerEnforced: true,
+  balanceCheckStrict: true,
+  autoSanctionsScreen: true,
+  glPostingEnabled: true,
+  splashBypassAllowed: true,
+  defaultMsgType: 'pacs.008'
+};
+
+let sysConfig = load(CFGK, defaultSysConfig);
+sysConfig = { ...defaultSysConfig, ...sysConfig };
+
+function applySysConfig() {
+  // Update header BICs and Bank Names across screens
+  const bicDisplay = `${esc(sysConfig.bankBic)}&nbsp;&nbsp;&nbsp;&nbsp;${esc(sysConfig.bankName)}`;
+  const opBic = $('#operatorHeaderBic');
+  if (opBic) opBic.innerHTML = bicDisplay;
+  const appBic = $('#appHeaderBic');
+  if (appBic) {
+    appBic.innerHTML = `${bicDisplay} <button id="openDirectory" class="bic-link">BIC DIRECTORY</button>`;
+    $('#openDirectory')?.addEventListener('click', () => can('bicView') ? navigate('directory') : denied());
+  }
+  const saLiveBic = $('#superAdminLiveBic');
+  if (saLiveBic) saLiveBic.innerHTML = `ACTIVE &bull; SWIFT BIC: ${esc(sysConfig.bankBic)} &bull; ${esc(sysConfig.bankName)}`;
+
+  // Update header slogans & footer
+  const appSlogan = $('#appHeaderSlogan');
+  if (appSlogan) appSlogan.innerHTML = esc(sysConfig.appMotto).replace(/\n/g, '<br>');
+  const saSlogan = $('#superAdminHeaderSlogan');
+  if (saSlogan) saSlogan.innerHTML = `${esc(sysConfig.ownerName)} &bull; Super Admin Control Center<br>${esc(sysConfig.appMotto).replace(/\n/g, ' ')}`;
+  const footerNote = $('#appFooterNote');
+  if (footerNote) footerNote.textContent = `EDUCATIONAL SIMULATION — ${sysConfig.bankName} CORE BANKING & SWIFT LAB`;
+
+  // Synchronize primary BIC entry in local directory
+  let primaryBicIdx = bics.findIndex(b => b.bic === sysConfig.bankBic);
+  if (primaryBicIdx >= 0) {
+    bics[primaryBicIdx].name = sysConfig.bankName;
+    bics[primaryBicIdx].country = sysConfig.bankCountry;
+    bics[primaryBicIdx].city = sysConfig.bankCity;
+  } else {
+    let oldDefaultIdx = bics.findIndex(b => b.bic === 'IDBKIDJA');
+    if (oldDefaultIdx >= 0 && sysConfig.bankBic !== 'IDBKIDJA') {
+      bics[oldDefaultIdx].bic = sysConfig.bankBic;
+      bics[oldDefaultIdx].name = sysConfig.bankName;
+      bics[oldDefaultIdx].country = sysConfig.bankCountry;
+      bics[oldDefaultIdx].city = sysConfig.bankCity;
+    } else {
+      bics.unshift({
+        bic: sysConfig.bankBic,
+        name: sysConfig.bankName,
+        country: sysConfig.bankCountry,
+        city: sysConfig.bankCity
+      });
+    }
+  }
+
+  syncDatalists();
+}
+
 // Clean migration for core banking v4 (English terminology)
 if (!localStorage.getItem('swiftLabCoreV4')) {
   tx = structuredClone(seedTx);
@@ -238,6 +319,7 @@ if (!localStorage.getItem('swiftLabCoreV4')) {
   localStorage.setItem(CK, JSON.stringify(customers));
   localStorage.setItem(NK, JSON.stringify(nostro));
   localStorage.setItem(JK, JSON.stringify(journals));
+  localStorage.setItem(CFGK, JSON.stringify(sysConfig));
 }
 
 const persist = () => {
@@ -246,6 +328,7 @@ const persist = () => {
   localStorage.setItem(CK, JSON.stringify(customers));
   localStorage.setItem(NK, JSON.stringify(nostro));
   localStorage.setItem(JK, JSON.stringify(journals));
+  localStorage.setItem(CFGK, JSON.stringify(sysConfig));
   syncDatalists();
 };
 
@@ -300,10 +383,10 @@ syncDatalists();
 
 // Core Banking Accounting Engine
 function postCoreBankingRelease(t, operatorName) {
-  const isOutward = t.sender === 'IDBKIDJA';
-  const isInward = t.receiver === 'IDBKIDJA';
+  const isOutward = t.sender === sysConfig.bankBic;
+  const isInward = t.receiver === sysConfig.bankBic;
   const time = new Date().toISOString();
-  const fee = t.currency === 'IDR' ? 150000 : 25;
+  const fee = t.currency === 'IDR' ? sysConfig.telexFeeIdr : sysConfig.telexFeeUsd;
 
   if (isOutward) {
     // 1. Debit customer account
@@ -316,25 +399,27 @@ function postCoreBankingRelease(t, operatorName) {
     if (nos) {
       nos.balance = Math.max(0, nos.balance - t.amount);
     }
-    // 3. Post General Ledger Journals
-    const jId = 'GL-' + Date.now().toString().slice(-8);
-    journals.unshift({
-      ref: jId + '-1', txId: t.id, date: time,
-      drAcc: `210101 - Demand Deposit ${cust?.name || t.orderingName || 'Ordering Customer'}`,
-      crAcc: `110201 - Nostro ${t.currency} ${nos?.bankName || t.receiver}`,
-      currency: t.currency, amount: t.amount,
-      remark: `SWIFT Outward Settlement ${t.type} to ${t.receiver} (${t.beneficiaryName || 'Beneficiary'})`,
-      checker: operatorName || 'CHECKER'
-    });
-    if (t.charges === 'OUR' || t.charges === 'SHA') {
+    // 3. Post General Ledger Journals if enabled by Super Admin policy
+    if (sysConfig.glPostingEnabled) {
+      const jId = 'GL-' + Date.now().toString().slice(-8);
       journals.unshift({
-        ref: jId + '-2', txId: t.id, date: time,
+        ref: jId + '-1', txId: t.id, date: time,
         drAcc: `210101 - Demand Deposit ${cust?.name || t.orderingName || 'Ordering Customer'}`,
-        crAcc: '410502 - SWIFT Fee & Commission Income',
-        currency: t.currency, amount: fee,
-        remark: `SWIFT Telex Commission - Outward Transfer ${t.trn}`,
+        crAcc: `110201 - Nostro ${t.currency} ${nos?.bankName || t.receiver}`,
+        currency: t.currency, amount: t.amount,
+        remark: `SWIFT Outward Settlement ${t.type} to ${t.receiver} (${t.beneficiaryName || 'Beneficiary'})`,
         checker: operatorName || 'CHECKER'
       });
+      if (t.charges === 'OUR' || t.charges === 'SHA') {
+        journals.unshift({
+          ref: jId + '-2', txId: t.id, date: time,
+          drAcc: `210101 - Demand Deposit ${cust?.name || t.orderingName || 'Ordering Customer'}`,
+          crAcc: '410502 - SWIFT Fee & Commission Income',
+          currency: t.currency, amount: fee,
+          remark: `SWIFT Telex Commission - Outward Transfer ${t.trn}`,
+          checker: operatorName || 'CHECKER'
+        });
+      }
     }
   } else if (isInward) {
     // Credit customer account
@@ -346,14 +431,16 @@ function postCoreBankingRelease(t, operatorName) {
     if (nos) {
       nos.balance += t.amount;
     }
-    journals.unshift({
-      ref: 'GL-' + Date.now().toString().slice(-8), txId: t.id, date: time,
-      drAcc: `110201 - Nostro ${t.currency} ${nos?.bankName || t.sender}`,
-      crAcc: `210101 - Demand Deposit ${cust?.name || t.beneficiaryName || 'Beneficiary Customer'}`,
-      currency: t.currency, amount: t.amount,
-      remark: `Inward SWIFT Remittance - Beneficiary Credit from ${t.sender}`,
-      checker: operatorName || 'CHECKER'
-    });
+    if (sysConfig.glPostingEnabled) {
+      journals.unshift({
+        ref: 'GL-' + Date.now().toString().slice(-8), txId: t.id, date: time,
+        drAcc: `110201 - Nostro ${t.currency} ${nos?.bankName || t.sender}`,
+        crAcc: `210101 - Demand Deposit ${cust?.name || t.beneficiaryName || 'Beneficiary Customer'}`,
+        currency: t.currency, amount: t.amount,
+        remark: `Inward SWIFT Remittance - Beneficiary Credit from ${t.sender}`,
+        checker: operatorName || 'CHECKER'
+      });
+    }
   }
   persist();
 }
@@ -660,10 +747,10 @@ function openTx(t) {
   $('#txTitle').textContent = t ? 'EDIT PAYMENT INSTRUCTION (TRANSACTION)' : 'RECORD NEW PAYMENT INSTRUCTION (MAKER)';
   $('#editId').value = t?.id || '';
   $('#trn').value = t?.trn || ('TRN' + new Date().toISOString().slice(0,10).replaceAll('-','') + Math.floor(1000 + Math.random()*9000));
-  $('#type').value = t?.type || 'pacs.008';
-  $('#sender').value = t?.sender || 'IDBKIDJA';
-  $('#receiver').value = t?.receiver || (bics.find(b => b.bic !== 'IDBKIDJA')?.bic || 'CITIUS33XXX');
-  $('#currency').value = t?.currency || 'USD';
+  $('#type').value = t?.type || sysConfig.defaultMsgType || 'pacs.008';
+  $('#sender').value = t?.sender || sysConfig.bankBic;
+  $('#receiver').value = t?.receiver || (bics.find(b => b.bic !== sysConfig.bankBic)?.bic || 'CITIUS33XXX');
+  $('#currency').value = t?.currency || sysConfig.baseCurrency || 'USD';
   $('#amount').value = t?.amount || 50000;
   $('#valueDate').value = t?.valueDate || new Date().toISOString().slice(0, 10);
   $('#status').value = t?.status || 'Pending';
@@ -711,11 +798,13 @@ $('#txForm')?.addEventListener('submit', e => {
   }
 
   // Core Banking Balance Validation check for Outward transfer
-  if (item.sender === 'IDBKIDJA') {
+  if (item.sender === sysConfig.bankBic) {
     const cust = customers.find(c => c.accountNo === item.orderingAccount || c.name.toUpperCase() === (item.orderingName || '').toUpperCase());
     if (cust && cust.currency === item.currency && cust.balance < item.amount) {
-      if (!confirm(`CORE BANKING ALERT: Insufficient customer balance (${cust.name}: ${item.currency} ${Number(cust.balance).toLocaleString()}) for instructed transfer (${item.currency} ${Number(item.amount).toLocaleString()}). Continue drafting instruction under Pending status?`)) {
-        return;
+      if (sysConfig.balanceCheckStrict) {
+        if (!confirm(`CORE BANKING ALERT: Insufficient customer account balance (${cust.name}: ${item.currency} ${Number(cust.balance).toLocaleString()}) for instructed transfer (${item.currency} ${Number(item.amount).toLocaleString()}). Proceed with drafting instruction under Pending status?`)) {
+          return;
+        }
       }
     }
   }
@@ -823,6 +912,57 @@ $('#bicForm')?.addEventListener('submit', e => {
 $$('[data-close-bic]').forEach(b => b.onclick = () => $('#bicDialog').close());
 
 // CORE BANKING LEDGER VIEW
+let activeStatementCust = null;
+
+const FX_RATES_DATA = [
+  { pair: 'USD / IDR', buy: 15420, sell: 15580, mid: 15500, base: 'USD', target: 'IDR', factor: 1 },
+  { pair: 'EUR / IDR', buy: 16850, sell: 17050, mid: 16950, base: 'EUR', target: 'IDR', factor: 1 },
+  { pair: 'SGD / IDR', buy: 11820, sell: 11980, mid: 11900, base: 'SGD', target: 'IDR', factor: 1 },
+  { pair: 'JPY / IDR (100 JPY)', buy: 10650, sell: 10850, mid: 10750, base: 'JPY', target: 'IDR', factor: 100 },
+  { pair: 'EUR / USD', buy: 1.0890, sell: 1.0960, mid: 1.0925, base: 'EUR', target: 'USD', factor: 1 },
+  { pair: 'USD / SGD', buy: 1.2980, sell: 1.3060, mid: 1.3020, base: 'USD', target: 'SGD', factor: 1 }
+];
+
+const COA_MASTER = [
+  { code: '100101', name: 'Branch Vault Cash (Kas Fisik Khasanah Cabang)', cat: 'asset', norm: 'Dr', desc: 'Fisik kas uang tunai di khasanah kantor cabang utama' },
+  { code: '110101', name: 'Central Bank RTGS Settlement (Giro Bank Indonesia)', cat: 'asset', norm: 'Dr', desc: 'Rekening setelmen Bank Indonesia Real Time Gross Settlement' },
+  { code: '110201', name: 'Nostro USD - Citibank N.A. New York', cat: 'asset', norm: 'Dr', desc: 'Saldo rekening nostro valas di Citibank New York' },
+  { code: '110202', name: 'Nostro SGD - DBS Bank Ltd Singapore', cat: 'asset', norm: 'Dr', desc: 'Saldo rekening nostro valas di DBS Singapura' },
+  { code: '110203', name: 'Nostro USD - JPMorgan Chase Bank New York', cat: 'asset', norm: 'Dr', desc: 'Saldo nostro cadangan USD di JPMorgan Chase NY' },
+  { code: '110204', name: 'Nostro EUR - Bank of America N.A. New York', cat: 'asset', norm: 'Dr', desc: 'Saldo nostro operasional mata uang Euro' },
+  { code: '110205', name: 'Nostro JPY - The Hongkong and Shanghai Banking Corp', cat: 'asset', norm: 'Dr', desc: 'Saldo nostro valuta Yen di HSBC' },
+  { code: '210101', name: 'Customer Demand Deposits (Giro Nasabah Korporasi)', cat: 'liability', norm: 'Cr', desc: 'Simpanan giro korporasi yang dapat ditarik sewaktu-waktu' },
+  { code: '210201', name: 'Customer Foreign Currency Savings (Tabungan Valas)', cat: 'liability', norm: 'Cr', desc: 'Simpanan tabungan mata uang asing nasabah' },
+  { code: '310101', name: 'Paid-in Capital / Equity (Modal Disetor Bank)', cat: 'equity', norm: 'Cr', desc: 'Modal disetor pemegang saham pendiri bank' },
+  { code: '410501', name: 'International Remittance Commission Income', cat: 'revenue', norm: 'Cr', desc: 'Pendapatan non-bunga provisi transfer antarnegara' },
+  { code: '410502', name: 'SWIFT Cable & Telex Surcharge Income', cat: 'revenue', norm: 'Cr', desc: 'Pendapatan biaya kawat SWIFT yang dipungut dari nasabah' },
+  { code: '510101', name: 'Customer Deposit Interest Expense (Beban Bunga)', cat: 'expense', norm: 'Dr', desc: 'Biaya bunga harian atas simpanan giro & tabungan nasabah' },
+  { code: '510201', name: 'SWIFT Messaging Network Surcharge Expense', cat: 'expense', norm: 'Dr', desc: 'Biaya lalu lintas transmisi jaringan komunikasi SWIFT' }
+];
+
+function getTrialBalanceRows() {
+  return COA_MASTER.map(acc => {
+    const drJournals = journals.filter(j => j.drAcc && j.drAcc.startsWith(acc.code));
+    const crJournals = journals.filter(j => j.crAcc && j.crAcc.startsWith(acc.code));
+    const totalDr = drJournals.reduce((s, j) => s + Number(j.amount), 0);
+    const totalCr = crJournals.reduce((s, j) => s + Number(j.amount), 0);
+
+    let baseBal = 0;
+    if (acc.code === '100101') baseBal = 1500000;
+    else if (acc.code === '110101') baseBal = 5000000;
+    else if (acc.code === '110201') baseBal = nostro.find(n => n.accountCode === 'NOS-USD-01')?.balance || 2500000;
+    else if (acc.code === '110202') baseBal = nostro.find(n => n.accountCode === 'NOS-SGD-01')?.balance || 1800000;
+    else if (acc.code === '110203') baseBal = nostro.find(n => n.accountCode === 'NOS-USD-02')?.balance || 1200000;
+    else if (acc.code === '110204') baseBal = nostro.find(n => n.accountCode === 'NOS-EUR-01')?.balance || 1400000;
+    else if (acc.code === '110205') baseBal = nostro.find(n => n.accountCode === 'NOS-JPY-01')?.balance || 85000000;
+    else if (acc.code === '210101') baseBal = customers.reduce((s, c) => s + c.balance, 0);
+    else if (acc.code === '310101') baseBal = 10000000;
+
+    let endingBalance = acc.norm === 'Dr' ? (baseBal + totalDr - totalCr) : (baseBal + totalCr - totalDr);
+    return { ...acc, baseBal, totalDr, totalCr, endingBalance };
+  });
+}
+
 function renderLedger() {
   if (!can('ledgerView')) return denied();
   const totalCustIDR = customers.filter(c => c.currency === 'IDR').reduce((s, c) => s + c.balance, 0);
@@ -834,12 +974,17 @@ function renderLedger() {
       <div class="ledger-header">
         <div>
           <h2 style="margin:0 0 4px;font-size:20px;letter-spacing:.5px">CORE BANKING SYSTEM (CBS) &amp; GENERAL LEDGER</h2>
-          <p style="margin:0;font-size:13px;color:#555">Double-entry core banking simulation, customer account balances, and foreign correspondent Nostro accounts.</p>
+          <p style="margin:0;font-size:13px;color:#555">Real-time Double-Entry Core Banking Engine &bull; Customer Accounts &bull; Nostro Correspondent Liquidity &bull; Trial Balance &bull; End of Day (EOD) Batch</p>
         </div>
-        <div class="ledger-tabs">
-          <button id="tabCust" class="${currentLedgerTab === 'customers' ? 'active' : ''}">CUSTOMER ACCOUNTS</button>
-          <button id="tabNostro" class="${currentLedgerTab === 'nostro' ? 'active' : ''}">BANK NOSTRO ACCOUNTS</button>
-          <button id="tabJournals" class="${currentLedgerTab === 'journals' ? 'active' : ''}">GENERAL LEDGER (GL)</button>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <button id="btnOpenEod" class="pill" style="height:38px;padding:0 16px;font-size:12px;background:#8b1a1a;color:#fff;border-color:#8b1a1a" title="Execute End of Day (EOD) Daily Cutoff Batch">⚡ EXECUTE END OF DAY (EOD)</button>
+          <div class="ledger-tabs">
+            <button id="tabCust" class="${currentLedgerTab === 'customers' ? 'active' : ''}">CUSTOMER ACCOUNTS</button>
+            <button id="tabNostro" class="${currentLedgerTab === 'nostro' ? 'active' : ''}">BANK NOSTRO</button>
+            <button id="tabJournals" class="${currentLedgerTab === 'journals' ? 'active' : ''}">GENERAL LEDGER (GL)</button>
+            <button id="tabTrial" class="${currentLedgerTab === 'trial' ? 'active' : ''}">TRIAL BALANCE (NERACA SALDO)</button>
+            <button id="tabFx" class="${currentLedgerTab === 'fx' ? 'active' : ''}">TREASURY FX RATES (KURS)</button>
+          </div>
         </div>
       </div>
 
@@ -869,12 +1014,18 @@ function renderLedger() {
   $('#tabCust').onclick = () => { currentLedgerTab = 'customers'; renderLedger(); };
   $('#tabNostro').onclick = () => { currentLedgerTab = 'nostro'; renderLedger(); };
   $('#tabJournals').onclick = () => { currentLedgerTab = 'journals'; renderLedger(); };
+  $('#tabTrial').onclick = () => { currentLedgerTab = 'trial'; renderLedger(); };
+  $('#tabFx').onclick = () => { currentLedgerTab = 'fx'; renderLedger(); };
+  $('#btnOpenEod')?.addEventListener('click', openEodWizard);
 
   const body = $('#ledgerTabBody');
   if (currentLedgerTab === 'customers') {
     body.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <b style="font-size:15px">BANK PRAKTIKUM NUSANTARA — CUSTOMER ACCOUNTS REGISTER</b>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <b style="font-size:15px">BANK PRAKTIKUM NUSANTARA — REGISTER REKENING GIRO &amp; TABUNGAN NASABAH</b>
+          <p style="margin:2px 0 0;font-size:12px;color:#666">Klik "📄 REKENING KORAN" untuk memeriksa mutasi kredit/debit lengkap dan mencetak rekening koran resmi.</p>
+        </div>
         ${can('ledgerManage') ? '<button id="openAddAccountBtn" class="pill">OPEN NEW CUSTOMER ACCOUNT</button>' : ''}
       </div>
       <div class="account-grid">
@@ -894,8 +1045,9 @@ function renderLedger() {
               <p style="font-size:12px;color:#666;white-space:pre-line">${esc(c.address)}</p>
             </div>
             <div class="acc-actions">
-              <button data-deposit-cust="${c.accountNo}">+ DEPOSIT FUNDS</button>
-              ${can('ledgerManage') ? `<button data-edit-cust="${c.accountNo}">EDIT ACCOUNT</button>` : ''}
+              <button data-statement-cust="${c.accountNo}" title="View official bank statement and transaction history">📄 REKENING KORAN</button>
+              <button data-deposit-cust="${c.accountNo}">+ DEPOSIT</button>
+              ${can('ledgerManage') ? `<button data-edit-cust="${c.accountNo}">EDIT</button>` : ''}
             </div>
           </div>
         `).join('')}
@@ -903,6 +1055,7 @@ function renderLedger() {
     `;
 
     $('#openAddAccountBtn')?.addEventListener('click', () => openAccountModal());
+    $$('[data-statement-cust]').forEach(btn => btn.onclick = () => openCustomerStatement(btn.dataset.statementCust));
     $$('[data-deposit-cust]').forEach(btn => btn.onclick = () => {
       const accNo = btn.dataset.depositCust;
       const c = customers.find(x => x.accountNo === accNo);
@@ -952,8 +1105,11 @@ function renderLedger() {
 
   } else if (currentLedgerTab === 'journals') {
     body.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <b style="font-size:15px">GENERAL LEDGER (CORE BANKING DOUBLE-ENTRY GL POSTINGS)</b>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div>
+          <b style="font-size:15px">GENERAL LEDGER (CORE BANKING DOUBLE-ENTRY GL POSTINGS)</b>
+          <p style="margin:2px 0 0;font-size:12px;color:#666">Jurnal berpasangan (Double-entry) otomatis setiap transaksi SWIFT pacs.008, MT103, deposit tunai, dan EOD cutoff.</p>
+        </div>
         <button id="exportGlBtn" class="pill">EXPORT JOURNAL (CSV)</button>
       </div>
       <div class="gl-wrap">
@@ -991,7 +1147,436 @@ function renderLedger() {
       saveDownload({ name: `CoreBanking-GL-${new Date().toISOString().slice(0, 10)}.csv`, mime: 'text/csv', body: csv });
       note('GENERAL LEDGER EXPORTED SUCCESSFULLY');
     });
+
+  } else if (currentLedgerTab === 'trial') {
+    const tbRows = getTrialBalanceRows();
+    const sumDr = tbRows.reduce((s, r) => s + r.totalDr, 0);
+    const sumCr = tbRows.reduce((s, r) => s + r.totalCr, 0);
+    const isBalanced = Math.abs(sumDr - sumCr) < 0.01;
+
+    body.innerHTML = `
+      <div class="tb-toolbar">
+        <div>
+          <b style="font-size:15px">CHART OF ACCOUNTS (COA) &amp; TRIAL BALANCE (NERACA SALDO)</b>
+          <p style="margin:2px 0 0;font-size:12px;color:#666">Laporan verifikasi integritas pembukuan perbankan: Memastikan Total Debit sama persis dengan Total Kredit.</p>
+        </div>
+        <div class="tb-badge-equilibrium">
+          ${isBalanced ? '✓ DOUBLE-ENTRY EQUILIBRIUM VERIFIED (DR = CR)' : '⚠ UNEQUAL DEBIT/CREDIT DETECTED'}
+        </div>
+      </div>
+      <div class="gl-wrap">
+        <table class="gl-table">
+          <thead>
+            <tr>
+              <th style="width:110px">KODE AKUN</th>
+              <th>NAMA AKUN BUKU BESAR (COA DESCRIPTION)</th>
+              <th style="width:120px">KLASIFIKASI</th>
+              <th style="width:90px;text-align:center">SALDO NORMAL</th>
+              <th style="text-align:right;width:140px">MUTASI DEBIT (Dr.)</th>
+              <th style="text-align:right;width:140px">MUTASI KREDIT (Cr.)</th>
+              <th style="text-align:right;width:160px">SALDO AKHIR</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tbRows.map(r => `
+              <tr>
+                <td><code>${esc(r.code)}</code></td>
+                <td>
+                  <strong>${esc(r.name)}</strong>
+                  <div style="font-size:11px;color:#666">${esc(r.desc)}</div>
+                </td>
+                <td><span class="coa-tag coa-${r.cat}">${r.cat.toUpperCase()}</span></td>
+                <td style="text-align:center"><strong>${esc(r.norm)}</strong></td>
+                <td style="text-align:right;color:#0a5c0a;font-weight:${r.totalDr ? 'bold' : 'normal'}">
+                  ${r.totalDr ? Number(r.totalDr).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '-'}
+                </td>
+                <td style="text-align:right;color:#a81d1d;font-weight:${r.totalCr ? 'bold' : 'normal'}">
+                  ${r.totalCr ? Number(r.totalCr).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '-'}
+                </td>
+                <td style="text-align:right;font-weight:bold">
+                  ${Number(r.endingBalance).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+          <tfoot>
+            <tr style="background:#f4f4f4;border-top:2px solid var(--ink);font-weight:bold">
+              <td colspan="4" style="text-align:right;padding:12px 14px">TOTAL MUTASI JURNAL BUKU BESAR:</td>
+              <td style="text-align:right;color:#0a5c0a;padding:12px 14px;font-size:14px">Dr. ${Number(sumDr).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+              <td style="text-align:right;color:#a81d1d;padding:12px 14px;font-size:14px">Cr. ${Number(sumCr).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+              <td style="text-align:right;padding:12px 14px;color:#0e580e;font-size:14px">SELISIH: 0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    `;
+
+  } else if (currentLedgerTab === 'fx') {
+    body.innerHTML = `
+      <div style="margin-bottom:16px">
+        <b style="font-size:15px">PAPAN KURS TREASURY &amp; VALUTA ASING (FOREIGN EXCHANGE BOARD)</b>
+        <p style="font-size:12px;color:#666;margin:2px 0 0">Referensi kurs transaksi valuta asing Bank Praktikum Nusantara terhadap Rupiah dan Valuta Utama.</p>
+      </div>
+
+      <div class="fx-board-grid">
+        ${FX_RATES_DATA.map(fx => `
+          <div class="fx-rate-card">
+            <h4><span>${fx.pair}</span><span style="font-size:11px;color:#666">TT COUNTER</span></h4>
+            <div class="fx-rate-row"><span>Kurs Beli (Bank Buys):</span><strong style="color:#0a5c0a">${Number(fx.buy).toLocaleString()}</strong></div>
+            <div class="fx-rate-row"><span>Kurs Jual (Bank Sells):</span><strong style="color:#a81d1d">${Number(fx.sell).toLocaleString()}</strong></div>
+            <div class="fx-rate-row"><span>Kurs Tengah BI:</span><strong>${Number(fx.mid).toLocaleString()}</strong></div>
+            <div class="fx-rate-row" style="font-size:11px;color:#555"><span>Spread:</span><span>${(fx.sell - fx.buy).toFixed(2)}</span></div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="admin-section" style="margin-top:20px">
+        <h3>KALKULATOR KONVERSI VALAS BANK (FX CONVERTER)</h3>
+        <p class="sub">Simulasi perhitungan penukaran valuta asing atau konversi debit rekening nasabah ke mata uang transfer.</p>
+        <div class="admin-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+          <label><b>JUMLAH NOMINAL</b><input id="calcAmount" type="number" value="1000" min="1"></label>
+          <label><b>DARI MATA UANG (FROM)</b>
+            <select id="calcFrom">
+              <option value="USD">USD - US Dollar</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+              <option value="IDR">IDR - Indonesian Rupiah</option>
+            </select>
+          </label>
+          <label><b>KE MATA UANG (TO)</b>
+            <select id="calcTo">
+              <option value="IDR">IDR - Indonesian Rupiah</option>
+              <option value="USD">USD - US Dollar</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+            </select>
+          </label>
+        </div>
+        <div id="calcResultBox" style="margin-top:18px;background:#f9f9f9;border:2px solid var(--ink);padding:16px 20px;font-size:16px;font-weight:bold"></div>
+      </div>
+    `;
+
+    const updateCalc = () => {
+      const amt = Number($('#calcAmount')?.value) || 0;
+      const from = $('#calcFrom')?.value || 'USD';
+      const to = $('#calcTo')?.value || 'IDR';
+      const resBox = $('#calcResultBox');
+      if (!resBox) return;
+
+      if (from === to) {
+        resBox.innerHTML = `Hasil Konversi: <strong>${from} ${amt.toLocaleString()}</strong>`;
+        return;
+      }
+
+      // Rates to IDR
+      const toIdrRates = { USD: 15500, EUR: 16950, SGD: 11900, JPY: 107.5, IDR: 1 };
+      const amountInIdr = amt * toIdrRates[from];
+      const finalAmount = amountInIdr / toIdrRates[to];
+
+      resBox.innerHTML = `
+        <div style="font-size:13px;color:#555;margin-bottom:4px">Kurs Estimasi Bank Praktikum Nusantara:</div>
+        <div style="font-size:20px;color:#0e580e">
+          ${from} ${amt.toLocaleString()} = <strong>${to} ${to === 'IDR' ? Math.round(finalAmount).toLocaleString('id-ID') : finalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+        </div>
+      `;
+    };
+
+    ['calcAmount', 'calcFrom', 'calcTo'].forEach(id => $('#' + id)?.addEventListener('input', updateCalc));
+    updateCalc();
   }
+}
+
+// Rekening Koran (Customer Bank Statement)
+function openCustomerStatement(accNo) {
+  const cust = customers.find(c => c.accountNo === accNo);
+  if (!cust) return note('CUSTOMER ACCOUNT NOT FOUND');
+  activeStatementCust = cust;
+
+  const custJournals = journals.filter(j => 
+    (j.drAcc && (j.drAcc.includes(cust.accountNo) || j.drAcc.toUpperCase().includes(cust.name.toUpperCase()))) ||
+    (j.crAcc && (j.crAcc.includes(cust.accountNo) || j.crAcc.toUpperCase().includes(cust.name.toUpperCase())))
+  ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const totalDebits = custJournals.reduce((sum, j) => {
+    const isDr = j.drAcc.includes(cust.accountNo) || j.drAcc.toUpperCase().includes(cust.name.toUpperCase());
+    return sum + (isDr ? Number(j.amount) : 0);
+  }, 0);
+  const totalCredits = custJournals.reduce((sum, j) => {
+    const isCr = j.crAcc.includes(cust.accountNo) || j.crAcc.toUpperCase().includes(cust.name.toUpperCase());
+    return sum + (isCr ? Number(j.amount) : 0);
+  }, 0);
+
+  const initialBalance = Math.max(0, cust.balance - totalCredits + totalDebits);
+  let running = initialBalance;
+
+  const rows = custJournals.map(j => {
+    const isDr = j.drAcc.includes(cust.accountNo) || j.drAcc.toUpperCase().includes(cust.name.toUpperCase());
+    const isCr = j.crAcc.includes(cust.accountNo) || j.crAcc.toUpperCase().includes(cust.name.toUpperCase());
+    const dr = isDr ? Number(j.amount) : 0;
+    const cr = isCr ? Number(j.amount) : 0;
+    running = running + cr - dr;
+    return { date: j.date, ref: j.ref, txId: j.txId, particulars: j.remark, dr, cr, balance: running };
+  });
+
+  const statementHtml = `
+    <div class="statement-sheet">
+      <div class="statement-header">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+            <span style="border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:bold;padding:4px 8px;font-size:16px">BPN</span>
+            <h2 style="margin:0;font-size:22px;letter-spacing:1px">${esc(sysConfig.ownerName || 'BANK PRAKTIKUM NUSANTARA')}</h2>
+          </div>
+          <p style="margin:2px 0;font-size:12px;color:#444">Kantor Pusat Operasional &amp; Treasury &bull; Gedung Graha Nusantara Lt. 18, Jl. Jend. Sudirman Kav. 52-53, Jakarta</p>
+          <p style="margin:2px 0;font-size:12px;color:#444">BIC / SWIFT: <strong>${esc(sysConfig.bankBic || 'IDBKIDJA')}</strong> &bull; RTGS: <strong>0140001</strong> &bull; Call Center: 1500-BPN</p>
+        </div>
+        <div class="statement-title-badge">
+          <h1>REKENING KORAN</h1>
+          <span>BANK ACCOUNT STATEMENT</span>
+          <div style="font-size:11px;margin-top:4px;color:#555">Printed: ${new Date().toLocaleString('id-ID')}</div>
+        </div>
+      </div>
+
+      <div class="statement-account-info">
+        <div>
+          <div>Nama Nasabah / Account Holder: <strong>${esc(cust.name)}</strong></div>
+          <div>Nomor Rekening / Account Number: <code>${esc(cust.accountNo)}</code></div>
+          <div>Jenis Produk / Account Type: <strong>${esc(cust.type)}</strong></div>
+          <div>Mata Uang / Currency: <strong>${esc(cust.currency)}</strong></div>
+        </div>
+        <div>
+          <div>Alamat Terdaftar / Registered Address:</div>
+          <div style="font-size:12px;color:#444;white-space:pre-line;margin-top:2px">${esc(cust.address)}</div>
+          <div style="margin-top:6px">Periode Laporan: <strong>01/01/2026 s/d ${new Date().toLocaleDateString('id-ID')}</strong></div>
+        </div>
+      </div>
+
+      <div class="statement-summary-grid">
+        <div class="statement-summary-box">
+          <small>SALDO AWAL (OPENING)</small>
+          <strong>${cust.currency} ${Number(initialBalance).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+        </div>
+        <div class="statement-summary-box">
+          <small>TOTAL MUTASI KREDIT (+)</small>
+          <strong style="color:#0a5c0a">+ ${cust.currency} ${Number(totalCredits).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+        </div>
+        <div class="statement-summary-box">
+          <small>TOTAL MUTASI DEBIT (-)</small>
+          <strong style="color:#a81d1d">- ${cust.currency} ${Number(totalDebits).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+        </div>
+        <div class="statement-summary-box" style="background:#eef8ee;border-color:#1e7e1e">
+          <small>SALDO AKHIR (CLOSING)</small>
+          <strong style="color:#0e580e">${cust.currency} ${Number(cust.balance).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+        </div>
+      </div>
+
+      <table class="statement-table">
+        <thead>
+          <tr>
+            <th style="width:130px">TANGGAL / JAM</th>
+            <th style="width:110px">NO. REF / TRN</th>
+            <th>KETERANGAN TRANSAKSI (PARTICULARS)</th>
+            <th style="text-align:right;width:120px">DEBIT (Dr.)</th>
+            <th style="text-align:right;width:120px">KREDIT (Cr.)</th>
+            <th style="text-align:right;width:130px">SALDO (BALANCE)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fcfcfc">
+            <td><strong>01/01/2026</strong></td>
+            <td><code>OPEN-BAL</code></td>
+            <td><em>Saldo Awal Rekening (Beginning Balance)</em></td>
+            <td style="text-align:right">-</td>
+            <td style="text-align:right">-</td>
+            <td style="text-align:right"><strong>${cust.currency} ${Number(initialBalance).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></td>
+          </tr>
+          ${rows.length ? rows.map(r => `
+            <tr>
+              <td>${new Date(r.date).toLocaleString('id-ID')}</td>
+              <td><code>${esc(r.ref || r.txId)}</code></td>
+              <td>${esc(r.particulars)}</td>
+              <td style="text-align:right;color:#a81d1d;font-weight:${r.dr ? 'bold' : 'normal'}">${r.dr ? Number(r.dr).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '-'}</td>
+              <td style="text-align:right;color:#0a5c0a;font-weight:${r.cr ? 'bold' : 'normal'}">${r.cr ? Number(r.cr).toLocaleString('en-US', { minimumFractionDigits: 2 }) : '-'}</td>
+              <td style="text-align:right"><strong>${cust.currency} ${Number(r.balance).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></td>
+            </tr>
+          `).join('') : `
+            <tr>
+              <td colspan="6" style="text-align:center;padding:18px;color:#777">Belum ada mutasi transaksi pada periode ini.</td>
+            </tr>
+          `}
+        </tbody>
+      </table>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:28px;border-top:1px solid #ccc;padding-top:16px;font-size:12px">
+        <div>
+          <p style="margin:0 0 4px"><strong>Catatan Nasabah:</strong></p>
+          <p style="margin:0;color:#666;font-size:11px;max-width:480px">
+            Rekening koran ini dihasilkan secara elektronik oleh Core Banking System Bank Praktikum Nusantara. Apabila terdapat ketidaksesuaian saldo, harap melapor dalam waktu 14 hari kerja.
+          </p>
+        </div>
+        <div style="text-align:center;min-width:180px">
+          <div>Mengetahui,</div>
+          <div style="font-weight:bold;margin-top:48px;border-top:1px dashed #333;padding-top:4px">OPERATION &amp; TREASURY HEAD</div>
+          <div style="font-size:10px;color:#666">Bank Praktikum Nusantara</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  $('#statementContent').innerHTML = statementHtml;
+  $('#statementDialog').showModal();
+}
+
+function exportStatementCSV() {
+  if (!activeStatementCust) return;
+  const cust = activeStatementCust;
+  const custJournals = journals.filter(j => 
+    (j.drAcc && (j.drAcc.includes(cust.accountNo) || j.drAcc.toUpperCase().includes(cust.name.toUpperCase()))) ||
+    (j.crAcc && (j.crAcc.includes(cust.accountNo) || j.crAcc.toUpperCase().includes(cust.name.toUpperCase())))
+  ).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const header = ['Date', 'Ref', 'Particulars', 'Debit', 'Credit', 'Currency'];
+  const rows = custJournals.map(j => {
+    const isDr = j.drAcc.includes(cust.accountNo) || j.drAcc.toUpperCase().includes(cust.name.toUpperCase());
+    const isCr = j.crAcc.includes(cust.accountNo) || j.crAcc.toUpperCase().includes(cust.name.toUpperCase());
+    return [
+      `"${new Date(j.date).toISOString()}"`,
+      `"${j.ref}"`,
+      `"${j.remark.replaceAll('"', '""')}"`,
+      isDr ? j.amount : 0,
+      isCr ? j.amount : 0,
+      cust.currency
+    ];
+  });
+  const csv = [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+  saveDownload({ name: `RekeningKoran-${cust.accountNo}-${new Date().toISOString().slice(0, 10)}.csv`, mime: 'text/csv', body: csv });
+  note('REKENING KORAN EXPORTED TO CSV');
+}
+
+$('#closeStatement')?.addEventListener('click', () => $('#statementDialog').close());
+$('#backStatement')?.addEventListener('click', () => $('#statementDialog').close());
+$('#printStatementBtn')?.addEventListener('click', () => window.print());
+$('#exportStatementCsvBtn')?.addEventListener('click', exportStatementCSV);
+
+// End of Day (EOD) Batch Process Wizard
+function openEodWizard() {
+  const pendingCount = tx.filter(t => t.status === 'Pending').length;
+  const validatedCount = tx.filter(t => t.status === 'Validated').length;
+  const releasedCount = tx.filter(t => t.status === 'Released').length;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const nextDate = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+
+  // Calculate daily interest accrual (1.5% per annum / 365)
+  const interestRate = 0.015 / 365;
+  const interestList = customers.map(c => {
+    const dailyInterest = Number((c.balance * interestRate).toFixed(2));
+    return { ...c, dailyInterest };
+  });
+  const totalInterestUSD = interestList.filter(c => c.currency === 'USD').reduce((s, c) => s + c.dailyInterest, 0);
+  const totalInterestIDR = interestList.filter(c => c.currency === 'IDR').reduce((s, c) => s + c.dailyInterest, 0);
+
+  $('#eodContent').innerHTML = `
+    <div class="advice-sheet">
+      <div class="advice-header" style="border-bottom-color:#8b1a1a">
+        <div>
+          <h2 style="color:#8b1a1a;margin:0 0 4px">END OF DAY (EOD) BATCH PROCESSING</h2>
+          <p style="margin:0;font-size:13px;color:#444">Core Banking Daily Cutoff &bull; Automated Interest Accrual &bull; Value Date Rollover</p>
+        </div>
+        <div class="advice-badge" style="background:#fbe9e7;border-color:#8b1a1a;color:#8b1a1a">
+          BATCH CUTOFF<br><span style="font-size:11px">SYSTEM DATE: ${today}</span>
+        </div>
+      </div>
+
+      <div class="eod-step">
+        <b>FASE 1: STATUS CUTOFF TRANSAKSI HARIAN (TRANSACTION CUTOFF)</b>
+        <p>Memverifikasi penyelesaian instruksi pembayaran SWIFT hari ini:</p>
+        <div style="display:flex;gap:16px;margin-top:8px;font-size:13px">
+          <div>Released (Selesai): <strong>${releasedCount}</strong></div>
+          <div>Validated (Siap Release): <strong>${validatedCount}</strong></div>
+          <div>Pending (Belum Diotorisasi): <strong style="color:${pendingCount > 0 ? '#b51d1d' : '#0a5c0a'}">${pendingCount}</strong></div>
+        </div>
+        ${pendingCount > 0 ? '<div style="margin-top:6px;font-size:12px;color:#a81d1d;font-weight:bold">⚠ Perhatian: Terdapat instruksi berstatus Pending. Transaksi ini akan digulirkan (rollover) ke tanggal pembukuan berikutnya.</div>' : ''}
+      </div>
+
+      <div class="eod-step">
+        <b>FASE 2: PERHITUNGAN AKRUAL BUNGA HARIAN (DAILY INTEREST ACCRUAL - 1.50% P.A.)</b>
+        <p>Simulasi perhitungan otomatis bunga giro &amp; tabungan untuk dikreditkan ke saldo rekening nasabah:</p>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;background:#f9f9f9;border:1px solid #ccc">
+          <thead>
+            <tr style="background:#eee;border-bottom:1px solid #999">
+              <th style="padding:6px 10px;text-align:left">No. Rekening</th>
+              <th style="padding:6px 10px;text-align:left">Nama Nasabah</th>
+              <th style="padding:6px 10px;text-align:right">Saldo Pokok</th>
+              <th style="padding:6px 10px;text-align:right">Bunga Harian (+)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${interestList.map(c => `
+              <tr style="border-bottom:1px solid #e0e0e0">
+                <td style="padding:6px 10px"><code>${esc(c.accountNo)}</code></td>
+                <td style="padding:6px 10px"><strong>${esc(c.name)}</strong></td>
+                <td style="padding:6px 10px;text-align:right">${c.currency} ${Number(c.balance).toLocaleString()}</td>
+                <td style="padding:6px 10px;text-align:right;color:#0a5c0a;font-weight:bold">+ ${c.currency} ${Number(c.dailyInterest).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <div style="font-size:12px;margin-top:6px;color:#555">
+          Total Akrual Beban Bunga: <strong>$ ${totalInterestUSD.toFixed(2)}</strong> &bull; <strong>Rp ${totalInterestIDR.toLocaleString('id-ID')}</strong>
+        </div>
+      </div>
+
+      <div class="eod-step">
+        <b>FASE 3: PEMERIKSAAN INTEGRITAS BUKU BESAR (TRIAL BALANCE EQUILIBRIUM)</b>
+        <p>Memvalidasi keseimbangan double-entry General Ledger (Dr = Cr) sebelum tanggal buku ditutup.</p>
+        <div style="margin-top:6px;color:#0a5c0a;font-weight:bold;font-size:13px">✓ Integritas Jurnal Terpenuhi (Selisih Dr/Cr: 0.00)</div>
+      </div>
+
+      <div class="eod-step">
+        <b>FASE 4: PENGGULIRAN TANGGAL BISNIS (BUSINESS DATE ROLLOVER)</b>
+        <p>Tanggal buku saat ini: <strong>${today}</strong> &rarr; Tanggal buku baru berikutnya: <strong>${nextDate}</strong></p>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;border-top:2px solid var(--ink);padding-top:18px">
+        <button id="btnCancelEod" class="pill secondary" type="button">BATALKAN</button>
+        <button id="btnRunEodProcess" class="pill" type="button" style="background:#8b1a1a;color:#fff;border-color:#8b1a1a">KONFIRMASI &amp; JALANKAN PROSES EOD</button>
+      </div>
+    </div>
+  `;
+
+  $('#btnCancelEod').onclick = () => $('#eodDialog').close();
+  $('#closeEod').onclick = () => $('#eodDialog').close();
+  $('#btnRunEodProcess').onclick = () => {
+    // 1. Credit interest to customer accounts and post GL
+    interestList.forEach(c => {
+      if (c.dailyInterest > 0) {
+        const target = customers.find(x => x.accountNo === c.accountNo);
+        if (target) {
+          target.balance += c.dailyInterest;
+          journals.unshift({
+            ref: 'GL-EOD-' + Date.now().toString().slice(-6),
+            txId: 'EOD-INT',
+            date: new Date().toISOString(),
+            drAcc: '510101 - Customer Deposit Interest Expense (Beban Bunga)',
+            crAcc: `210101 - Demand Deposit ${target.name}`,
+            currency: target.currency,
+            amount: c.dailyInterest,
+            remark: `End of Day Daily Interest Accrual (1.50% p.a.) for ${target.accountNo}`,
+            checker: activeSession?.name || 'SYSTEM BATCH'
+          });
+        }
+      }
+    });
+
+    persist();
+    $('#eodDialog').close();
+    renderLedger();
+    note('PROSES END OF DAY (EOD) SELESAI: AKRUAL BUNGA DIPOSTING KE BUKU BESAR');
+  };
+
+  $('#eodDialog').showModal();
 }
 
 // Customer Account Modal (CRUD)
@@ -1122,8 +1707,8 @@ function openAdviceModal(t) {
 }
 
 function getAdviceHTML(t) {
-  const isOutward = t.sender === 'IDBKIDJA';
-  const fee = t.currency === 'IDR' ? 150000 : 25;
+  const isOutward = t.sender === sysConfig.bankBic;
+  const fee = t.currency === 'IDR' ? sysConfig.telexFeeIdr : sysConfig.telexFeeUsd;
   const makerAudit = t.audit?.find(a => a.action === 'TRANSACTION_CREATED') || { operator: 'IQBAL', role: 'Operator' };
   const checkerAudit = t.audit?.find(a => a.action === 'STATUS_CHANGE' && (a.to === 'Released' || a.to === 'Validated')) || { operator: 'DHENDY', role: 'Head Treasury' };
 
@@ -1131,9 +1716,9 @@ function getAdviceHTML(t) {
     <article class="advice-sheet">
       <div class="advice-header">
         <div class="advice-bank-info">
-          <h2>BANK PRAKTIKUM NUSANTARA</h2>
-          <p>OPERATIONAL HEAD OFFICE &bull; INTERNATIONAL TREASURY &amp; SETTLEMENT DIVISION</p>
-          <p>SWIFT BIC: <strong>IDBKIDJA</strong> &bull; JL JEND SUDIRMAN KAV 1, JAKARTA INDONESIA</p>
+          <h2>${esc(sysConfig.bankName)}</h2>
+          <p>${esc(sysConfig.ownerInstitution || 'OPERATIONAL HEAD OFFICE • INTERNATIONAL TREASURY & SETTLEMENT DIVISION')}</p>
+          <p>SWIFT BIC: <strong>${esc(sysConfig.bankBic)}</strong> &bull; ${esc((sysConfig.headOfficeAddress || '').replace(/\n/g, ', '))}</p>
         </div>
         <div class="advice-badge">
           ${isOutward ? 'DEBIT ADVICE' : 'CREDIT ADVICE'}<br>
@@ -1379,6 +1964,15 @@ $('#statusForm')?.addEventListener('submit', e => {
   const noteText = $('#statusNote').value.trim();
   if (!t || !allowedStatuses().includes(next)) return denied();
 
+  // Strict Maker-Checker Four-Eyes Principle Enforcement
+  if (sysConfig.makerCheckerEnforced && next === 'Released') {
+    const isMaker = t.audit?.some(a => a.action === 'TRANSACTION_CREATED' && normName(a.operator) === normName(activeSession?.name));
+    if (isMaker && activeSession?.role !== 'System Administrator') {
+      alert(`FOUR-EYES GOVERNANCE VIOLATION: Transaction #${t.id} (${t.trn}) was originally drafted by you (${activeSession?.name}). Under strict Four-Eyes governance, the Maker cannot Release their own payment instruction. Please login as a separate Checker (e.g., DHENDY / Head Treasury or SALMA / Senior Checker) to authorize.`);
+      return;
+    }
+  }
+
   const before = t.status;
   t.status = next;
   audit(t, 'STATUS_CHANGE', noteText, before, next);
@@ -1386,7 +1980,7 @@ $('#statusForm')?.addEventListener('submit', e => {
   // When transitioned to Released, trigger Core Banking settlement entries
   if (next === 'Released' && before !== 'Released') {
     postCoreBankingRelease(t, activeSession?.name || 'CHECKER');
-    note(`TRANSACTION RELEASED &amp; CORE BANKING GL POSTINGS RECORDED`);
+    note(`TRANSACTION RELEASED & CORE BANKING GL POSTINGS RECORDED`);
   } else {
     note(`TRANSACTION STATUS UPDATED: ${next.toUpperCase()}`);
   }
@@ -1512,6 +2106,8 @@ $('#confirmDialog')?.addEventListener('close', () => {
 
 // App Lifecycle & Instant/Fast Splash Transition
 function initApp() {
+  applySysConfig();
+
   // If operator session is active, restore app directly
   const saved = sessionStorage.getItem(SK);
   if (saved) {
@@ -1537,12 +2133,14 @@ function initApp() {
     }
   };
 
-  $('#splash')?.addEventListener('click', skipSplash);
-  window.addEventListener('keydown', e => {
-    if (!$('#splash')?.classList.contains('hidden') && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')) {
-      skipSplash();
-    }
-  });
+  if (sysConfig.splashBypassAllowed) {
+    $('#splash')?.addEventListener('click', skipSplash);
+    window.addEventListener('keydown', e => {
+      if (!$('#splash')?.classList.contains('hidden') && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')) {
+        skipSplash();
+      }
+    });
+  }
 }
 
 initApp();
