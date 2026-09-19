@@ -1,45 +1,72 @@
-# SWIFT Network Lab Simulator
+# SWIFT Network & Core Banking Laboratory Simulator
 
-Perbaikan dialog: inisialisasi selector formulir dan tombol tutup telah diperbaiki. DOWNLOAD memakai satu dialog aktif; X/CANCEL/Escape kembali ke UETR yang sama. X/BACK/Escape pada UETR kembali ke hasil pencarian. Tombol X tetap terlihat saat menggulir pesan panjang. Untuk transaksi pacs, dialog dimulai dengan salinan MT latihan agar data contoh yang belum lengkap tetap dapat diunduh; format asli tetap tersedia di dropdown.
+A high-fidelity corporate banking and SWIFT payment messaging simulator developed for Banking, Finance, and International Trade practicum training. The application simulates the end-to-end lifecycle of cross-border financial transactions, correspondent banking settlement, and double-entry Core Banking System (CBS) accounting.
 
-Regresi browser (`tests/dialogs.browser.cjs` dengan Playwright dan @sparticuz/chromium): login iqbal, empat transaksi, isi file unduhan aktual, satu modal aktif, X/CANCEL/BACK/Escape, dan logout telah lolos pada lebar 1280 px dan 390 px. Versi aset diperbarui agar browser tidak memakai kode dialog lama.
+For a comprehensive walkthrough and standard operating procedures, please consult [**USER_GUIDE.md**](./USER_GUIDE.md).
 
-## Message copy dan perbaikan kelengkapan
+---
 
-Alur: SEARCH → tombol titik tiga → VIEW → DOWNLOAD → MT103 → pilih output.
-TXT kini berisi Message Header (Sender/Receiver beserta nama bank lokal, UETR, reference, local status) dan Message Text berlabel field. HTML menyediakan salinan rapi untuk disimpan/dicetak. PRINT / SAVE PDF memakai dialog cetak browser; pilih Save as PDF. Raw FIN terpisah dari salinan untuk dibaca.
+## Key Capabilities & Banking Architecture
 
-Masuk sebagai `dhendy`, lalu EDIT untuk mengisi reference, nama/rekening/alamat ordering customer dan beneficiary, serta SHA/OUR/BEN. Untuk MT202 isi related reference. Data lama yang belum memiliki identitas nasabah tetap ditandai NOT PROVIDED; identitas tidak dibuat diam-diam. UETR UUID v4 ditambahkan sekali ke data lama tanpa mengganti search reference. UETR tetap sama saat edit dan download, dan dapat dicari.
+1. **Multi-Stage Banking Terminal Authentication**:
+   - **Terminal Access**: Initial authentication screen mimicking institutional financial terminals.
+   - **Hardware Security Token (PKI / USB HSM Simulation)**: Cryptographic device insertion and PIN verification for non-repudiation.
+   - **Role-Based Access Control (RBAC)**: Enforcing the **Four-Eyes Principle (Maker-Checker Oversight)** across banking departments.
 
-Pemeriksaan dasar meliputi BIC, UUID, duplikasi reference/UETR, tanggal kalender, jumlah, karakter dan panjang field, nama/rekening nasabah, serta charges. Salinan draft boleh diunduh dengan penanda masalah; raw FIN dan ekspor XML ditahan saat pemeriksaan gagal. Status Validated/Released juga ditahan sampai data diperbaiki; perubahan status memakai UPDATE STATUS dengan catatan. Tidak ada lagi indikator sanctions/network yang menyatakan lolos tanpa pemeriksaan nyata.
+2. **SWIFT Messaging Engine (Dual Standard)**:
+   - **ISO 20022 XML Messaging**: Modern `pacs.008.001.08` (Customer Credit Transfer) and `pacs.009.001.08` (Financial Institution Transfer).
+   - **SWIFT FIN Legacy Messaging**: Full `MT103` (Single Customer Credit Transfer) and `MT202` (General Financial Institution Transfer) tagged blocks.
+   - **RFC 4122 UUID v4 UETR**: Automatic generation and validation of Unique End-to-End Transaction References.
 
-Audit fitur menemukan dan memperbaiki: error JavaScript saat membuka UETR, data nasabah yang belum dapat diinput, indikator validasi statis, UETR contoh non-UUID, ekspor tanpa header, dan role sesi yang tidak dicocokkan kembali dengan operator. CSV diberi perlindungan awal terhadap formula spreadsheet. Audit ekspor diperbarui saat kembali ke tracking.
+3. **Core Banking System (CBS) & General Ledger Engine**:
+   - **Customer Account Management**: Real-time balance validation, deposit simulation, and account opening CRUD.
+   - **Nostro Correspondent Liquidity**: Multi-currency nostro account balances held across international financial centers (USD, EUR, SGD, JPY).
+   - **Automated Double-Entry Postings**: Instantaneous ledger balancing upon payment release (Debit Customer Demand Deposits, Credit Correspondent Nostro).
+   - **Financial Reporting**: One-click CSV export of double-entry General Ledger records.
 
-Batas lingkup: ini aplikasi praktikum lokal; role/password dan audit tersimpan di browser sehingga bukan keamanan produksi. Belum ada maker-checker lintas pengguna, ledger/nostro, jaringan SWIFT, sanctions screening eksternal, ACK/NAK asli, atau validasi XSD/CBPR+ resmi. Released adalah status lokal, bukan konfirmasi dana diterima. Salinan pesan dan raw FIN adalah bahan latihan. Ekspor pacs tetap template pendidikan, bukan konversi MT/MX tersertifikasi.
+4. **Compliance & Sanctions Screening Simulation**:
+   - Real-time pre-validation of counterparties and narratives against anti-money laundering (AML) and international sanctions lists.
+   - Immutable state transitions from `Pending` &rarr; `Validated` &rarr; `Released` or `Rejected`.
 
-Referensi pembelajaran field: https://www.bnz.co.nz/assets/bnz/business-banking/help-and-support/SWIFT-MT103.pdf (panduan MT103 2021); UETR: https://www.swift.com/payments/what-unique-end-end-transaction-reference-uetr . Tampilan salinan pesan dapat berbeda antarbank.
+5. **Official Banking Documents & Payment Advice**:
+   - Institutional **Payment Advice & Settlement Receipt** vouchers formatted with Bank Praktikum Nusantara headers, breakdown of principal, telex fees, and dual Maker/Checker signature blocks.
+   - Browser-optimized print and PDF rendering.
 
-Pemeriksaan kode: `node tests/messages.test.cjs`. Buka `index.html` dari paket ZIP untuk menjalankan aplikasi lokal. Semua file CSS dan JS harus tetap dalam folder yang sama.
+6. **Technical Message Export**:
+   - Raw FIN text downloads, ISO 20022 XML exports, single-row CSV records, and comprehensive JSON telemetry dumps.
 
-Simulator edukasi front-end untuk praktikum mahasiswa perbankan. Seluruh data disimpan lokal di browser melalui `localStorage`; aplikasi tidak terhubung dengan SWIFT atau sistem perbankan nyata.
+---
 
-Demo access:
+## Demonstration Credentials & Operator Profiles
 
-- Account: `student01`
-- Password: `swiftlab`
-- Key: `LAB-2026`
-- Operator password: `123456`
+### Initial Terminal Access
+- **Account**: `student01`
+- **Password**: `swiftlab`
+- **Access Key**: `LAB-2026`
 
-Operator praktikum dan role:
+### Hardware Security Token PIN
+- **Token PIN**: `123456`
 
-| Operator / Username | Code | Role | Hak utama |
+### Operational Roles (Password for all operators: `123456`)
+
+| Operator / Username | Code | Role | Operational Privileges |
 |---|---|---|---|
-| `iqbal` | `OPS-01` | Operator | Search, view tracking UETR, download pesan latihan |
-| `dhendy` | `HTR-01` | Head Treasury | Create/edit transaksi, update status, export, analysis, print |
-| `salma` | `CMP-01` | Compliance Officer | Review, export, serta Validated/Rejected, analysis, print |
-| `aditya` | `ADM-01` | System Administrator | CRUD BIC, delete transaksi, reset data, analysis, print |
-| `ratna` | `AUD-01` | Auditor | Read-only search, directory, tracking, analysis, print |
+| `iqbal` | `OPS-01` | **Operator (Maker)** | Input/Draft new outward payments, track UETR, print payment advice. |
+| `dhendy` | `HTR-01` | **Head Treasury (Checker)** | Authorize transactions, change status to **Released**, execute Core Banking GL postings, export messages. |
+| `salma` | `CMP-01` | **Compliance Officer** | Review transactions, execute AML/Sanctions screening, elevate status to **Validated** or **Rejected**. |
+| `aditya` | `ADM-01` | **System Administrator** | Full CRUD for BIC directory, delete transaction records, reset simulation data. |
+| `ratna` | `AUD-01` | **Internal Auditor** | Read-only inspection of transactions, UETR audit trails, and General Ledger journals. |
 
-Nama operator menentukan dropdown operator code/role secara otomatis. Username harus sama dengan nama operator dan semua operator memakai password praktikum `123456`.
+---
 
-Fitur: dua tahap login, simulasi USB key, role-based access control, CRUD transaksi sesuai kewenangan, status authorization, audit trail UETR, pencarian kombinasi UETR/tanggal/BIC, 20 data transaksi contoh, pelacakan UETR dinamis dengan message controls, download pesan latihan MT103/MT202/ISO 20022 pacs.008/pacs.009/JSON/CSV, CRUD BIC directory khusus administrator, cetak laporan, analisis ringkas, indikator loading pada seluruh tombol, navigasi Back bertingkat, tabel responsif berbentuk kartu pada layar sempit, dan WebMCP tools jika didukung browser. Antarmuka menggunakan tema monokrom dan tata letak yang mengikuti dokumen referensi SWIFT APP PROJECT.
+## Running the Application Locally
+
+The application runs directly in modern web browsers with zero external runtime dependencies:
+1. Clone or extract the project directory.
+2. Open `index.html` in any modern web browser (Chrome, Edge, Safari, Firefox).
+3. All assets (CSS, JS) are linked relatively and persist transactional data dynamically via browser `localStorage`.
+4. Automated test suite can be verified via:
+   ```bash
+   node tests/messages.test.cjs
+   ```
+

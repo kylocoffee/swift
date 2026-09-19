@@ -7,6 +7,55 @@
 .role-matrix{margin-top:26px;border-top:2px solid #111;padding-top:14px}.role-matrix h3{font-size:14px;letter-spacing:.6px}.role-matrix-grid{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:8px}.role-card{border:1px solid #aaa;padding:10px;font-size:11px;line-height:1.5}.role-card b{display:block;font-size:12px;margin-bottom:5px}.role-card.active{border:2px solid #111;background:#f0f0f0}
 .export-reference{border-bottom:1px solid #aaa;padding-bottom:12px}.export-help{font-size:12px;line-height:1.5;color:#555;margin-top:10px}#exportForm>label{display:flex;flex-direction:column;gap:7px;margin-top:18px}#exportForm select{height:46px;border:2px solid;padding:7px 10px;background:#fff}
 .validation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.validation-item{border:1px solid #aaa;padding:10px;font-size:11px;line-height:1.4}.validation-item b{display:block;font-size:12px;margin-bottom:3px}.validation-item:before{content:'✓';display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#218c1b;color:#fff;font-weight:bold;margin-bottom:7px}.validation-item.warning:before{content:'!';background:#b26c00}.validation-item.failed:before{content:'×';background:#b51d1d}
+
+/* Core Banking Ledger & Advice Styles */
+.ledger-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.ledger-tabs{display:flex;gap:12px;flex-wrap:wrap}
+.ledger-tabs button{height:40px;border:2px solid var(--ink);background:var(--paper);font-weight:bold;font-size:14px;padding:0 20px;cursor:pointer}
+.ledger-tabs button.active{background:var(--ink);color:var(--paper)}
+.ledger-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:28px}
+.stat-box{border:2px solid var(--ink);background:#fff;padding:16px 20px}
+.stat-box small{display:block;font-size:12px;color:#666;font-weight:bold;text-transform:uppercase;margin-bottom:6px}
+.stat-box strong{font-size:22px;color:var(--ink)}
+.account-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.account-card{border:2px solid var(--ink);background:#fff;padding:20px;position:relative;display:flex;flex-direction:column;justify-content:space-between}
+.acc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.acc-num{font-family:monospace;font-size:15px;font-weight:bold;color:#333;background:#eee;padding:3px 8px;border:1px solid #ccc}
+.acc-cur{font-weight:bold;font-size:13px;padding:2px 8px;background:var(--paper);border:1px solid var(--ink)}
+.acc-name{font-size:18px;margin:8px 0 4px;font-weight:bold;color:var(--ink)}
+.acc-type{font-size:13px;color:#666;margin-bottom:14px}
+.acc-bal{margin:12px 0 16px;padding:12px 0;border-top:1px dashed #bbb;border-bottom:1px dashed #bbb}
+.acc-bal small{display:block;font-size:11px;color:#777;text-transform:uppercase}
+.acc-bal b{font-size:24px;color:var(--ink)}
+.acc-actions{display:flex;gap:10px;margin-top:auto}
+.acc-actions button{flex:1;height:36px;border:1px solid var(--ink);background:var(--paper);font-size:13px;font-weight:bold;cursor:pointer}
+.acc-actions button:hover{background:#e2e2e2}
+.gl-wrap{background:#fff;border:2px solid var(--ink);overflow-x:auto}
+.gl-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
+.gl-table th{background:var(--paper);border-bottom:2px solid var(--ink);padding:12px 14px;font-weight:bold}
+.gl-table td{padding:12px 14px;border-bottom:1px solid #ddd;vertical-align:top}
+.gl-table tr:hover td{background:#faf8f5}
+.advice-dialog{width:min(920px,96vw);max-height:94vh}
+.advice-shell{padding:28px 32px}
+.advice-sheet{border:2px solid var(--ink);background:#fff;padding:36px;font-family:Arial,Helvetica,sans-serif}
+.advice-header{display:flex;justify-content:space-between;align-items:center;border-bottom:3px double var(--ink);padding-bottom:16px;margin-bottom:24px}
+.advice-bank-info h2{margin:0 0 4px;font-size:22px;letter-spacing:1px}
+.advice-bank-info p{margin:0;font-size:13px;color:#444}
+.advice-badge{border:2px solid var(--ink);padding:8px 14px;text-align:center;font-weight:bold;font-size:13px;background:var(--paper)}
+.advice-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;font-size:13px;line-height:1.6}
+.advice-box{border:1px solid #999;padding:14px;background:#fafafa}
+.advice-box h4{margin:0 0 8px;font-size:13px;border-bottom:1px solid #ccc;padding-bottom:4px;text-transform:uppercase}
+.advice-box p{margin:4px 0}
+.advice-financials{border:2px solid var(--ink);padding:16px 20px;margin-bottom:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;background:var(--paper)}
+.advice-financials div small{display:block;font-size:11px;color:#555;text-transform:uppercase}
+.advice-financials div strong{font-size:20px}
+.advice-signatures{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:32px;padding-top:20px;border-top:1px solid #999}
+.sig-box{text-align:center;font-size:13px}
+.sig-line{margin-top:65px;border-top:1px dashed #333;padding-top:6px;font-weight:bold}
+.deposit-meta{background:#eee;border:1px solid #ccc;padding:12px;margin:12px 0 16px;font-size:13px;line-height:1.5}
+.deposit-meta b{display:block;font-size:14px;margin-bottom:4px}
+.quick-template-btn{background:transparent;border:1px solid var(--ink);padding:4px 10px;font-size:12px;cursor:pointer;margin-right:6px}
+.quick-template-btn:hover{background:#ddd}
 @media(max-width:900px){
   .results-head,.bic-row.header{display:none!important}.results-box{height:auto;max-height:460px;border:0;background:transparent}.result-row{position:relative!important;display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin:0 0 10px;padding:13px 14px 13px 58px!important;border:1px solid #777;background:#fff;min-height:0}.result-row .more-button{position:absolute;left:10px;top:12px}.result-row span{display:grid!important;grid-template-columns:minmax(105px,32%) 1fr;gap:10px;min-width:0;overflow-wrap:anywhere;font-size:13px}.result-row span:before{content:attr(data-label);font-weight:700;color:#555}
   .bic-table{border:0;background:transparent}.bic-row:not(.header){position:relative;display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin-bottom:10px;padding:13px 14px 13px 58px!important;border:1px solid #777;background:#fff}.bic-row:not(.header) .more-button{position:absolute;left:10px;top:12px}.bic-row:not(.header)>span{display:grid!important;grid-template-columns:minmax(105px,32%) 1fr;gap:10px;font-size:13px;overflow-wrap:anywhere}.bic-row:not(.header)>span:first-of-type:empty{display:none!important}.bic-row:not(.header)>span:nth-last-child(4):before{content:'BIC';font-weight:700;color:#555}.bic-row:not(.header)>span:nth-last-child(3):before{content:'BANK NAME';font-weight:700;color:#555}.bic-row:not(.header)>span:nth-last-child(2):before{content:'COUNTRY';font-weight:700;color:#555}.bic-row:not(.header)>span:nth-last-child(1):before{content:'CITY';font-weight:700;color:#555}

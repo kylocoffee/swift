@@ -1,0 +1,8 @@
+{
+  "name": "SWIFT Network Lab Simulator",
+  "description": "SWIFT banking laboratory simulator for educational use and transaction management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
