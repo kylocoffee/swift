@@ -130,6 +130,55 @@
             <span class="hint">Physical address printed on official settlement vouchers and payment advice.</span>
           </label>
         </div>
+
+        <div style="margin-top:24px;border-top:2px solid var(--ink);padding-top:18px;">
+          <h4 style="margin:0 0 6px;font-size:15px;text-transform:uppercase;">Site HTML Title &amp; Dynamic Favicon Branding</h4>
+          <p class="sub" style="margin-bottom:14px;">Sesuaikan judul halaman browser (tag <code>&lt;title&gt;</code>) serta warna atau logo favicon yang ditampilkan secara dinamis pada tab browser seluruh terminal mahasiswa.</p>
+          
+          <div class="admin-grid">
+            <label class="full">Browser HTML Title (&lt;title&gt; &amp; OpenGraph)
+              <input id="cfgSiteHtmlTitle" required>
+              <span class="hint">Judul yang muncul pada tab browser dan bookmark jendela (Default: <code>SWIFT Network Lab Simulator</code>).</span>
+            </label>
+            
+            <label>Favicon Logo Style / Color Preset
+              <select id="cfgFaviconPreset">
+                <option value="white">White SWIFT Globe (Standard Light / Dark)</option>
+                <option value="black">Black Ink SWIFT Globe</option>
+                <option value="gold">Gold / Treasury SWIFT Globe (#D4AF37)</option>
+                <option value="green">Emerald Green SWIFT Globe (#10B981)</option>
+                <option value="cyan">Cyan SWIFT GPI Digital Globe (#06B6D4)</option>
+                <option value="red">Crimson Alert SWIFT Globe (#EF4444)</option>
+                <option value="custom">Custom SVG Code or Image URL</option>
+              </select>
+              <span class="hint">Pilih variasi warna ikon favicon bola dunia SWIFT atau gunakan custom asset.</span>
+            </label>
+
+            <label id="wrapFaviconCustomUrl" class="full hidden">Custom Favicon URL / SVG Vector Markup
+              <textarea id="cfgFaviconCustomUrl" rows="2" placeholder="https://example.com/logo.png atau &lt;svg ...&gt;&lt;/svg&gt;"></textarea>
+              <span class="hint">Masukkan URL gambar publik (PNG/SVG/ICO), data URI base64, atau markup XML SVG murni.</span>
+            </label>
+          </div>
+
+          <!-- Live Browser Tab Simulation & Favicon Preview -->
+          <div style="margin-top:16px;background:var(--paper);border:1px solid var(--ink);padding:14px;">
+            <b style="font-size:12px;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px;">Live Browser Tab Simulation &amp; Favicon Preview</b>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+              <!-- Dark Tab Preview -->
+              <div style="flex:1;min-width:260px;background:#202124;color:#e8eaed;padding:10px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.3);">
+                <img id="prevFaviconDark" style="width:18px;height:18px;object-fit:contain;" alt="Favicon">
+                <span id="prevTitleDark" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Network Lab Simulator</span>
+                <span style="opacity:0.6;font-size:14px;cursor:default;">&times;</span>
+              </div>
+              <!-- Light Tab Preview -->
+              <div style="flex:1;min-width:260px;background:#e7eaed;color:#202124;padding:10px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+                <img id="prevFaviconLight" style="width:18px;height:18px;object-fit:contain;" alt="Favicon">
+                <span id="prevTitleLight" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Network Lab Simulator</span>
+                <span style="opacity:0.6;font-size:14px;cursor:default;">&times;</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Tab 2: Bank Identity & SWIFT Network -->
@@ -665,8 +714,74 @@
 
       welcomeShowGuidance: true,
       welcomeGuidanceTitle: 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS',
-      welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.'
+      welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
+
+      // Dynamic Site HTML Title & Favicon Configuration
+      siteHtmlTitle: 'SWIFT Network Lab Simulator',
+      faviconPreset: 'white',
+      faviconCustomUrl: ''
     };
+
+    function getFaviconUrl(config) {
+      const preset = config?.faviconPreset || 'white';
+      if (preset === 'custom' && config?.faviconCustomUrl && config.faviconCustomUrl.trim()) {
+        const raw = config.faviconCustomUrl.trim();
+        if (raw.startsWith('<svg')) {
+          return 'data:image/svg+xml,' + encodeURIComponent(raw);
+        }
+        return raw;
+      }
+      const colors = {
+        white: 'white',
+        black: 'black',
+        gold: '%23d4af37',
+        green: '%2310b981',
+        cyan: '%2306b6d4',
+        red: '%23ef4444'
+      };
+      const stroke = colors[preset] || 'white';
+      return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='${stroke}' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='${stroke}' stroke-width='3'/%3E%3C/svg%3E`;
+    }
+
+    function updateDynamicHead(config, isAdmin = false) {
+      const title = config?.siteHtmlTitle || config?.appName || 'SWIFT Network Lab Simulator';
+      document.title = isAdmin ? `Super Admin Master Console — ${title}` : title;
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      
+      const faviconUrl = getFaviconUrl(config);
+      let iconLink = document.querySelector("link[rel*='icon']");
+      if (!iconLink) {
+        iconLink = document.createElement('link');
+        iconLink.rel = 'icon';
+        iconLink.type = 'image/svg+xml';
+        document.head.appendChild(iconLink);
+      }
+      iconLink.href = faviconUrl;
+    }
+
+    function updateFaviconPreview() {
+      const tempConfig = {
+        siteHtmlTitle: document.getElementById('cfgSiteHtmlTitle')?.value?.trim() || 'SWIFT Network Lab Simulator',
+        faviconPreset: document.getElementById('cfgFaviconPreset')?.value || 'white',
+        faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl')?.value || ''
+      };
+      const customWrap = document.getElementById('wrapFaviconCustomUrl');
+      if (customWrap) {
+        customWrap.classList.toggle('hidden', tempConfig.faviconPreset !== 'custom');
+      }
+      const iconUrl = getFaviconUrl(tempConfig);
+      const prevDark = document.getElementById('prevFaviconDark');
+      const prevLight = document.getElementById('prevFaviconLight');
+      const titleDark = document.getElementById('prevTitleDark');
+      const titleLight = document.getElementById('prevTitleLight');
+      if (prevDark) prevDark.src = iconUrl;
+      if (prevLight) prevLight.src = iconUrl;
+      if (titleDark) titleDark.textContent = tempConfig.siteHtmlTitle;
+      if (titleLight) titleLight.textContent = tempConfig.siteHtmlTitle;
+
+      updateDynamicHead(tempConfig, true);
+    }
 
     const defaultProfiles = {
       iqbal: { display: 'IQBAL', username: 'iqbal', password: '123456', roles: [{ code: 'OPS-01', role: 'Operator' }] },
@@ -724,6 +839,7 @@
     }
 
     let sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+    updateDynamicHead(sysConfig, true);
 
     function getStoredUsers() {
       const loaded = load(UK, defaultProfiles);
@@ -808,6 +924,12 @@
       document.getElementById('cfgAppMotto').value = sysConfig.appMotto || '';
       document.getElementById('cfgHeadOfficeAddress').value = sysConfig.headOfficeAddress || '';
 
+      // Dynamic Site HTML Title & Favicon
+      document.getElementById('cfgSiteHtmlTitle').value = sysConfig.siteHtmlTitle || 'SWIFT Network Lab Simulator';
+      document.getElementById('cfgFaviconPreset').value = sysConfig.faviconPreset || 'white';
+      document.getElementById('cfgFaviconCustomUrl').value = sysConfig.faviconCustomUrl || '';
+      updateFaviconPreview();
+
       document.getElementById('cfgBankName').value = sysConfig.bankName || '';
       document.getElementById('cfgBankBic').value = sysConfig.bankBic || '';
       document.getElementById('cfgBankCountry').value = sysConfig.bankCountry || '';
@@ -856,6 +978,12 @@
       document.getElementById('headerOwner').innerHTML = `${sysConfig.ownerName} • Super Admin Control Center<br>${sysConfig.appMotto.replace(/\n/g, ' ')}`;
       updateDbStats();
     }
+
+    // Live Listeners for Favicon & Title Preview
+    ['cfgSiteHtmlTitle', 'cfgFaviconCustomUrl'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', updateFaviconPreview);
+    });
+    document.getElementById('cfgFaviconPreset')?.addEventListener('change', updateFaviconPreview);
 
     // Tabs
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
@@ -954,6 +1082,11 @@
         appMotto: document.getElementById('cfgAppMotto').value.trim(),
         headOfficeAddress: document.getElementById('cfgHeadOfficeAddress').value.trim(),
 
+        // Dynamic Site HTML Title & Favicon Configuration
+        siteHtmlTitle: (document.getElementById('cfgSiteHtmlTitle').value || 'SWIFT Network Lab Simulator').trim(),
+        faviconPreset: document.getElementById('cfgFaviconPreset').value,
+        faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl').value.trim(),
+
         bankName: document.getElementById('cfgBankName').value.trim().toUpperCase(),
         bankBic: rawBic,
         bankCountry: document.getElementById('cfgBankCountry').value.trim().toUpperCase(),
@@ -1000,6 +1133,7 @@
       };
 
       localStorage.setItem(CFGK, JSON.stringify(sysConfig));
+      updateDynamicHead(sysConfig, true);
 
       // Update BIC in directory if changed
       let bics = load(BK, []);

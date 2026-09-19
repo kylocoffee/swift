@@ -297,11 +297,57 @@ const defaultSysConfig = {
 
   welcomeShowGuidance: true,
   welcomeGuidanceTitle: 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS',
-  welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.'
+  welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
+
+  // Dynamic Site HTML Title & Favicon Configuration
+  siteHtmlTitle: 'SWIFT Network Lab Simulator',
+  faviconPreset: 'white',
+  faviconCustomUrl: ''
 };
 
 let sysConfig = load(CFGK, defaultSysConfig);
 sysConfig = { ...defaultSysConfig, ...sysConfig };
+
+function getFaviconUrl(config) {
+  const preset = config?.faviconPreset || 'white';
+  if (preset === 'custom' && config?.faviconCustomUrl && config.faviconCustomUrl.trim()) {
+    const raw = config.faviconCustomUrl.trim();
+    if (raw.startsWith('<svg')) {
+      return 'data:image/svg+xml,' + encodeURIComponent(raw);
+    }
+    return raw;
+  }
+  const colors = {
+    white: 'white',
+    black: 'black',
+    gold: '%23d4af37',
+    green: '%2310b981',
+    cyan: '%2306b6d4',
+    red: '%23ef4444'
+  };
+  const stroke = colors[preset] || 'white';
+  return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='${stroke}' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='${stroke}' stroke-width='3'/%3E%3C/svg%3E`;
+}
+
+function updateDynamicHead(config, isAdmin = false) {
+  const title = config?.siteHtmlTitle || config?.appName || 'SWIFT Network Lab Simulator';
+  document.title = isAdmin ? `Super Admin Master Console — ${title}` : title;
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', title);
+  
+  const faviconUrl = getFaviconUrl(config);
+  let iconLink = document.querySelector("link[rel*='icon']");
+  if (!iconLink) {
+    iconLink = document.createElement('link');
+    iconLink.rel = 'icon';
+    iconLink.type = 'image/svg+xml';
+    document.head.appendChild(iconLink);
+  }
+  iconLink.href = faviconUrl;
+}
+
+// Immediately synchronize head & favicon upon module load
+updateDynamicHead(sysConfig);
 
 function updateFooterInfo() {
   const footerNote = $('#appFooterNote');
@@ -334,6 +380,7 @@ function applySysConfig() {
   if (saSlogan) saSlogan.innerHTML = `${esc(sysConfig.ownerName)} &bull; Super Admin Control Center<br>${esc(sysConfig.appMotto).replace(/\n/g, ' ')}`;
   
   updateFooterInfo();
+  updateDynamicHead(sysConfig);
 
   // Synchronize primary BIC entry in local directory
   let primaryBicIdx = bics.findIndex(b => b.bic === sysConfig.bankBic);
