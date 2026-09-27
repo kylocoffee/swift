@@ -2529,3 +2529,70 @@ updateHeaderTelemetry();
 probeNetworkPing();
 setInterval(probeNetworkPing, 3000);
 
+// Desktop Application & Standalone Launcher Handlers
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+$('#btnOpenDesktopDialog')?.addEventListener('click', () => {
+  $('#desktopAppDialog')?.showModal();
+});
+$('#closeDesktopAppDialog')?.addEventListener('click', () => {
+  $('#desktopAppDialog')?.close();
+});
+$('#btnCloseDesktopModal')?.addEventListener('click', () => {
+  $('#desktopAppDialog')?.close();
+});
+
+$('#btnDlElectronBuilder')?.addEventListener('click', () => {
+  const liveUrl = window.location.origin;
+  const electronScript = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Electron Native .EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING & GPI ENTERPRISE - ELECTRON .EXE COMPILER\r\necho    Builds a Native Windows Desktop .EXE that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nwhere node >nul 2>nul\r\nif %errorlevel% neq 0 (\r\n    echo [ERROR] Node.js is required to compile with Electron.\r\n    echo Please install Node.js from https://nodejs.org\r\n    echo.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/3] Generating local Electron configuration...\r\nif not exist electron ( mkdir electron )\r\ncd electron\r\n\r\n( \r\necho const { app, BrowserWindow, Menu, shell } = require('electron'^);\r\necho const path = require('path'^);\r\necho const LIVE_APP_URL = '${liveUrl}';\r\necho function createWindow(^) {\r\necho   const win = new BrowserWindow({\r\necho     width: 1366, height: 860, minWidth: 1024, minHeight: 700,\r\necho     title: 'SWIFT Core Banking & GPI Enterprise Terminal',\r\necho     backgroundColor: '#f6f4f1',\r\necho     webPreferences: { nodeIntegration: false, contextIsolation: true }\r\necho   }^);\r\necho   win.maximize(^);\r\necho   win.loadURL(LIVE_APP_URL^);\r\necho }\r\necho app.whenReady(^).then(createWindow^);\r\necho app.on('window-all-closed', (^) => { if (process.platform !== 'darwin'^) app.quit(^); }^);\r\n) > main.js\r\n\r\n( \r\necho {\r\necho   "name": "swift-cbs-electron",\r\necho   "version": "1.0.0",\r\necho   "main": "main.js",\r\necho   "scripts": { "start": "electron .", "dist": "electron-builder --win portable --x64" },\r\necho   "devDependencies": { "electron": "^30.0.0", "electron-builder": "^24.13.3" },\r\necho   "build": { "appId": "com.swift.cbs", "productName": "SWIFT Core Banking Terminal", "portable": { "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe" } }\r\necho }\r\n) > package.json\r\n\r\necho [2/3] Installing Electron and Electron-Builder...\r\ncall npm install\r\n\r\necho [3/3] Compiling standalone Windows .EXE...\r\ncall npx electron-builder --win portable --x64\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION FINISHED!\r\necho  Executable file is located at: electron\\dist\\SWIFT_Core_Banking_Terminal_Portable.exe\r\necho =========================================================================\r\npause\r\n`;
+  const blob = new Blob([electronScript], { type: 'application/x-bat' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Build_Electron_Windows_EXE.bat';
+  a.click();
+  URL.revokeObjectURL(url);
+  note('ELECTRON .EXE BUILDER (.BAT) DOWNLOADED');
+});
+
+$('#btnDlBatLauncher')?.addEventListener('click', () => {
+  const liveUrl = window.location.origin;
+  const scriptContent = `@echo off\r\n:: SWIFT Core Banking & GPI Enterprise Terminal - Native Windows Desktop Launcher\r\n:: Always connects to the live cloud system for automatic real-time updates.\r\ntitle SWIFT Core Banking Terminal\r\nset "APP_URL=${liveUrl}"\r\n\r\nstart msedge.exe --app=%APP_URL% --window-size=1280,850 --enable-features=OverlayScrollbar\r\nif %errorlevel% neq 0 (\r\n    start chrome.exe --app=%APP_URL% --window-size=1280,850\r\n)\r\nif %errorlevel% neq 0 (\r\n    start "" "%APP_URL%"\r\n)\r\nexit\r\n`;
+  const blob = new Blob([scriptContent], { type: 'application/x-bat' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'SWIFT_Core_Banking_Terminal.bat';
+  a.click();
+  URL.revokeObjectURL(url);
+  note('DESKTOP LAUNCHER (.BAT) DOWNLOADED');
+});
+
+$('#btnDlExeBuilder')?.addEventListener('click', () => {
+  const liveUrl = window.location.origin;
+  const builderContent = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Native Windows EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING & GPI ENTERPRISE - WINDOWS .EXE COMPILER\r\necho    Compiles a Standalone Native Executable that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nset "TARGET_URL=${liveUrl}"\r\nset "OUT_EXE=SWIFT_Core_Banking_Terminal.exe"\r\nset "CSC_PATH=C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe"\r\n\r\nif not exist "%CSC_PATH%" (\r\n    set "CSC_PATH=C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe"\r\n)\r\n\r\necho [1/3] Generating C# Native Desktop Host Source Code...\r\n(\r\necho using System;\r\necho using System.Diagnostics;\r\necho using System.Drawing;\r\necho using System.Windows.Forms;\r\necho using System.Runtime.InteropServices;\r\necho.\r\necho namespace SwiftCoreBanking {\r\necho     public class Program {\r\necho         [DllImport("user32.dll"^) ]\r\necho         private static extern bool SetProcessDPIAware(^);\r\necho.\r\necho         [STAThread]\r\necho         public static void Main(string[] args^) {\r\necho             try { SetProcessDPIAware(^); } catch { }\r\necho             Application.EnableVisualStyles(^);\r\necho             Application.SetCompatibleTextRenderingDefault(false^);\r\necho.\r\necho             string liveUrl = "%TARGET_URL%";\r\necho             try {\r\necho                 ProcessStartInfo psi = new ProcessStartInfo {\r\necho                     FileName = "msedge.exe",\r\necho                     Arguments = "--app=" + liveUrl + " --window-size=1280,850 --enable-features=OverlayScrollbar",\r\necho                     UseShellExecute = true\r\necho                 };\r\necho                 Process.Start(psi^);\r\necho                 return;\r\necho             } catch { }\r\necho             try {\r\necho                 ProcessStartInfo psi = new ProcessStartInfo {\r\necho                     FileName = "chrome.exe",\r\necho                     Arguments = "--app=" + liveUrl + " --window-size=1280,850",\r\necho                     UseShellExecute = true\r\necho                 };\r\necho                 Process.Start(psi^);\r\necho                 return;\r\necho             } catch { }\r\necho             Process.Start(liveUrl^);\r\necho         }\r\necho     }\r\necho }\r\n) > _SwiftHost.cs\r\n\r\necho [2/3] Compiling standalone executable via Windows .NET Compiler...\r\nif exist "%CSC_PATH%" (\r\n    "%CSC_PATH%" /target:winexe /out:"%OUT_EXE%" /platform:anycpu _SwiftHost.cs\r\n    if exist "%OUT_EXE%" (\r\n        echo [3/3] SUCCESS: %OUT_EXE% has been created successfully!\r\n        del _SwiftHost.cs\r\n        echo.\r\n        echo =========================================================================\r\n        echo  Executable: %OUT_EXE%\r\n        echo  Target URL: %TARGET_URL%\r\n        echo  Status: Standalone Windows .EXE Ready. Always stays updated online!\r\n        echo =========================================================================\r\n        pause\r\n        exit /b 0\r\n    )\r\n)\r\necho [FALLBACK] Creating direct Windows App Launcher...\r\ndel _SwiftHost.cs\r\n(\r\necho @echo off\r\necho start msedge.exe --app=%TARGET_URL% --window-size=1280,850\r\n) > SWIFT_Core_Banking_Terminal.bat\r\necho Created SWIFT_Core_Banking_Terminal.bat as alternative launcher.\r\npause\r\n`;
+  const blob = new Blob([builderContent], { type: 'application/x-bat' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Build_Native_Windows_EXE.bat';
+  a.click();
+  URL.revokeObjectURL(url);
+  note('NATIVE WINDOWS .EXE BUILDER (.BAT) DOWNLOADED');
+});
+
+$('#btnInstallPwa')?.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  } else {
+    alert('PWA Desktop Installation: Silakan klik ikon Install (+) pada bilah alamat browser (Edge/Chrome) atau menu titik tiga browser -> "Install App" / "Pasang Aplikasi" untuk memasang shortcut native ke Windows Desktop.');
+  }
+});
+
+

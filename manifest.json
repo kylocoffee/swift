@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "SWIFT Core Banking & GPI Enterprise Terminal",
+  "short_name": "SWIFT CBS",
+  "description": "Enterprise Core Banking System & SWIFT GPI Settlement Terminal.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#050505",
+  "background_color": "#f6f4f1",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%23050505'/%3E%3Ccircle cx='96' cy='96' r='75' fill='none' stroke='%23ffffff' stroke-width='10'/%3E%3Cpath d='M25 96h142M96 25v142M40 55h112M40 137h112M96 25c38 34 38 108 0 142M96 25c-38 34-38 108 0 142' fill='none' stroke='%23ffffff' stroke-width='8'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23050505'/%3E%3Ccircle cx='256' cy='256' r='200' fill='none' stroke='%23ffffff' stroke-width='24'/%3E%3Cpath d='M60 256h392M256 60v392M100 145h312M100 367h312M256 60c100 90 100 290 0 392M256 60c-100 90-100 290 0 392' fill='none' stroke='%23ffffff' stroke-width='20'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

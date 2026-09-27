@@ -579,7 +579,7 @@ The core banking platform operates on an enterprise-grade, distributed multi-nod
    - Upon authorization by the Head of Treasury (`dhendy`) on Terminal 3, customer accounts, Nostro liquidity pools, and General Ledger accounting journals immediately reflect updated balances across all enterprise workstations.
 3. **Institutional Status Indicators**:
    - The header status monitor displays real-time gateway health:
-     - `🟢 CBS HOST & SWIFT GPI: SYNCHRONIZED`: Workstation is linked to the primary Core Banking Host with zero replication lag.
+     - `🟢 CBS HOST & SWIFT: SYNCHRONIZED`: Workstation is linked to the primary Core Banking Host with zero replication lag.
      - `🟡 CBS HOST REPLICATION: SYNCING...`: Transaction batch or ledger posting is transmitting to the central host.
      - `🔴 HOST GATEWAY: LOCAL BUFFER`: Local Disaster Recovery cache active during temporary gateway disconnection.
 4. **Central Host Management Controls (Master Console Tab 7)**:

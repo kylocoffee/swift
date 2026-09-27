@@ -1,0 +1,45 @@
+================================================================================
+     PANDUAN APLIKASI DESKTOP (.EXE) & AUTO-UPDATE ONLINE
+     SWIFT CORE BANKING & GPI ENTERPRISE TERMINAL
+================================================================================
+
+Aplikasi desktop ini dirancang agar dapat dijalankan secara mandiri pada Windows
+dan SELALU TERHUBUNG LANGSUNG KE CLOUD ONLINE SECARA REAL-TIME.
+Setiap kali ada pembaruan transaksi, data bank, saldo, atau fitur di server,
+aplikasi .EXE ini akan otomatis memperbarui tampilannya tanpa perlu instal ulang.
+
+--------------------------------------------------------------------------------
+CARA 1: Menjalankan Langsung via Desktop Launcher (.BAT)
+--------------------------------------------------------------------------------
+1. Klik ganda pada file `SWIFT_Core_Banking_Terminal.bat`.
+2. Aplikasi akan langsung membuka jendela mandiri (Native App Window)
+   tanpa bilah navigasi/URL browser, persis seperti software desktop native.
+3. Aplikasi selalu terhubung ke server produksi terbaru.
+
+--------------------------------------------------------------------------------
+CARA 2: Menghasilkan File Standalone Asli `.EXE` (1-Klik Compiler)
+--------------------------------------------------------------------------------
+1. Klik ganda pada file `Build_Native_Windows_EXE.bat`.
+2. Script ini akan otomatis menggunakan compiler C# bawaan Windows (csc.exe).
+3. Dalam 2 detik, file `SWIFT_Core_Banking_Terminal.exe` akan terbuat secara otomatis.
+4. Anda dapat memindahkan file `SWIFT_Core_Banking_Terminal.exe` ke Desktop,
+   Flashdisk, atau menyematkannya (*Pin to Taskbar*) pada Windows Anda!
+
+--------------------------------------------------------------------------------
+CARA 3: Pasang via PWA Desktop (Chrome / Microsoft Edge)
+--------------------------------------------------------------------------------
+1. Buka aplikasi di browser (Google Chrome atau Microsoft Edge).
+2. Klik ikon (+) "Install App" pada bilah alamat browser, atau klik
+   menu browser (titik tiga) -> "Install SWIFT Core Banking".
+3. Ikon native akan langsung terpasang di Desktop & Menu Start Windows.
+4. Ketika dibuka, aplikasi berjalan dalam jendela aplikasi terisolasi.
+
+--------------------------------------------------------------------------------
+KEUNGGULAN SISTEM DESKTOP ONLINE AUTO-UPDATE:
+--------------------------------------------------------------------------------
+✓ Auto-Update Real-Time: Perubahan data disinkronkan secara langsung melalui
+  Cloud Firestore & CBS Host Gateway.
+✓ 4-Eyes Principle & Security Token: Hak akses Operator, Treasury, Compliance,
+  dan Administrator tetap terlindungi secara penuh.
+✓ Multi-Komputer & Lab Ready: Dapat dijalankan bersamaan pada ratusan komputer lab.
+================================================================================

@@ -1,0 +1,28 @@
+{
+  "name": "swift-core-banking-desktop",
+  "version": "1.0.0",
+  "description": "SWIFT Core Banking & GPI Enterprise Desktop Terminal (Auto-Updating)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --x64"
+  },
+  "author": "Bank Praktikum Nusantara",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.swift.corebanking",
+    "productName": "SWIFT Core Banking Terminal",
+    "win": {
+      "target": "portable",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "portable": {
+      "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe"
+    }
+  }
+}

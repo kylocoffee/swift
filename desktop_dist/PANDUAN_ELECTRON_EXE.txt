@@ -1,0 +1,38 @@
+================================================================================
+     PANDUAN LENGKAP ELECTRON DESKTOP APP (.EXE) AUTO-UPDATE ONLINE
+     SWIFT CORE BANKING & GPI ENTERPRISE TERMINAL
+================================================================================
+
+Aplikasi ini menggunakan Electron framework untuk menghasilkan aplikasi desktop
+asli (.EXE) pada sistem operasi Windows yang SELALU TERHUBUNG LANGSUNG KE CLOUD.
+
+Keuntungan Menggunakan Electron:
+1. Native Desktop Shell: Berjalan dengan menu native Windows, shortcut keyboard (Ctrl+R, Ctrl+P, F11, dll).
+2. Auto-Update Real-Time: Karena Electron memuat Cloud Host CBS secara live, setiap ada update kode atau data dari server, aplikasi desktop otomatis menampilkan perubahan tersebut detik itu juga!
+3. Sandbox & Security: Akses sistem terisolasi secara aman.
+
+--------------------------------------------------------------------------------
+CARA 1: Menjalankan Electron Langsung (Dev / Test Mode)
+--------------------------------------------------------------------------------
+1. Pastikan komputer terpasang Node.js (https://nodejs.org).
+2. Klik ganda pada file `Run_Electron_App.bat`.
+3. Electron akan otomatis mengunduh dependency dan membuka aplikasi dalam
+   jendela Electron desktop native.
+
+--------------------------------------------------------------------------------
+CARA 2: Meng-compile File Asli `.EXE` (Portable Executable)
+--------------------------------------------------------------------------------
+1. Klik ganda pada file `Build_Electron_EXE.bat`.
+2. Script akan otomatis menjalankan `electron-builder` untuk membuat file:
+   `SWIFT_Core_Banking_Terminal_Portable.exe`
+3. File `.exe` yang dihasilkan siap digunakan langsung di komputer mana saja
+   (tanpa perlu instal Node.js di komputer pengguna akhir) dan selalu
+   terkoneksi online dengan fitur auto-update!
+
+--------------------------------------------------------------------------------
+CARA 3: Alternatif Tanpa Install Node.js (Windows Native EXE / .BAT)
+--------------------------------------------------------------------------------
+Jika komputer lab/pengguna tidak memiliki Node.js:
+- Gunakan `Build_Native_Windows_EXE.bat` (Menggunakan compiler C# bawaan Windows).
+- Atau klik ganda `SWIFT_Core_Banking_Terminal.bat`.
+================================================================================

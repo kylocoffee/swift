@@ -451,7 +451,7 @@ Super Admin memiliki kendali mutlak atas seluruh kunci pengamanan aplikasi:
 - **Replikasi Jaringan Central CBS & SWIFT Host Real-Time**:
   - Seluruh terminal kerja perbankan, teller counter, dan konsol supervisor terhubung langsung secara terpusat ke **Central Core Banking Host**.
   - Setiap instruksi pembayaran pacs.008/MT103 yang divalidasi, mutasi rekening, maupun pengkreditan nostro antar-terminal akan **langsung ter-update secara instan detik itu juga di seluruh workstation jaringan**.
-  - **Indikator Status Gateway**: Tertera pada badge pojok atas antarmuka: `🟢 CBS HOST & SWIFT GPI: SYNCHRONIZED`.
+  - **Indikator Status Gateway**: Tertera pada badge pojok atas antarmuka: `🟢 CBS HOST & SWIFT: SYNCHRONIZED`.
   - **Replikasi Data ke Host Central (REPLIKASI DATA LOKAL KE HOST CENTRAL ↗)**: Memaksa pengiriman seluruh data buku besar dan mutasi lokal ke server host utama.
   - **Sinkronisasi dari Host (SINKRONISASI DATA TERBARU DARI HOST ↙)**: Menyelaraskan dan menarik data transaksi mutasi terbaru dari server host utama.
 - **Unduh Backup JSON (DOWNLOAD FULL BACKUP)**: Mengunduh snapshot lengkap seluruh basis data (konfigurasi lab, direktori BIC, saldo nasabah, saldo nostro, mutasi transaksi, akun user, dan buku besar). Sangat berguna bagi dosen untuk mengarsipkan tugas kelas atau membuat paket soal studi kasus.

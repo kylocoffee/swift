@@ -264,19 +264,34 @@ const doc = new Document({
 
         // BAB 8
         createHeading1('8. AKSES PORTAL SUPER ADMIN (DOSEN / INSTRUKTUR)'),
-        createParagraph('Pengaturan laboratorium bank ditempatkan pada halaman mandiri admin.html untuk menjaga keamanan dan integritas praktikum mahasiswa:'),
+        createParagraph('Pengaturan laboratorium bank ditempatkan pada halaman mandiri admin.html untuk menjaga keamanan dan integritas praktikum:'),
         createBullet('URL Portal Super Admin: Buka /admin.html (atau /admin) pada peramban web.'),
         createBullet('Identifier Super Admin: superadmin (atau admin)'),
         createBullet('Master Key: MASTER-SWIFT-2026 (input tersensor / password-masked)'),
         createBullet('Master Password: supersecret (atau 123456, input tersensor)'),
         createParagraph('Portal Super Admin menyediakan 7 Tab Konfigurasi Lengkap:'),
-        createBullet('Tab 1 - Profil Lembaga & Branding Visual: Konfigurasi nama kampus, alamat, lisensi OJK, Judul HTML Tab Browser dinamis (Hak Eksklusif Superadmin), serta pemilihan tema Favicon Logo Dinamis (Putih Standar, Hitam Tinta, Emas Treasury, Hijau Emerald, Cyan GPI, Merah Crimson, atau Custom SVG/URL) dengan pratinjau tab browser langsung.'),
-        createBullet('Tab 2 - Identitas Bank & Routing SWIFT: Mengatur Nama Bank Simulasi, SWIFT BIC (ISO 9362), mata uang dasar (USD, IDR, EUR, SGD, JPY), serta biaya telex jaringan.'),
+        createBullet('Tab 1 - Profil Lembaga & Branding Visual: Konfigurasi nama institusi, alamat, lisensi OJK, Judul HTML Tab Browser dinamis, serta pemilihan tema Favicon Logo Dinamis.'),
+        createBullet('Tab 2 - Identitas Bank & Routing SWIFT: Mengatur Nama Bank, SWIFT BIC (ISO 9362), mata uang dasar, serta biaya telex jaringan.'),
         createBullet('Tab 3 - Kebijakan Operasional: Mengaktifkan Four-Eyes Principle, validasi saldo ketat, skrining AML sanksi, dan jurnal otomatis buku besar GL.'),
-        createBullet('Tab 4 - Petunjuk & Matriks Akses Dinamis: Menyesuaikan tampilan Box Petunjuk Operasional (Four-Eyes Principle) dan Matriks 5 Peran (Maker, Checker, Compliance, Admin, Auditor) pada layar sambutan mahasiswa.'),
-        createBullet('Tab 5 - Manajemen User Mahasiswa: CRUD akun operator, edit password, pencarian & filter, serta penugasan multi-peran (Maker, Checker, Compliance, Admin, Auditor).'),
-        createBullet('Tab 6 - Keamanan & Kunci Kriptografi: Mengubah kredensial login admin/mahasiswa, PIN token USB, serta generator kunci digital signature SWIFT GPI dan ISO 20022.'),
-        createBullet('Tab 7 - Replikasi CBS Host Real-Time & Reset Sistem: Replikasi transaksi real-time antar workstation/terminal dengan Central Core Banking Host terpusat (badge: CBS HOST & SWIFT GPI: SYNCHRONIZED), tombol Replikasi & Sinkronisasi Host, ekspor/impor snapshot database, reload 1.100+ bank riil global & 1.050 transaksi, serta reset pabrik ke baseline awal.')
+        createBullet('Tab 4 - Petunjuk & Matriks Akses Dinamis: Menyesuaikan tampilan Box Petunjuk Operasional dan Matriks 5 Peran (Maker, Checker, Compliance, Admin, Auditor).'),
+        createBullet('Tab 5 - Manajemen User: CRUD akun operator, edit password, pencarian & filter, serta penugasan multi-peran.'),
+        createBullet('Tab 6 - Keamanan & Kunci Kriptografi: Mengubah kredensial login, PIN token USB, serta generator kunci digital signature SWIFT GPI dan ISO 20022.'),
+        createBullet('Tab 7 - Replikasi CBS Host, Desktop .EXE Launcher & Reset: Replikasi transaksi real-time antar terminal, pengunduhan aplikasi desktop .EXE auto-update online, ekspor/impor snapshot database, reload master database >1.200 transaksi 2026 & 1.100+ bank riil global, serta reset ke baseline awal.'),
+
+        // BAB 9
+        createHeading1('9. METODE ONLINE HOSTED DESKTOP (.EXE) & AUTO-UPDATE OTOMATIS'),
+        createParagraph('Metode Online Hosted Desktop adalah arsitektur paling efisien dan praktis dalam distribusi aplikasi simulasi perbankan:'),
+        createBullet('Prinsip Distribusi 1 Kali Saja: Administrator/Instruktur cukup membagikan file SWIFT_Core_Banking_Terminal.exe satu kali saja kepada seluruh mahasiswa atau staf operator (misal via Google Drive, Flashdisk, atau WhatsApp).'),
+        createBullet('Pembaruan Otomatis (Live Real-Time Auto-Update): Setiap kali ada penambahan fitur, transaksi baru, atau perubahan konfigurasi di server cloud, seluruh pengguna yang membuka file .exe mereka akan langsung mendapatkan versi terbaru secara otomatis tanpa perlu mengunduh atau menginstal ulang file .exe.'),
+        createBullet('Pengalaman Desktop Mandiri (Native Window): Aplikasi berjalan dalam jendela terisolasi tanpa gangguan bilah URL peramban, tab, atau toolbar browser.'),
+        createParagraph('Langkah-Langkah Pembuatan & Penggunaan (Untuk Dosen / Administrator):'),
+        createBullet('Langkah 1 (Compile File .EXE): Buka folder desktop_dist/ lalu klik ganda Build_Electron_EXE.bat (atau Build_Native_Windows_EXE.bat). Sistem akan otomatis menghasilkan file executable mandiri SWIFT_Core_Banking_Terminal.exe.'),
+        createBullet('Langkah 2 (Bagikan ke Pengguna): Unggah file .exe tersebut ke Google Drive atau bagikan melalui jaringan lab komputer/flashdisk.'),
+        createParagraph('Panduan Bagi Pengguna Akhir (Mahasiswa / Operator):'),
+        createBullet('1. Simpan file SWIFT_Core_Banking_Terminal.exe di Desktop komputer Anda.'),
+        createBullet('2. Klik ganda untuk membuka aplikasi. Terminal akan langsung terkoneksi ke Central CBS Host Cloud.'),
+        createBullet('3. Gunakan shortcut keyboard: Ctrl+R (Muat Ulang / Sinkronisasi), Ctrl+P (Cetak Voucher/Advice), F11 (Layar Penuh).'),
+        createBullet('4. Menerima Update: Jika ada update di server, cukup buka aplikasi seperti biasa atau tekan Ctrl+R. Sistem langsung otomatis terupdate detik itu juga!')
       ]
     }
   ]
