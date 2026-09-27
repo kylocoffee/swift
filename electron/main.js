@@ -1,9 +1,19 @@
 const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 // Live Production Cloud URL (Auto-Updates in real-time)
 const LIVE_APP_URL = 'https://ais-pre-cziemyevayr6fdj57tk5yg-387963826963.asia-southeast1.run.app';
 const ADMIN_URL = 'https://ais-pre-cziemyevayr6fdj57tk5yg-387963826963.asia-southeast1.run.app/admin.html';
+
+// Resolve custom icon if provided (.ico or .png)
+function getAppIcon() {
+  const icoCandidate = path.join(__dirname, 'icon.ico');
+  const pngCandidate = path.join(__dirname, 'icon.png');
+  if (fs.existsSync(icoCandidate)) return icoCandidate;
+  if (fs.existsSync(pngCandidate)) return pngCandidate;
+  return undefined;
+}
 
 let mainWindow = null;
 
@@ -13,8 +23,8 @@ function createMainWindow() {
     height: 860,
     minWidth: 1024,
     minHeight: 700,
-    title: 'SWIFT Core Banking & GPI Enterprise Terminal',
-    icon: path.join(__dirname, 'icon.png'),
+    title: 'SWIFT Core Banking Terminal',
+    icon: getAppIcon(),
     backgroundColor: '#f6f4f1',
     webPreferences: {
       nodeIntegration: false,
@@ -46,9 +56,9 @@ function createMainWindow() {
         </head>
         <body>
           <div class="card">
-            <h2>Gagal Menghubungkan ke CBS Host Online</h2>
-            <p>Aplikasi tidak dapat terhubung ke server cloud SWIFT (${errorDescription}). Pastikan koneksi internet Anda aktif untuk memuat sistem dan pembaruan otomatis terbaru.</p>
-            <button onclick="window.location.href='${LIVE_APP_URL}'">COBA HUBUNGKAN LAGI (RELOAD)</button>
+            <h2>Connection Error to CBS Host</h2>
+            <p>The terminal cannot connect to the SWIFT Host (${errorDescription}). Please check your network connection and reload.</p>
+            <button onclick="window.location.href='${LIVE_APP_URL}'">RETRY CONNECTION</button>
           </div>
         </body>
       </html>
@@ -58,27 +68,27 @@ function createMainWindow() {
   // Native Application Menu
   const template = [
     {
-      label: 'Sistem CBS',
+      label: 'System CBS',
       submenu: [
         {
-          label: 'Muat Ulang / Auto-Sync (Ctrl+R)',
+          label: 'Reload / Auto-Sync (Ctrl+R)',
           accelerator: 'CmdOrCtrl+R',
           click: () => mainWindow.loadURL(LIVE_APP_URL)
         },
         {
-          label: 'Buka Portal Super Admin',
+          label: 'Open Super Admin Console',
           accelerator: 'CmdOrCtrl+Shift+A',
           click: () => mainWindow.loadURL(ADMIN_URL)
         },
         { type: 'separator' },
         {
-          label: 'Cetak Dokumen / Voucher (Ctrl+P)',
+          label: 'Print Document / Voucher (Ctrl+P)',
           accelerator: 'CmdOrCtrl+P',
           click: () => mainWindow.webContents.print()
         },
         { type: 'separator' },
         {
-          label: 'Keluar',
+          label: 'Exit',
           accelerator: 'Alt+F4',
           click: () => app.quit()
         }
@@ -97,7 +107,7 @@ function createMainWindow() {
       ]
     },
     {
-      label: 'Tampilan',
+      label: 'View',
       submenu: [
         { label: 'Zoom In', role: 'zoomIn' },
         { label: 'Zoom Out', role: 'zoomOut' },
@@ -105,28 +115,28 @@ function createMainWindow() {
         { type: 'separator' },
         { label: 'Toggle Fullscreen', role: 'togglefullscreen' },
         {
-          label: 'Developer Tools (Debug)',
+          label: 'Developer Tools',
           accelerator: 'F12',
           click: () => mainWindow.webContents.toggleDevTools()
         }
       ]
     },
     {
-      label: 'Bantuan',
+      label: 'Help',
       submenu: [
         {
-          label: 'Buka di Browser Eksternal',
+          label: 'Open in External Browser',
           click: () => shell.openExternal(LIVE_APP_URL)
         },
         {
-          label: 'Tentang SWIFT Core Banking Terminal',
+          label: 'About SWIFT Core Banking Terminal',
           click: () => {
             const { dialog } = require('electron');
             dialog.showMessageBox(mainWindow, {
               type: 'info',
-              title: 'Tentang SWIFT Core Banking Terminal',
-              message: 'SWIFT Core Banking & GPI Enterprise Terminal',
-              detail: 'Versi: 1.0.0 (Electron Desktop Runtime)\nArsitektur: Live Cloud Auto-Update\nStandar: SWIFT FIN (MT103/MT202) & ISO 20022 (pacs.008/pacs.009)\nLisensi: Training & Operational Simulation'
+              title: 'About SWIFT Core Banking Terminal',
+              message: 'SWIFT Core Banking & Financial Messaging Platform',
+              detail: 'Version: 1.0.0 (Native Desktop Runtime)\nArchitecture: Continuous Cloud Host Replication\nStandards: SWIFT FIN (MT103/MT202) & ISO 20022 (pacs.008/pacs.009)\nEdition: Enterprise Production Terminal'
             });
           }
         }
@@ -151,5 +161,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });

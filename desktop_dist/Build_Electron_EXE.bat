@@ -26,10 +26,10 @@ cd /d "%~dp0..\electron" 2>nul || cd /d "%~dp0electron" 2>nul || (
 )
 
 echo [2/3] Installing Electron and Electron-Builder...
-call npm install
+call npm install --save-dev electron electron-builder
 
 echo [3/3] Compiling standalone Windows .EXE via Electron-Builder...
-call npx electron-builder --win portable --x64
+call npx --yes electron-builder --win portable --x64
 
 if exist "dist\SWIFT_Core_Banking_Terminal_Portable.exe" (
     echo.

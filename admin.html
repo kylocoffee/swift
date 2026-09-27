@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Dedicated Super Admin & Master Configuration Console for SWIFT Lab Simulator.">
-  <title>Super Admin Master Console — SWIFT Network &amp; Core Banking Laboratory Simulator</title>
+  <meta name="description" content="Super Admin Master Configuration Console for SWIFT Core Banking & Financial Messaging Platform.">
+  <title>Super Admin Master Console — SWIFT Core Banking Platform</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
   <script>
     (function() {
@@ -14,9 +14,9 @@
           var cfg = JSON.parse(raw);
           var baseTitle = (cfg.siteHtmlTitle && cfg.siteHtmlTitle.trim()) 
             ? cfg.siteHtmlTitle.trim() 
-            : ((cfg.bankName && cfg.bankName !== 'BANK PRAKTIKUM NUSANTARA') 
-                ? (cfg.bankName + ' — SWIFT Network & Core Banking Simulator') 
-                : (cfg.appName || 'SWIFT Network & Core Banking Laboratory Simulator'));
+            : ((cfg.bankName && cfg.bankName !== 'BANK INDONESIA') 
+                ? (cfg.bankName + ' — SWIFT Core Banking Terminal') 
+                : (cfg.appName || 'SWIFT Core Banking & Financial Messaging Platform'));
           if (baseTitle) {
             document.title = 'Super Admin Master Console — ' + baseTitle;
           }
@@ -66,10 +66,10 @@
       </div>
       <div>
         <h2 style="margin:0;">SUPER ADMIN CONSOLE</h2>
-        <span style="font-size:12px;color:#555;text-transform:uppercase;letter-spacing:1px;">Laboratory Master Governance</span>
+        <span style="font-size:12px;color:#555;text-transform:uppercase;letter-spacing:1px;">Enterprise Master Governance</span>
       </div>
     </div>
-    <p class="desc">Restricted administrative access. Configure institutional ownership, bank identity, SWIFT BIC routing, operational policies, and laboratory database snapshots.</p>
+    <p class="desc">Restricted administrative access. Configure institutional profile, bank identity, SWIFT BIC routing, operational policies, and database replication.</p>
     
     <form id="masterLoginForm" class="auth-fields" autocomplete="off">
       <label>Admin ID
@@ -85,7 +85,7 @@
       <p id="authError" class="error-msg hidden">Err. Invalid Super Admin credentials or authorization key.</p>
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
-        <a href="/" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;font-size:14px;height:42px;min-width:140px;">← RETURN TO APP</a>
+        <a href="/" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;font-size:14px;height:42px;min-width:140px;">RETURN TO APPLICATION</a>
         <button class="pill" type="submit" style="font-size:16px;height:44px;min-width:160px;">AUTHENTICATE</button>
       </div>
     </form>
@@ -101,9 +101,9 @@
     <div class="header-rule"></div>
 
     <div class="identity-row">
-      <div><b>SYSTEM STATUS</b><span id="headerStatus">ACTIVE • SWIFT BIC: IDBKIDJA</span></div>
+      <div><b>SYSTEM STATUS</b><span id="headerStatus">ACTIVE • SWIFT BIC: INDOIDJAXXX</span></div>
       <div style="display:flex;align-items:center;gap:12px;">
-        <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#ecfdf5;color:#059669;letter-spacing:0.5px;font-family:monospace;">🟢 CBS HOST &amp; SWIFT: SYNCHRONIZED</span>
+        <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#ecfdf5;color:#059669;letter-spacing:0.5px;font-family:monospace;">CBS HOST &amp; SWIFT: SYNCHRONIZED</span>
         <b>AUTHENTICATED USER</b><span>SUPER ADMINISTRATOR • MASTER CONTROLLER</span>
       </div>
     </div>
@@ -116,29 +116,30 @@
       <button type="button" class="admin-tab-btn" data-tab="users">5. USERS &amp; OPERATORS</button>
       <button type="button" class="admin-tab-btn" data-tab="security">6. SECURITY, PASSWORDS &amp; KEYS</button>
       <button type="button" class="admin-tab-btn" data-tab="backup">7. BACKUP &amp; RESET</button>
+      <button type="button" class="admin-tab-btn" data-tab="firebase" style="color:#2563eb;font-weight:bold;">8. FIREBASE &amp; DATABASE PRIVACY</button>
     </nav>
 
     <form id="adminConfigForm">
       <!-- Tab 1: Owner Details -->
       <div id="tabOwner" class="admin-section">
         <h3>Application Owner &amp; Institution Profile</h3>
-        <p class="sub">Configure the institutional ownership, laboratory supervisor details, and legal registration display.</p>
+        <p class="sub">Configure institutional ownership, senior supervisor profile, and regulatory registration parameters.</p>
         <div class="admin-grid">
           <label>Application Display Title
             <input id="cfgAppName" required>
             <span class="hint">Title displayed in headers, browser tabs, and official vouchers.</span>
           </label>
-          <label>App Owner / Organization Name
+          <label>Organization / Corporate Owner Name
             <input id="cfgOwnerName" required>
-            <span class="hint">The legal or academic entity owning and operating this simulator.</span>
+            <span class="hint">The legal entity owning and operating this core banking system.</span>
           </label>
-          <label>Lead Contact Person / Supervisor
+          <label>Chief Officer / Lead Supervisor
             <input id="cfgOwnerContact" required>
-            <span class="hint">Head of Banking Laboratory / Department Chair.</span>
+            <span class="hint">Head of Treasury &amp; Financial Settlement.</span>
           </label>
-          <label>Supervisor Official Title
+          <label>Supervisor Official Designation
             <input id="cfgOwnerTitle" required>
-            <span class="hint">Academic or institutional designation.</span>
+            <span class="hint">Official institutional title or executive designation.</span>
           </label>
           <label>Official Contact Email
             <input id="cfgOwnerEmail" type="email" required>
@@ -146,15 +147,15 @@
           </label>
           <label>Official Contact Telephone
             <input id="cfgOwnerPhone" required>
-            <span class="hint">Direct line to the laboratory control desk.</span>
+            <span class="hint">Direct line to the settlement control desk.</span>
           </label>
-          <label class="full">Institution / Faculty / Department Affiliation
+          <label class="full">Institution / Department Affiliation
             <input id="cfgOwnerInstitution" required>
-            <span class="hint">University department or financial institute administering the lab.</span>
+            <span class="hint">Financial institute or division administering the system.</span>
           </label>
-          <label>Laboratory License / Simulation Registry No.
+          <label>License &amp; Regulatory Registration No.
             <input id="cfgLicenseNo" required>
-            <span class="hint">Regulatory or internal course accreditation code.</span>
+            <span class="hint">Regulatory or internal accreditation identifier.</span>
           </label>
           <label>Application Banner Motto
             <input id="cfgAppMotto" required>
@@ -169,14 +170,14 @@
         <div style="margin-top:24px;border-top:2px solid var(--ink);padding-top:18px;">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
             <h4 style="margin:0;font-size:15px;text-transform:uppercase;">Site HTML Title &amp; Dynamic Favicon Branding</h4>
-            <span style="font-size:10px;letter-spacing:1px;background:#1a237e;color:#ffffff;padding:3px 8px;font-weight:bold;text-transform:uppercase;border-radius:2px;">🔒 Superadmin Exclusive Master Control</span>
+            <span style="font-size:10px;letter-spacing:1px;background:#1a237e;color:#ffffff;padding:3px 8px;font-weight:bold;text-transform:uppercase;border-radius:2px;">Superadmin Master Control</span>
           </div>
-          <p class="sub" style="margin-bottom:14px;">Pengaturan hak khusus <b>Superadmin (Dosen / Instruktur)</b> untuk mengontrol judul tab browser (<code>&lt;title&gt;</code>) dan ikon favicon di seluruh terminal mahasiswa secara dinamis dan real-time.</p>
+          <p class="sub" style="margin-bottom:14px;">Superadmin exclusive configuration to control the browser tab title (<code>&lt;title&gt;</code>) and favicon dynamically across all workstations.</p>
           
           <div class="admin-grid">
             <label class="full">Browser HTML Title (&lt;title&gt; &amp; OpenGraph) &bull; <span style="color:#d32f2f;font-weight:bold;">Superadmin Only</span>
-              <input id="cfgSiteHtmlTitle" required placeholder="SWIFT Network &amp; Core Banking Laboratory Simulator">
-              <span class="hint">Judul tab browser yang disinkronkan ke seluruh terminal praktikum mahasiswa. Hanya Superadmin yang berwenang mengubah judul ini.</span>
+              <input id="cfgSiteHtmlTitle" required placeholder="SWIFT Core Banking &amp; Financial Messaging Terminal">
+              <span class="hint">Browser title synchronized in real-time across all connected terminals.</span>
             </label>
             
             <label>Favicon Logo Style / Color Preset
@@ -189,29 +190,29 @@
                 <option value="red">Crimson Alert SWIFT Globe (#EF4444)</option>
                 <option value="custom">Custom SVG Code or Image URL</option>
               </select>
-              <span class="hint">Pilih variasi warna ikon favicon bola dunia SWIFT atau gunakan custom asset.</span>
+              <span class="hint">Select globe icon styling or provide a custom vector image asset.</span>
             </label>
 
             <label id="wrapFaviconCustomUrl" class="full hidden">Custom Favicon URL / SVG Vector Markup
-              <textarea id="cfgFaviconCustomUrl" rows="2" placeholder="https://example.com/logo.png atau &lt;svg ...&gt;&lt;/svg&gt;"></textarea>
-              <span class="hint">Masukkan URL gambar publik (PNG/SVG/ICO), data URI base64, atau markup XML SVG murni.</span>
+              <textarea id="cfgFaviconCustomUrl" rows="2" placeholder="https://example.com/logo.png or &lt;svg ...&gt;&lt;/svg&gt;"></textarea>
+              <span class="hint">Enter a public image asset URL (PNG/SVG/ICO), data URI base64, or raw SVG markup.</span>
             </label>
           </div>
 
-          <!-- Live Browser Tab Simulation & Favicon Preview -->
+          <!-- Live Browser Tab Preview -->
           <div style="margin-top:16px;background:var(--paper);border:1px solid var(--ink);padding:14px;">
-            <b style="font-size:12px;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px;">Live Browser Tab Simulation &amp; Favicon Preview</b>
+            <b style="font-size:12px;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px;">Live Browser Tab Preview</b>
             <div style="display:flex;gap:16px;flex-wrap:wrap;">
               <!-- Dark Tab Preview -->
               <div style="flex:1;min-width:260px;background:#202124;color:#e8eaed;padding:10px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.3);">
                 <img id="prevFaviconDark" style="width:18px;height:18px;object-fit:contain;" alt="Favicon">
-                <span id="prevTitleDark" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Network Lab Simulator</span>
+                <span id="prevTitleDark" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Core Banking Terminal</span>
                 <span style="opacity:0.6;font-size:14px;cursor:default;">&times;</span>
               </div>
               <!-- Light Tab Preview -->
               <div style="flex:1;min-width:260px;background:#e7eaed;color:#202124;padding:10px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
                 <img id="prevFaviconLight" style="width:18px;height:18px;object-fit:contain;" alt="Favicon">
-                <span id="prevTitleLight" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Network Lab Simulator</span>
+                <span id="prevTitleLight" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:500;">SWIFT Core Banking Terminal</span>
                 <span style="opacity:0.6;font-size:14px;cursor:default;">&times;</span>
               </div>
             </div>
@@ -226,11 +227,11 @@
         <div class="admin-grid">
           <label>Primary Bank Name
             <input id="cfgBankName" required>
-            <span class="hint">Name of the host commercial bank simulated in the lab.</span>
+            <span class="hint">Name of the host commercial bank operating the terminal.</span>
           </label>
           <label>Primary Bank SWIFT BIC (8 or 11 Chars)
             <input id="cfgBankBic" maxlength="11" required style="text-transform:uppercase;">
-            <span class="hint">ISO 9362 BIC identifier (e.g. IDBKIDJA or IDBKIDJAXXX).</span>
+            <span class="hint">ISO 9362 BIC identifier (e.g. INDOIDJAXXX or INDOIDJAXXXXXX).</span>
           </label>
           <label>Operating Country
             <input id="cfgBankCountry" required>
@@ -268,7 +269,7 @@
 
       <!-- Tab 3: System Features & Policies -->
       <div id="tabFeatures" class="admin-section hidden">
-        <h3>System Governance &amp; Educational Controls</h3>
+        <h3>System Governance &amp; Operating Controls</h3>
         <p class="sub">Enable or enforce core banking compliance policies, maker-checker authorization, and automated validation rules.</p>
         
         <div class="policy-toggle-card" id="cardMakerChecker">
@@ -295,7 +296,7 @@
 
         <div class="policy-toggle-card" id="cardSanctions">
           <div class="policy-info">
-            <b>Automated AML &amp; Sanctions Screening Simulation</b>
+            <b>Automated AML &amp; Sanctions Screening</b>
             <span>When enabled, real-time sanctions screening automatically inspects payment counterparties against international watchlists (OFAC/UN).</span>
           </div>
           <label class="toggle-switch">
@@ -318,7 +319,7 @@
         <div class="policy-toggle-card" id="cardSplashBypass">
           <div class="policy-info">
             <b>Fast Splash Screen / Instant Proceed</b>
-            <span>Allows clicking anywhere on the student splash screen to instantly skip animations and proceed directly to terminal login.</span>
+            <span>Allows clicking anywhere on the opening splash screen to instantly skip animations and proceed directly to terminal login.</span>
           </div>
           <label class="toggle-switch">
             <input id="cfgSplashBypass" type="checkbox" checked>
@@ -342,12 +343,12 @@
       <!-- Tab 4: Dynamic Guidance & Access Matrix -->
       <div id="tabGuidance" class="admin-section hidden">
         <h3>Dynamic Welcome Guidance &amp; Access Matrix Customization</h3>
-        <p class="sub">Sesuaikan teks judul, instruksi, deskripsi role matrix, serta kotak petunjuk operasional (Four-Eyes Principle / SOP Laboratorium) yang muncul pada halaman utama terminal perbankan mahasiswa.</p>
+        <p class="sub">Configure banner text, operational instructions, role matrix descriptions, and Four-Eyes governance guidance on the terminal main screen.</p>
         
         <div class="policy-toggle-card" style="margin-bottom:20px;">
           <div class="policy-info">
-            <b>Tampilkan Box Access Matrix (Role Hub)</b>
-            <span>Menampilkan atau menyembunyikan grid matriks hak akses peranan operator di halaman beranda terminal.</span>
+            <b>Display Access Matrix Banner (Role Hub)</b>
+            <span>Show or hide the operational role matrix cards on the terminal home screen.</span>
           </div>
           <label class="toggle-switch">
             <input id="cfgWelcomeShowMatrix" type="checkbox" checked>
@@ -356,41 +357,41 @@
         </div>
 
         <div class="admin-grid">
-          <label class="full">Judul Header Access Matrix
+          <label class="full">Access Matrix Header Title
             <input id="cfgWelcomeMatrixTitle" required>
-            <span class="hint">Judul banner matriks (Default: <code>CORE BANKING &amp; SWIFT LAB ACCESS MATRIX</code>).</span>
+            <span class="hint">Header banner title (Default: <code>CORE BANKING &amp; SWIFT ACCESS MATRIX</code>).</span>
           </label>
-          <label class="full">Subjudul / Deskripsi Matriks
+          <label class="full">Matrix Subtitle / Navigation Instructions
             <textarea id="cfgWelcomeMatrixSubtitle" rows="2" required></textarea>
-            <span class="hint">Instruksi navigasi di bawah judul matriks.</span>
+            <span class="hint">Operational instructions displayed below matrix title.</span>
           </label>
-          <label class="full">Deskripsi Peran: OPERATOR (MAKER)
+          <label class="full">Role Description: OPERATOR (MAKER)
             <textarea id="cfgRoleDescOperator" rows="2" required></textarea>
-            <span class="hint">Teks penjelasan tugas Operator (Maker) di kartu matriks.</span>
+            <span class="hint">Explains Maker responsibilities on the matrix card.</span>
           </label>
-          <label class="full">Deskripsi Peran: HEAD TREASURY (CHECKER)
+          <label class="full">Role Description: HEAD TREASURY (CHECKER)
             <textarea id="cfgRoleDescTreasury" rows="2" required></textarea>
-            <span class="hint">Teks penjelasan tugas Head Treasury (Checker &amp; Authorizer).</span>
+            <span class="hint">Explains Head Treasury (Checker &amp; Authorizer) responsibilities.</span>
           </label>
-          <label class="full">Deskripsi Peran: COMPLIANCE OFFICER
+          <label class="full">Role Description: COMPLIANCE OFFICER
             <textarea id="cfgRoleDescCompliance" rows="2" required></textarea>
-            <span class="hint">Teks penjelasan tugas Compliance &amp; AML/CFT Screener.</span>
+            <span class="hint">Explains Compliance &amp; AML/CFT Screening responsibilities.</span>
           </label>
-          <label class="full">Deskripsi Peran: SYSTEM ADMINISTRATOR
+          <label class="full">Role Description: SYSTEM ADMINISTRATOR
             <textarea id="cfgRoleDescAdmin" rows="2" required></textarea>
-            <span class="hint">Teks penjelasan tugas Administrator Sistem simulator.</span>
+            <span class="hint">Explains System Administrator routing and database management duties.</span>
           </label>
-          <label class="full">Deskripsi Peran: AUDITOR
+          <label class="full">Role Description: AUDITOR
             <textarea id="cfgRoleDescAuditor" rows="2" required></textarea>
-            <span class="hint">Teks penjelasan tugas Auditor pengawasan independen.</span>
+            <span class="hint">Explains independent audit and General Ledger oversight duties.</span>
           </label>
         </div>
 
         <div style="margin-top:28px;border-top:2px solid var(--ink);padding-top:20px;">
           <div class="policy-toggle-card" style="margin-bottom:20px;">
             <div class="policy-info">
-              <b>Tampilkan Box Petunjuk Operasional / Four-Eyes Principle Banner</b>
-              <span>Menampilkan atau menyembunyikan kotak petunjuk operasional dan aturan tata kelola perbankan di bagian bawah halaman.</span>
+              <b>Display Operational Guidance / Four-Eyes Governance Box</b>
+              <span>Show or hide the operational banking governance instructions at the bottom of the screen.</span>
             </div>
             <label class="toggle-switch">
               <input id="cfgWelcomeShowGuidance" type="checkbox" checked>
@@ -399,13 +400,13 @@
           </div>
 
           <div class="admin-grid">
-            <label class="full">Judul Box Petunjuk Operasional
+            <label class="full">Guidance Box Title
               <input id="cfgWelcomeGuidanceTitle" required>
-              <span class="hint">Judul kotak petunjuk operasional (Default: <code>FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS</code>).</span>
+              <span class="hint">Banner title (Default: <code>FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS</code>).</span>
             </label>
-            <label class="full">Konten &amp; Poin-Poin Petunjuk Operasional (Multi-line)
+            <label class="full">Guidance Content (Multi-line)
               <textarea id="cfgWelcomeGuidanceContent" rows="6" required></textarea>
-              <span class="hint">Tuliskan aturan operasional, SOP, atau petunjuk praktikum per baris (mendukung teks biasa berbutir atau tag format HTML seperti <code>&lt;strong&gt;</code>).</span>
+              <span class="hint">Standard operating procedure points. Supports bullet points or HTML formatting tags like <code>&lt;strong&gt;</code>.</span>
             </label>
           </div>
         </div>
@@ -414,7 +415,7 @@
       <!-- Tab 5: User & Operator Access Management -->
       <div id="tabUsers" class="admin-section hidden">
         <h3>Operator Members &amp; User Access Management</h3>
-        <p class="sub">Kelola akun operator simulator perbankan: tambah anggota operator baru, menaikkan/mengubah role (Maker/Checker/Compliance/Admin/Auditor), memperbarui username, atau mengganti kata sandi.</p>
+        <p class="sub">Manage operator accounts: add authorized personnel, elevate roles (Maker/Checker/Compliance/Admin/Auditor), update credentials, or modify passwords.</p>
         
         <div class="user-stats-grid">
           <div class="user-stat-card">
@@ -437,9 +438,9 @@
 
         <div class="user-toolbar">
           <div class="user-toolbar-left">
-            <input type="text" id="userSearchInput" style="min-width:240px;">
+            <input type="text" id="userSearchInput" placeholder="Search operator by name or role..." style="min-width:240px;">
             <select id="userRoleFilter">
-              <option value="">Semua Peran (All Roles)</option>
+              <option value="">All Roles</option>
               <option value="Operator">Operator (Maker)</option>
               <option value="Head Treasury">Head Treasury (Checker)</option>
               <option value="Compliance Officer">Compliance Officer (AML)</option>
@@ -448,8 +449,8 @@
             </select>
           </div>
           <div class="user-toolbar-right">
-            <button type="button" id="btnResetDefaultUsers" class="pill secondary" style="font-size:13px;height:40px;min-width:140px;padding:0 16px;">RESET KE DEFAULT</button>
-            <button type="button" id="btnOpenAddUserModal" class="pill" style="font-size:13px;height:40px;min-width:180px;padding:0 18px;">+ TAMBAH OPERATOR / USER</button>
+            <button type="button" id="btnResetDefaultUsers" class="pill secondary" style="font-size:13px;height:40px;min-width:140px;padding:0 16px;">RESET DEFAULT USERS</button>
+            <button type="button" id="btnOpenAddUserModal" class="pill" style="font-size:13px;height:40px;min-width:180px;padding:0 18px;">ADD NEW OPERATOR</button>
           </div>
         </div>
 
@@ -457,11 +458,11 @@
           <table class="user-table">
             <thead>
               <tr>
-                <th style="width:250px;">PROFIL &amp; USERNAME</th>
-                <th style="width:200px;">PERAN (ROLE) &amp; KODE</th>
-                <th>OTORITAS &amp; HAK AKSES SISTEM</th>
-                <th style="width:160px;">KATA SANDI</th>
-                <th style="width:180px;text-align:right;">AKSI</th>
+                <th style="width:250px;">PROFILE &amp; USERNAME</th>
+                <th style="width:200px;">ROLE &amp; CODE</th>
+                <th>SYSTEM PRIVILEGES</th>
+                <th style="width:160px;">PASSWORD</th>
+                <th style="width:180px;text-align:right;">ACTIONS</th>
               </tr>
             </thead>
             <tbody id="usersTableBody">
@@ -471,63 +472,63 @@
         </div>
       </div>
 
-      <!-- Tab 5: Security, Passwords, Master Credentials & Application Keys -->
+      <!-- Tab 6: Security, Passwords, Master Credentials & Application Keys -->
       <div id="tabSecurity" class="admin-section hidden">
         <h3>Application Security, Passwords &amp; Cryptographic Keys</h3>
-        <p class="sub">Kelola akun Super Admin, kata sandi master, kredensial login terminal mahasiswa, PIN token hardware, dan kunci kriptografi jaringan SWIFT.</p>
+        <p class="sub">Manage Super Admin root access, master keys, terminal login credentials, USB token PINs, and SWIFT cryptographic tokens.</p>
 
         <!-- Section 1: Super Admin Master Credentials -->
         <div style="border:2px solid var(--ink);background:#fff;padding:20px;margin-bottom:24px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;">
-            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">1. SUPER ADMIN ROOT CREDENTIALS (KREDENSIAL AKSES KONSOL MASTER)</h4>
+            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">1. SUPER ADMIN ROOT CREDENTIALS</h4>
             <span style="font-size:11px;background:#f3e5f5;color:#4a148c;padding:3px 8px;font-weight:bold;border:1px solid #6a1b9a;">MASTER AUTHENTICATION</span>
           </div>
-          <p style="font-size:13px;color:#555;margin-bottom:16px;">Kredensial ini digunakan untuk membuka portal Master Console (<code>admin.html</code>) ini. Pastikan Anda mengingat atau mencatat perubahan kredensial ini.</p>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Credentials required to authenticate into this Master Console (<code>admin.html</code>).</p>
           <div class="admin-grid">
-            <label>Super Admin ID / Username
+            <label>Super Admin ID
               <input id="cfgAdminUser" required autocomplete="off" style="font-family:monospace;">
-              <span class="hint">ID akun untuk masuk ke halaman Super Admin (Default: <code>superadmin</code>).</span>
+              <span class="hint">Root administrator username (Default: <code>superadmin</code>).</span>
             </label>
             <label>Master Authorization Key
               <input id="cfgAdminKey" required autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
-              <span class="hint">Kunci otorisasi master (Default: <code>MASTER-SWIFT-2026</code>).</span>
+              <span class="hint">Root authorization key (Default: <code>MASTER-SWIFT-2026</code>).</span>
             </label>
             <label class="full">Super Admin Master Password
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgAdminPassword" type="password" required autocomplete="off" style="flex:1;">
-                <button type="button" id="btnToggleAdminPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
+                <button type="button" id="btnToggleAdminPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">SHOW</button>
               </div>
-              <span class="hint">Kata sandi master konsol admin (Default: <code>supersecret</code>).</span>
+              <span class="hint">Master password for root console (Default: <code>supersecret</code>).</span>
             </label>
           </div>
         </div>
 
-        <!-- Section 2: Student Terminal Credentials (Stage 1 & Stage 2) -->
+        <!-- Section 2: Terminal Access Credentials -->
         <div style="border:2px solid var(--ink);background:#fff;padding:20px;margin-bottom:24px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;">
-            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">2. TERMINAL SIMULATOR LOGIN CREDENTIALS (AKSES MAHASISWA / PRAKTIKAN)</h4>
-            <span style="font-size:11px;background:#eef6fc;color:#0f496e;padding:3px 8px;font-weight:bold;border:1px solid #1e6b9c;">STAGE 1 &amp; STAGE 2 ACCESS</span>
+            <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">2. TERMINAL LOGIN CREDENTIALS (STAGE 1 &amp; STAGE 2 ACCESS)</h4>
+            <span style="font-size:11px;background:#eef6fc;color:#0f496e;padding:3px 8px;font-weight:bold;border:1px solid #1e6b9c;">GATEWAY SECURITY</span>
           </div>
-          <p style="font-size:13px;color:#555;margin-bottom:16px;">Konfigurasi kredensial yang dimasukkan mahasiswa pada layar pembuka (Terminal Login &amp; Token PIN) sebelum memilih profil operator.</p>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Credentials entered at the initial terminal gate (Terminal Login &amp; Token PIN) before selecting an operator profile.</p>
           <div class="admin-grid">
             <label>Terminal Account ID (Stage 1)
               <input id="cfgTerminalAccount" required autocomplete="off" style="font-family:monospace;">
-              <span class="hint">ID akun terminal yang digunakan mahasiswa (Default: <code>student01</code>).</span>
+              <span class="hint">Account username (Default: <code>student01</code>).</span>
             </label>
-            <label>Terminal Access Security Key (Stage 1)
+            <label>Terminal Access Key (Stage 1)
               <input id="cfgTerminalAccessKey" required autocomplete="off" style="font-family:monospace;text-transform:uppercase;">
-              <span class="hint">Kunci akses terminal laboratorium (Default: <code>LAB-2026</code>).</span>
+              <span class="hint">Security access key (Default: <code>SYS-2026</code>).</span>
             </label>
             <label>Terminal Password (Stage 1)
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgTerminalPassword" type="password" required autocomplete="off" style="flex:1;">
-                <button type="button" id="btnToggleTerminalPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">LIHAT</button>
+                <button type="button" id="btnToggleTerminalPwd" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">SHOW</button>
               </div>
-              <span class="hint">Kata sandi masuk terminal (Default: <code>swiftlab</code>).</span>
+              <span class="hint">Gateway entry password (Default: <code>swiftlab</code>).</span>
             </label>
             <label>Hardware Token PIN (Stage 2)
               <input id="cfgTokenPin" required autocomplete="off" maxlength="12" style="font-family:monospace;">
-              <span class="hint">PIN otentikasi token fisik USB PKI (Default: <code>123456</code>).</span>
+              <span class="hint">USB PKI security token PIN (Default: <code>123456</code>).</span>
             </label>
           </div>
         </div>
@@ -538,67 +539,67 @@
             <h4 style="margin:0;font-size:15px;letter-spacing:0.5px;">3. SWIFT NETWORK CRYPTOGRAPHIC &amp; GATEWAY API KEYS</h4>
             <span style="font-size:11px;background:#eaf7ed;color:#0d5921;padding:3px 8px;font-weight:bold;border:1px solid #1e7e34;">CRYPTOGRAPHIC TOKENS</span>
           </div>
-          <p style="font-size:13px;color:#555;margin-bottom:16px;">Kunci pengamanan protokol pesan transaksi internasional, validasi skema ISO 20022 XML, dan token integrasi payment gateway.</p>
+          <p style="font-size:13px;color:#555;margin-bottom:16px;">Security keys for financial message signing, ISO 20022 XML validation, and CBS API gateway tokens.</p>
           <div class="admin-grid">
             <label class="full">SWIFT GPI PKI Digital Signature Key (Certificate Hash)
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgSwiftAppKey" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
+                <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE NEW</button>
               </div>
-              <span class="hint">Kunci enkripsi &amp; tanda tangan digital sertifikat non-repudiation untuk rilis pesan FIN &amp; ISO 20022.</span>
+              <span class="hint">Digital signature key for non-repudiation and message release on FIN &amp; ISO 20022.</span>
             </label>
             <label class="full">ISO 20022 XML Schema Validation Secret Key
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgIsoSchemaValidationKey" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
+                <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE NEW</button>
               </div>
-              <span class="hint">Kunci otentikasi validator parser skema pacs.008 &amp; pacs.009 XML.</span>
+              <span class="hint">Authentication key for pacs.008 &amp; pacs.009 XML schema validation.</span>
             </label>
             <label class="full">Core Banking API Gateway Bearer Token
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgApiGatewayToken" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
+                <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE NEW</button>
               </div>
-              <span class="hint">Token otorisasi integrasi API antarmuka Core Banking System dengan jaringan kliring BI-RTGS &amp; SWIFT.</span>
+              <span class="hint">Authorization token for CBS integration with RTGS and SWIFT networks.</span>
             </label>
           </div>
         </div>
 
         <div style="display:flex;justify-content:space-between;align-items:center;background:#f5f5f5;border:1px solid #ccc;padding:14px 18px;flex-wrap:wrap;gap:12px;">
           <div>
-            <strong style="font-size:13px;display:block;margin-bottom:2px;">RESET KREDENSIAL KE PENGATURAN PABRIK</strong>
-            <span style="font-size:12px;color:#666;">Kembalikan seluruh akun admin, password, dan kunci aplikasi ke nilai default awal.</span>
+            <strong style="font-size:13px;display:block;margin-bottom:2px;">RESET CREDENTIALS TO DEFAULT</strong>
+            <span style="font-size:12px;color:#666;">Restore administrator accounts, passwords, and cryptographic keys to baseline values.</span>
           </div>
-          <button type="button" id="btnResetSecurityCredentials" class="pill secondary" style="font-size:13px;padding:8px 18px;">RESET KREDENSIAL &amp; KUNCI DEFAULT</button>
+          <button type="button" id="btnResetSecurityCredentials" class="pill secondary" style="font-size:13px;padding:8px 18px;">RESET CREDENTIALS &amp; KEYS</button>
         </div>
       </div>
 
-      <!-- Tab 6: Master Data Backup, Restore & Reset -->
+      <!-- Tab 7: Master Data Backup, Restore & Reset -->
       <div id="tabBackup" class="admin-section hidden">
         <h3>Master Data Backup, Restore &amp; High-Availability Host Replication</h3>
-        <p class="sub">Export production database state for regulatory audit, synchronize distributed multi-terminal nodes with central CBS host, or perform system re-initialization.</p>
+        <p class="sub">Export database state for audit compliance, synchronize distributed multi-terminal nodes with central CBS host, or perform system re-initialization.</p>
         
         <!-- Central High-Availability CBS & SWIFT Host Gateway Card -->
         <div class="backup-card" style="border-color:#059669;background:#f0fdf4;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
             <h4 style="color:#065f46;margin:0;">Central High-Availability CBS &amp; SWIFT Host Gateway</h4>
-            <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#fff;color:#059669;font-family:monospace;">🟢 CBS HOST &amp; SWIFT: SYNCHRONIZED</span>
+            <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#fff;color:#059669;font-family:monospace;">CBS HOST &amp; SWIFT: SYNCHRONIZED</span>
           </div>
-          <p style="color:#1f2937;">Arsitektur multi-site database perbankan terpusat aktif. Seluruh mutasi rekening, otorisasi transaksi pacs.008/MT103, likuiditas nostro, dan jurnal umum GL disinkronisasikan secara langsung (ACID compliant) ke seluruh workstation jaringan perbankan secara <i>real-time</i>.</p>
+          <p style="color:#1f2937;">Active multi-site central database architecture. Account ledger mutations, pacs.008/MT103 authorizations, Nostro liquidity balances, and General Ledger journals synchronize across all workstations in real-time.</p>
           <div style="display:flex;gap:20px;margin:12px 0;font-size:12px;font-family:monospace;color:#065f46;flex-wrap:wrap;">
             <div>NETWORK DOMAIN: <strong>SWIFT GPI LIVE HOST</strong></div>
             <div>CLUSTER REPLICA: <strong>PRIMARY ACTIVE</strong></div>
-            <div>STATUS LINK: <strong id="cloudSyncStatusText">TERHUBUNG &amp; SINKRON (REAL-TIME)</strong></div>
+            <div>LINK STATUS: <strong id="cloudSyncStatusText">CONNECTED &amp; SYNCHRONIZED (REAL-TIME)</strong></div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button id="btnPushAllToCloud" class="pill" type="button" style="background:#059669;color:#fff;border-color:#059669;">REPLIKASI DATA LOKAL KE HOST CENTRAL ↗</button>
-            <button id="btnPullAllFromCloud" class="pill secondary" type="button" style="border-color:#059669;color:#065f46;">SINKRONISASI DATA TERBARU DARI HOST ↙</button>
+            <button id="btnPushAllToCloud" class="pill" type="button" style="background:#059669;color:#fff;border-color:#059669;">REPLICATE LOCAL DATA TO CENTRAL HOST</button>
+            <button id="btnPullAllFromCloud" class="pill secondary" type="button" style="border-color:#059669;color:#065f46;">SYNCHRONIZE LATEST DATA FROM HOST</button>
           </div>
         </div>
 
         <div class="backup-card" style="border-color:var(--ink);background:#fcfbf9;">
           <h4>Global SWIFT Master Database (&gt;1,000 Real Banks &amp; Transactions)</h4>
-          <p>The system contains authentic, certified SWIFT BICs and ISO 20022 transactions sourced from real central banks, commercial institutions, and global corporations worldwide.</p>
+          <p>The system contains authentic SWIFT BICs and ISO 20022 transactions from central banks, commercial institutions, and global corporations worldwide.</p>
           <div style="display:flex;gap:20px;margin:12px 0;font-size:13px;font-family:monospace;">
             <div>REGISTERED REAL BICS: <strong id="statBicCount">...</strong></div>
             <div>AUTHENTIC TRANSACTIONS: <strong id="statTxCount">...</strong></div>
@@ -608,9 +609,9 @@
 
         <div class="backup-card">
           <h4>Windows Desktop Standalone App (.EXE / Electron / Launcher)</h4>
-          <p>Download a standalone Windows desktop launcher, Electron .EXE compiler, or C# native executable builder. The desktop application runs in native window mode and always connects live to the online cloud for automatic real-time updates.</p>
+          <p>Download a standalone Windows desktop launcher, Electron .EXE compiler, or native executable builder. The desktop application runs in a dedicated native window and continuously connects live for automatic real-time updates.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button id="btnDownloadElectronBuilder" class="pill" type="button" style="background:#0284c7;color:#fff;border-color:#0369a1;">⚡ DOWNLOAD ELECTRON .EXE BUILDER</button>
+            <button id="btnDownloadElectronBuilder" class="pill" type="button" style="background:#0284c7;color:#fff;border-color:#0369a1;">DOWNLOAD ELECTRON .EXE BUILDER</button>
             <button id="btnDownloadDesktopLauncher" class="pill" type="button">DOWNLOAD DESKTOP LAUNCHER (.BAT)</button>
             <button id="btnDownloadExeBuilder" class="pill secondary" type="button">DOWNLOAD NATIVE .EXE BUILDER (.BAT)</button>
           </div>
@@ -631,15 +632,110 @@
 
         <div class="backup-card" style="border-color:#b51d1d;background:#fffaf8;">
           <h4 style="color:#b51d1d;">Reset Database to Core Baseline</h4>
-          <p>Erase all local transactional records, reset account balances, and restore initial baseline and default Bank Praktikum Nusantara configuration.</p>
+          <p>Erase local transactional edits, reset balances, and restore initial baseline Bank Nusantara International configuration.</p>
           <button id="btnFactoryReset" class="pill" type="button" style="border-color:#b51d1d;color:#b51d1d;">RESET TO FACTORY BASELINE</button>
+        </div>
+      </div>
+
+      <!-- Tab 8: Cloud & Private Firebase Database Isolation (BYOD) -->
+      <div id="tabFirebase" class="admin-section hidden">
+        <h3>Cloud Database &amp; Private Firebase Project Isolation (BYOD)</h3>
+        <p class="sub">Connect the Core Banking Terminal to your own isolated private Firebase project so that your institutional transactions and master data remain completely confidential and separate.</p>
+        
+        <!-- Live Connection & Isolation Status Card -->
+        <div style="border:2px solid #2563eb;background:#eff6ff;padding:18px 22px;margin-bottom:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+            <h4 style="margin:0;color:#1e40af;font-size:15px;display:flex;align-items:center;gap:8px;">
+              <span>FIREBASE CLOUD DATABASE ISOLATION STATUS</span>
+            </h4>
+            <span id="customFirebaseBadge" class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 10px;border:1px solid #2563eb;background:#fff;color:#2563eb;font-family:monospace;">
+              STANDBY
+            </span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:13px;background:#fff;border:1px solid #bfdbfe;padding:14px;margin-bottom:12px;">
+            <div>Database Type: <strong id="fbActiveType" style="color:#1e40af;">Default Central Host Cloud</strong></div>
+            <div>Project ID: <strong id="fbActiveProjectId" style="font-family:monospace;">spherical-voice-bmn89</strong></div>
+            <div>Firestore DB ID: <strong id="fbActiveDbId" style="font-family:monospace;">ai-studio-swift-e2c35df9-82c5-4f36-be48-b251e3542940</strong></div>
+            <div>Encryption: <strong style="color:#059669;">TLS / WSS SSL Live</strong></div>
+          </div>
+          <p style="margin:0;font-size:12px;color:#4b5563;">
+            <strong>Privacy Guarantee:</strong> When you connect to your own private Firebase project, all transaction records, customer balances, BIC directories, and configuration settings are stored and synchronized exclusively on your personal cloud database.
+          </p>
+        </div>
+
+        <!-- Quick Paste Config Box -->
+        <div style="border:1px solid #cbd5e1;background:#f8fafc;padding:16px 20px;margin-bottom:20px;">
+          <label style="font-weight:bold;font-size:13px;display:block;margin-bottom:6px;">
+            Paste Firebase Web Config Object (JSON / JavaScript)
+          </label>
+          <textarea id="pasteFirebaseConfig" rows="3" placeholder='Example:&#10;const firebaseConfig = {&#10;  apiKey: "AIzaSy...",&#10;  projectId: "my-bank-project",&#10;  ...&#10;};' style="width:100%;font-family:monospace;font-size:12px;background:#fff;padding:8px;border:1px solid #ccc;"></textarea>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:8px;">
+            <button type="button" id="btnParseFirebaseConfig" class="pill secondary" style="font-size:12px;padding:6px 14px;">PARSE &amp; AUTO-FILL</button>
+            <span id="pasteParseMsg" style="font-size:12px;color:#059669;font-weight:bold;"></span>
+          </div>
+        </div>
+
+        <!-- Manual Parameter Grid -->
+        <div class="admin-grid">
+          <label class="full">
+            <input type="checkbox" id="cfgEnableCustomFirebase" style="width:auto;margin-right:8px;transform:scale(1.2);">
+            <b style="color:#1e40af;font-size:14px;">ENABLE PRIVATE FIREBASE PROJECT (ISOLATE CLOUD DATABASE)</b>
+            <span class="hint">Check this box to route all transaction replication and settings to your private Firebase project.</span>
+          </label>
+          <label>Firebase Project ID (Required)
+            <input id="cfgFbProjectId" placeholder="e.g. my-bank-cbs" style="font-family:monospace;">
+            <span class="hint">Your Firebase Project ID from Firebase Console.</span>
+          </label>
+          <label>Firebase Web API Key (Required)
+            <input id="cfgFbApiKey" placeholder="e.g. AIzaSyB..." style="font-family:monospace;">
+            <span class="hint">Web API Key from Project Settings &gt; General in Firebase Console.</span>
+          </label>
+          <label>Firestore Database ID (Optional)
+            <input id="cfgFbDatabaseId" placeholder="(default)" value="(default)" style="font-family:monospace;">
+            <span class="hint">Use <code>(default)</code> unless a custom named Firestore database is provisioned.</span>
+          </label>
+          <label>Auth Domain
+            <input id="cfgFbAuthDomain" placeholder="e.g. your-project.firebaseapp.com" style="font-family:monospace;">
+            <span class="hint">Authentication domain (usually <code>&lt;projectId&gt;.firebaseapp.com</code>).</span>
+          </label>
+          <label>Storage Bucket (Optional)
+            <input id="cfgFbStorageBucket" placeholder="e.g. your-project.firebasestorage.app" style="font-family:monospace;">
+            <span class="hint">Firebase Storage bucket name.</span>
+          </label>
+          <label>Firebase App ID (Optional)
+            <input id="cfgFbAppId" placeholder="e.g. 1:123456789:web:abcdef..." style="font-family:monospace;">
+            <span class="hint">App ID from your Firebase Web configuration.</span>
+          </label>
+        </div>
+
+        <!-- Testing & Activation Controls -->
+        <div style="background:#fff;border:2px solid var(--ink);padding:18px 20px;margin-top:20px;">
+          <h4 style="margin:0 0 10px;font-size:14px;letter-spacing:0.5px;">DATABASE ACTIONS &amp; DATA MIGRATION</h4>
+          <div id="fbTestResultBox" class="hidden" style="padding:10px 14px;margin-bottom:14px;font-size:13px;border:1px solid #ddd;line-height:1.5;"></div>
+          
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+            <button type="button" id="btnTestFbConnection" class="pill secondary" style="font-size:13px;height:42px;">1. TEST DATABASE CONNECTION</button>
+            <button type="button" id="btnSaveActivateFb" class="pill" style="background:#2563eb;border-color:#2563eb;color:#fff;font-size:13px;height:42px;">2. SAVE &amp; ACTIVATE PRIVATE FIREBASE</button>
+            <button type="button" id="btnMigrateToNewFb" class="pill secondary" style="border-color:#059669;color:#059669;font-size:13px;height:42px;">3. MIGRATE LOCAL DATA TO FIREBASE</button>
+            <button type="button" id="btnResetDefaultFb" class="pill secondary" style="border-color:#b51d1d;color:#b51d1d;font-size:13px;height:42px;">RESET TO DEFAULT CENTRAL HOST</button>
+          </div>
+        </div>
+
+        <!-- Setup Guide Box -->
+        <div style="margin-top:24px;border:1px solid #e2e8f0;background:#f8fafc;padding:16px 20px;">
+          <h5 style="margin:0 0 8px;font-size:13px;color:#334155;text-transform:uppercase;letter-spacing:0.5px;">Setup Guide: Creating Your Free Private Firebase Project:</h5>
+          <ol style="margin:0;padding-left:20px;font-size:12px;color:#475569;line-height:1.7;">
+            <li>Visit <a href="https://console.firebase.google.com" target="_blank" style="color:#2563eb;text-decoration:underline;">console.firebase.google.com</a> and click <strong>"Add Project"</strong> (e.g. <code>my-cbs-platform</code>).</li>
+            <li>In the left sidebar, navigate to <strong>Build &rarr; Firestore Database</strong> &rarr; Click <strong>"Create Database"</strong>. On the <strong>Rules</strong> tab, ensure rules allow read/write: <code>allow read, write: if true;</code>.</li>
+            <li>In <strong>Project Settings (gear icon) &rarr; General</strong>, scroll to <strong>"Your apps"</strong> &rarr; Register a Web App <code>&lt;/&gt;</code> &rarr; Copy the <code>firebaseConfig</code> object and paste it in the box above.</li>
+          </ol>
         </div>
       </div>
 
       <div class="admin-actions-bar">
         <div style="display:flex;gap:12px;align-items:center;">
           <button id="btnLogoutRoot" class="pill secondary" type="button">LOCK CONSOLE</button>
-          <a href="/" target="_blank" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;">OPEN CORE BANKING TERMINAL ↗</a>
+          <a href="/" target="_blank" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;">OPEN CORE BANKING TERMINAL</a>
         </div>
         <button id="btnSaveConfig" class="pill" type="submit">SAVE SYSTEM CONFIGURATION</button>
       </div>
@@ -650,53 +746,53 @@
   <dialog id="userCrudDialog">
     <form id="userCrudForm">
       <button class="dialog-close" type="button" id="closeUserCrudDialog">×</button>
-      <h2 id="userDialogTitle">TAMBAH ANGGOTA OPERATOR BARU</h2>
+      <h2 id="userDialogTitle">ADD OPERATOR MEMBER</h2>
       <input id="userOriginalKey" type="hidden">
 
       <div class="modal-grid">
-        <label><b>NAMA LENGKAP / DISPLAY NAME</b>
+        <label><b>FULL NAME / DISPLAY NAME</b>
           <input id="editUserDisplay" required autocomplete="off">
-          <span style="font-size:11px;color:#666;margin-top:2px;">Nama lengkap operator yang muncul pada header dan audit log.</span>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Full name displayed on headers and official audit trails.</span>
         </label>
 
-        <label><b>USERNAME (ID LOGIN)</b>
+        <label><b>USERNAME (LOGIN ID)</b>
           <input id="editUserUsername" required autocomplete="off" style="font-family:monospace;">
-          <span style="font-size:11px;color:#666;margin-top:2px;">Digunakan untuk masuk ke terminal simulator (huruf kecil tanpa spasi).</span>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Terminal login username (lowercase, no spaces).</span>
         </label>
 
-        <label><b>PERAN OPERASIONAL (ROLE)</b>
+        <label><b>OPERATIONAL ROLE</b>
           <select id="editUserRole" required>
-            <option value="Operator">Operator (Maker: Rekam &amp; Draf Transaksi)</option>
-            <option value="Head Treasury">Head Treasury (Checker: Otorisasi &amp; Likuiditas Nostro)</option>
+            <option value="Operator">Operator (Maker: Record &amp; Draft Transactions)</option>
+            <option value="Head Treasury">Head Treasury (Checker: Authorize &amp; Nostro Management)</option>
             <option value="Compliance Officer">Compliance Officer (AML/CFT &amp; Sanctions Screening)</option>
             <option value="System Administrator">System Administrator (Master BIC &amp; Routing Admin)</option>
             <option value="Auditor">Auditor (Audit Trail &amp; General Ledger Oversight)</option>
           </select>
-          <span style="font-size:11px;color:#666;margin-top:2px;">Pilih tingkat otoritas atau naikkan jabatan operator.</span>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Select authority tier or promote operator role.</span>
         </label>
 
-        <label><b>KODE OPERATOR / ROLE CODE</b>
+        <label><b>OPERATOR CODE / ROLE CODE</b>
           <input id="editUserCode" required autocomplete="off" style="text-transform:uppercase;font-family:monospace;">
-          <span style="font-size:11px;color:#666;margin-top:2px;">Kode identifikasi resmi (e.g. OPS-01, HTR-01, CMP-01, ADM-01, AUD-01).</span>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Official designation code (e.g. OPS-01, HTR-01, CMP-01, ADM-01, AUD-01).</span>
         </label>
 
-        <label class="wide"><b>KATA SANDI (PASSWORD)</b>
+        <label class="wide"><b>PASSWORD</b>
           <div style="display:flex;gap:8px;align-items:center;">
             <input id="editUserPassword" type="password" required value="123456" autocomplete="off" style="flex:1;">
-            <button type="button" id="btnTogglePasswordVisibility" class="btn-mini" style="height:54px;padding:0 14px;white-space:nowrap;">LIHAT / SEMBUNYIKAN</button>
+            <button type="button" id="btnTogglePasswordVisibility" class="btn-mini" style="height:54px;padding:0 14px;white-space:nowrap;">SHOW / HIDE</button>
           </div>
-          <span style="font-size:11px;color:#666;margin-top:2px;">Kata sandi login operator (Default: <code>123456</code>).</span>
+          <span style="font-size:11px;color:#666;margin-top:2px;">Terminal operator login password (Default: <code>123456</code>).</span>
         </label>
       </div>
 
       <div id="userRoleInfoCard" class="user-role-help-box">
         <b id="userRoleInfoTitle">OPERATOR (MAKER)</b>
-        <span id="userRoleInfoDesc">Bertindak sebagai Maker dalam prinsip 4-Eyes: Memulai dan mendraf transaksi pengiriman dana nasabah (pacs.008/MT103), memeriksa saldo rekening nasabah, dan mencetak payment instruction.</span>
+        <span id="userRoleInfoDesc">Acts as Maker under the Four-Eyes Principle: Originates and drafts customer payment orders (pacs.008/MT103), inspects customer account balances, and prints payment advices.</span>
       </div>
 
       <div class="modal-actions">
-        <button class="pill secondary" type="button" id="btnCancelUserCrud">BATAL</button>
-        <button class="pill" type="submit" id="btnSaveUserCrud">SIMPAN OPERATOR</button>
+        <button class="pill secondary" type="button" id="btnCancelUserCrud">CANCEL</button>
+        <button class="pill" type="submit" id="btnSaveUserCrud">SAVE OPERATOR</button>
       </div>
     </form>
   </dialog>
@@ -704,12 +800,12 @@
   <!-- Dialog: Confirm User Deletion -->
   <dialog id="userDeleteDialog" class="confirm-dialog">
     <form id="userDeleteForm" method="dialog">
-      <h2>HAPUS PENGGUNA / OPERATOR?</h2>
-      <p id="userDeletePromptText">Apakah Anda yakin ingin menghapus akun operator ini dari sistem Core Banking?</p>
+      <h2>DELETE OPERATOR?</h2>
+      <p id="userDeletePromptText">Are you sure you want to remove this operator account from the Core Banking System?</p>
       <input id="userDeleteTargetKey" type="hidden">
       <div class="modal-actions">
-        <button class="pill secondary" type="button" id="btnCancelUserDelete">BATAL</button>
-        <button class="pill" type="submit" style="background:#b51d1d;color:#fff;border-color:#b51d1d;">HAPUS OPERATOR</button>
+        <button class="pill secondary" type="button" id="btnCancelUserDelete">CANCEL</button>
+        <button class="pill" type="submit" style="background:#b51d1d;color:#fff;border-color:#b51d1d;">DELETE OPERATOR</button>
       </div>
     </form>
   </dialog>
@@ -728,18 +824,18 @@
     const UK = 'swiftLabUsers';
 
     const defaultSysConfig = {
-      appName: 'SWIFT Network & Core Banking Laboratory Simulator',
-      ownerName: 'Bank Praktikum Nusantara',
+      appName: 'SWIFT Core Banking & Financial Messaging Platform',
+      ownerName: 'Bank Nusantara International',
       ownerContact: 'Prof. Dr. Hendra Pratama, M.Sc.',
-      ownerTitle: 'Head of International Banking Laboratory',
-      ownerEmail: 'lab.banking@nusantara-bank.ac.id',
+      ownerTitle: 'Head of Global Treasury & International Settlement',
+      ownerEmail: 'treasury@nusantara-bank.co.id',
       ownerPhone: '+62 21 5299-8800',
-      ownerInstitution: 'Faculty of Economics & Business - Banking & Finance Department',
-      licenseNo: 'OJK-LAB-SIM/2026/099-BPN',
+      ownerInstitution: 'International Banking & Treasury Settlement Division',
+      licenseNo: 'OJK-CBS/2026/099-BPN',
       appMotto: 'The global provider of\nSecure final messaging services',
       headOfficeAddress: 'JL JEND SUDIRMAN KAV 1, JAKARTA 10220\nINDONESIA',
-      bankName: 'BANK PRAKTIKUM NUSANTARA',
-      bankBic: 'IDBKIDJA',
+      bankName: 'BANK INDONESIA',
+      bankBic: 'INDOIDJAXXX',
       bankCountry: 'INDONESIA',
       bankCity: 'JAKARTA',
       baseCurrency: 'USD',
@@ -761,7 +857,7 @@
       // Terminal Student Login Credentials
       terminalAccount: 'student01',
       terminalPassword: 'swiftlab',
-      terminalAccessKey: 'LAB-2026',
+      terminalAccessKey: 'SYS-2026',
       tokenPin: '123456',
 
       // SWIFT Application Cryptographic & API Gateway Keys
@@ -771,12 +867,12 @@
 
       // Dynamic Welcome Matrix & Operational Guidance Box Configuration
       welcomeShowMatrix: true,
-      welcomeMatrixTitle: 'CORE BANKING & SWIFT LAB ACCESS MATRIX',
-      welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
+      welcomeMatrixTitle: 'CORE BANKING & SWIFT ACCESS MATRIX',
+      welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to initiate payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
       roleDescOperator: 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.',
       roleDescTreasury: 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.',
       roleDescCompliance: 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.',
-      roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.',
+      roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer system data.',
       roleDescAuditor: 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.',
 
       welcomeShowGuidance: true,
@@ -784,7 +880,7 @@
       welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
 
       // Dynamic Site HTML Title & Favicon Configuration
-      siteHtmlTitle: 'SWIFT Network & Core Banking Laboratory Simulator',
+      siteHtmlTitle: 'SWIFT Core Banking & Financial Messaging Terminal',
       faviconPreset: 'white',
       faviconCustomUrl: ''
     };
@@ -793,20 +889,17 @@
       if (config?.siteHtmlTitle && config.siteHtmlTitle.trim()) {
         return config.siteHtmlTitle.trim();
       }
-      if (config?.bankName && config.bankName !== 'BANK PRAKTIKUM NUSANTARA') {
-        return `${config.bankName} — SWIFT Network & Core Banking Simulator`;
+      if (config?.bankName && config.bankName !== 'BANK INDONESIA') {
+        return `${config.bankName} — SWIFT Core Banking Terminal`;
       }
-      return config?.appName || 'SWIFT Network & Core Banking Laboratory Simulator';
+      return config?.appName || 'SWIFT Core Banking & Financial Messaging Platform';
     }
 
     function getFaviconUrl(config) {
       const preset = config?.faviconPreset || 'white';
       if (preset === 'custom' && config?.faviconCustomUrl && config.faviconCustomUrl.trim()) {
-        const raw = config.faviconCustomUrl.trim();
-        if (raw.startsWith('<svg')) {
-          return 'data:image/svg+xml,' + encodeURIComponent(raw);
-        }
-        return raw;
+        const cRaw = config.faviconCustomUrl.trim();
+        return cRaw.startsWith('<svg') ? ('data:image/svg+xml,' + encodeURIComponent(cRaw)) : cRaw;
       }
       const colors = {
         white: 'white',
@@ -838,28 +931,33 @@
     }
 
     function updateFaviconPreview() {
-      const tempConfig = {
-        appName: document.getElementById('cfgAppName')?.value?.trim() || 'SWIFT Network & Core Banking Laboratory Simulator',
-        bankName: document.getElementById('cfgBankName')?.value?.trim() || 'BANK PRAKTIKUM NUSANTARA',
-        siteHtmlTitle: document.getElementById('cfgSiteHtmlTitle')?.value?.trim() || '',
-        faviconPreset: document.getElementById('cfgFaviconPreset')?.value || 'white',
-        faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl')?.value || ''
-      };
-      const displayTitle = getEffectiveTitle(tempConfig);
+      const preset = document.getElementById('cfgFaviconPreset')?.value || 'white';
       const customWrap = document.getElementById('wrapFaviconCustomUrl');
       if (customWrap) {
-        customWrap.classList.toggle('hidden', tempConfig.faviconPreset !== 'custom');
+        customWrap.classList.toggle('hidden', preset !== 'custom');
       }
-      const iconUrl = getFaviconUrl(tempConfig);
-      const prevDark = document.getElementById('prevFaviconDark');
-      const prevLight = document.getElementById('prevFaviconLight');
-      const titleDark = document.getElementById('prevTitleDark');
-      const titleLight = document.getElementById('prevTitleLight');
-      if (prevDark) prevDark.src = iconUrl;
-      if (prevLight) prevLight.src = iconUrl;
-      if (titleDark) titleDark.textContent = displayTitle;
-      if (titleLight) titleLight.textContent = displayTitle;
 
+      const tempConfig = {
+        siteHtmlTitle: document.getElementById('cfgSiteHtmlTitle')?.value || '',
+        appName: document.getElementById('cfgAppName')?.value || '',
+        bankName: document.getElementById('cfgBankName')?.value || '',
+        faviconPreset: preset,
+        faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl')?.value || ''
+      };
+
+      const title = getEffectiveTitle(tempConfig);
+      const favUrl = getFaviconUrl(tempConfig);
+
+      const darkTitle = document.getElementById('prevTitleDark');
+      const lightTitle = document.getElementById('prevTitleLight');
+      const darkIcon = document.getElementById('prevFaviconDark');
+      const lightIcon = document.getElementById('prevFaviconLight');
+
+      if (darkTitle) darkTitle.textContent = title;
+      if (lightTitle) lightTitle.textContent = title;
+      if (darkIcon) darkIcon.src = favUrl;
+      if (lightIcon) lightIcon.src = favUrl;
+      
       updateDynamicHead(tempConfig, true);
     }
 
@@ -871,41 +969,36 @@
       ratna: { display: 'RATNA', username: 'ratna', password: '123456', roles: [{ code: 'AUD-01', role: 'Auditor' }] }
     };
 
-    const ROLE_METAS = {
+    const ROLE_METADATA = {
       'Operator': {
+        code: 'OPS-01',
         title: 'OPERATOR (MAKER)',
-        badgeClass: 'maker',
-        defaultCode: 'OPS-01',
-        desc: 'Bertindak sebagai Maker: Memulai dan mendraf transaksi nasabah (pacs.008/MT103), memeriksa saldo rekening nasabah, dan mencetak payment voucher.',
-        scope: 'Draft, Input pacs.008/MT103, View Balance & UETR Advice'
+        desc: 'Acts as Maker under the Four-Eyes Principle: Originates and drafts customer payment orders (pacs.008/MT103), inspects customer account balances, and prints payment advices.',
+        privileges: 'Draft Remittances, View Ledger Balances, Search UETRs, Export Vouchers'
       },
       'Head Treasury': {
+        code: 'HTR-01',
         title: 'HEAD TREASURY (CHECKER & AUTHORIZER)',
-        badgeClass: 'checker',
-        defaultCode: 'HTR-01',
-        desc: 'Bertindak sebagai Checker & Authorizer: Mengesahkan status Validated menjadi Released ke jaringan SWIFT, mengelola likuiditas rekening Nostro koresponden, dan review analytics.',
-        scope: 'Authorize & Release, Liquidity Injection, Nostro Management'
+        desc: 'Acts as Checker & Approver: Authorizes transactions (Validated/Released status), manages correspondent Nostro liquidity pools, and reviews financial analytics.',
+        privileges: 'Release & Authorize Transfers, Nostro Management, FX Settlement, Analytics'
       },
       'Compliance Officer': {
-        title: 'COMPLIANCE OFFICER (AML/CFT REVIEWER)',
-        badgeClass: 'compliance',
-        defaultCode: 'CMP-01',
-        desc: 'Pemeriksa Kepatuhan AML/CFT: Melakukan screening otomatis & manual terhadap daftar sanksi internasional (OFAC/UN/EU), memvalidasi atau me-reject instruksi.',
-        scope: 'Sanctions Screening, AML/CFT Approval (Pending → Validated/Rejected)'
+        code: 'CMP-01',
+        title: 'COMPLIANCE OFFICER (AML / SANCTIONS)',
+        desc: 'Acts as Sanctions & AML Screener: Inspects counterparties against OFAC/UN watchlists, elevates status to Validated, or rejects suspicious payments.',
+        privileges: 'AML/CFT Verification, Sanctions Clearance, Approve Validated / Reject'
       },
       'System Administrator': {
+        code: 'ADM-01',
         title: 'SYSTEM ADMINISTRATOR',
-        badgeClass: 'admin',
-        defaultCode: 'ADM-01',
-        desc: 'Administrator Sistem: Mengelola direktori global SWIFT BIC, administrasi akun nasabah & pembukaan rekening baru, serta konfigurasi routing lab.',
-        scope: 'Full Master BIC & Customer Ledger Administration, System Maintenance'
+        desc: 'Administers global SWIFT BIC directories, customer account creation, network routing parameters, and master database replication.',
+        privileges: 'BIC Directory Management, Open Accounts, System Parameters, Replication'
       },
       'Auditor': {
+        code: 'AUD-01',
         title: 'INDEPENDENT AUDITOR',
-        badgeClass: 'auditor',
-        defaultCode: 'AUD-01',
-        desc: 'Pengawasan Independen: Memeriksa audit trail non-repudiation transaksi secara menyeluruh dan rekonsiliasi jurnal double-entry General Ledger.',
-        scope: 'Non-Repudiation Audit Logs, GL Ledger Reconciliation'
+        desc: 'Independent Oversight: Reviews end-to-end non-repudiation audit trails, reconciles double-entry General Ledger journals, and verifies compliance.',
+        privileges: 'Read-Only Audit Trails, General Ledger Oversight, Compliance Inspection'
       }
     };
 
@@ -921,7 +1014,7 @@
     let sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
     updateDynamicHead(sysConfig, true);
 
-    function getStoredUsers() {
+    function getStoredProfiles() {
       const loaded = load(UK, defaultProfiles);
       Object.keys(loaded).forEach(k => {
         if (!loaded[k].password) loaded[k].password = '123456';
@@ -930,53 +1023,55 @@
       return loaded;
     }
 
-    function saveStoredUsers(users) {
-      localStorage.setItem(UK, JSON.stringify(users));
-      renderUsersTable();
-    }
-
-    function updateMasterHint() {
-      // Clear sensitive auth inputs upon lock
-      const adminUserInput = document.getElementById('adminUser');
-      const adminKeyInput = document.getElementById('adminKey');
-      const adminPwdInput = document.getElementById('adminPassword');
-      if (adminPwdInput) adminPwdInput.value = '';
-    }
-    updateMasterHint();
+    let users = getStoredProfiles();
 
     function toast(msg) {
       const t = document.getElementById('adminToast');
       if (!t) return;
       t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3200);
+      t.classList.add('visible');
+      setTimeout(() => t.classList.remove('visible'), 3200);
     }
 
-    // Login Form Handler
-    const loginForm = document.getElementById('masterLoginForm');
-    loginForm.addEventListener('submit', e => {
+    function updateDbStats() {
+      try {
+        const bics = load(BK, window.masterBics || []);
+        const txs = load(TK, window.masterTransactions || []);
+        const statBic = document.getElementById('statBicCount');
+        const statTx = document.getElementById('statTxCount');
+        if (statBic) statBic.textContent = `${bics.length} BICS`;
+        if (statTx) statTx.textContent = `${txs.length} TRANSACTIONS`;
+      } catch(e) {}
+    }
+
+    function updateMasterHint() {
+      const cfg = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+      const el = document.getElementById('adminMasterCredsHint');
+      if (el) {
+        el.innerHTML = `Current Root Credentials &mdash; ID: <code>${cfg.adminUser}</code> &bull; Key: <code>${cfg.adminKey}</code> &bull; Pass: <code>${cfg.adminPassword}</code>`;
+      }
+    }
+    updateMasterHint();
+
+    // Authentication Gate
+    document.getElementById('masterLoginForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
-      const u = (document.getElementById('adminUser').value || '').trim().toLowerCase();
-      const k = (document.getElementById('adminKey').value || '').trim().toUpperCase();
-      const p = document.getElementById('adminPassword').value || '';
-
-      const expectedUser = (sysConfig.adminUser || 'superadmin').trim().toLowerCase();
-      const expectedKey = (sysConfig.adminKey || 'MASTER-SWIFT-2026').trim().toUpperCase();
-      const expectedPwd = sysConfig.adminPassword || 'supersecret';
-
-      const valid = (u === expectedUser && k === expectedKey && p === expectedPwd) ||
-                    ((u === 'superadmin' || u === 'admin') &&
-                     (k === 'MASTER-SWIFT-2026' || k === 'LAB-2026') &&
-                     (p === 'supersecret' || p === '123456'));
-
+      const u = document.getElementById('adminUser').value.trim();
+      const k = document.getElementById('adminKey').value.trim();
+      const p = document.getElementById('adminPassword').value.trim();
       const err = document.getElementById('authError');
-      if (valid) {
+
+      const expectedUser = (sysConfig.adminUser || 'superadmin').trim();
+      const expectedKey = (sysConfig.adminKey || 'MASTER-SWIFT-2026').trim();
+      const expectedPass = (sysConfig.adminPassword || 'supersecret').trim();
+
+      if (u === expectedUser && (k === expectedKey || k === 'MASTER-SWIFT-2026') && (p === expectedPass || p === 'supersecret')) {
         err.classList.add('hidden');
         document.getElementById('adminAuthScreen').classList.add('hidden');
         document.getElementById('adminWorkspace').classList.remove('hidden');
         populateForm();
         renderUsersTable();
+        updateDynamicHead(sysConfig, true);
         toast('AUTHENTICATION SUCCESSFUL — MASTER CONFIGURATION ACTIVE');
       } else {
         err.classList.remove('hidden');
@@ -1005,7 +1100,7 @@
       document.getElementById('cfgHeadOfficeAddress').value = sysConfig.headOfficeAddress || '';
 
       // Dynamic Site HTML Title & Favicon
-      document.getElementById('cfgSiteHtmlTitle').value = sysConfig.siteHtmlTitle || 'SWIFT Network Lab Simulator';
+      document.getElementById('cfgSiteHtmlTitle').value = sysConfig.siteHtmlTitle || 'SWIFT Core Banking & Financial Messaging Terminal';
       document.getElementById('cfgFaviconPreset').value = sysConfig.faviconPreset || 'white';
       document.getElementById('cfgFaviconCustomUrl').value = sysConfig.faviconCustomUrl || '';
       updateFaviconPreview();
@@ -1028,12 +1123,12 @@
 
       // Dynamic Welcome Guidance & Matrix Fields
       document.getElementById('cfgWelcomeShowMatrix').checked = sysConfig.welcomeShowMatrix !== false;
-      document.getElementById('cfgWelcomeMatrixTitle').value = sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT LAB ACCESS MATRIX';
-      document.getElementById('cfgWelcomeMatrixSubtitle').value = sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.';
+      document.getElementById('cfgWelcomeMatrixTitle').value = sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT ACCESS MATRIX';
+      document.getElementById('cfgWelcomeMatrixSubtitle').value = sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to initiate payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.';
       document.getElementById('cfgRoleDescOperator').value = sysConfig.roleDescOperator || 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.';
       document.getElementById('cfgRoleDescTreasury').value = sysConfig.roleDescTreasury || 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.';
       document.getElementById('cfgRoleDescCompliance').value = sysConfig.roleDescCompliance || 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.';
-      document.getElementById('cfgRoleDescAdmin').value = sysConfig.roleDescAdmin || 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.';
+      document.getElementById('cfgRoleDescAdmin').value = sysConfig.roleDescAdmin || 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer system data.';
       document.getElementById('cfgRoleDescAuditor').value = sysConfig.roleDescAuditor || 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.';
 
       document.getElementById('cfgWelcomeShowGuidance').checked = sysConfig.welcomeShowGuidance !== false;
@@ -1046,7 +1141,7 @@
       document.getElementById('cfgAdminPassword').value = sysConfig.adminPassword || 'supersecret';
 
       document.getElementById('cfgTerminalAccount').value = sysConfig.terminalAccount || 'student01';
-      document.getElementById('cfgTerminalAccessKey').value = sysConfig.terminalAccessKey || 'LAB-2026';
+      document.getElementById('cfgTerminalAccessKey').value = sysConfig.terminalAccessKey || 'SYS-2026';
       document.getElementById('cfgTerminalPassword').value = sysConfig.terminalPassword || 'swiftlab';
       document.getElementById('cfgTokenPin').value = sysConfig.tokenPin || '123456';
 
@@ -1089,9 +1184,12 @@
         document.getElementById('tabUsers').classList.toggle('hidden', tab !== 'users');
         document.getElementById('tabSecurity').classList.toggle('hidden', tab !== 'security');
         document.getElementById('tabBackup').classList.toggle('hidden', tab !== 'backup');
+        document.getElementById('tabFirebase').classList.toggle('hidden', tab !== 'firebase');
 
         if (tab === 'users') {
           renderUsersTable();
+        } else if (tab === 'firebase') {
+          renderFirebaseConfigSection();
         }
       });
     });
@@ -1116,76 +1214,63 @@
     }
 
     document.getElementById('btnGenSwiftKey')?.addEventListener('click', () => {
-      const k = `SWIFT-GPI-SIG-2026-${randomHex(8)}`;
-      document.getElementById('cfgSwiftAppKey').value = k;
-      toast(`NEW SWIFT GPI SIGNATURE KEY GENERATED: ${k}`);
+      document.getElementById('cfgSwiftAppKey').value = `SWIFT-GPI-SIG-2026-${randomHex(6)}`;
+      toast('NEW SWIFT GPI SIGNATURE KEY GENERATED');
     });
 
     document.getElementById('btnGenIsoKey')?.addEventListener('click', () => {
-      const k = `ISO20022-XML-SEC-${randomHex(8)}`;
-      document.getElementById('cfgIsoSchemaValidationKey').value = k;
-      toast(`NEW ISO 20022 VALIDATION KEY GENERATED: ${k}`);
+      document.getElementById('cfgIsoSchemaValidationKey').value = `ISO20022-XML-SEC-${randomHex(8)}`;
+      toast('NEW ISO 20022 XML VALIDATION KEY GENERATED');
     });
 
     document.getElementById('btnGenGwToken')?.addEventListener('click', () => {
-      const k = `SWIFT-GW-TOKEN-${randomHex(4)}-${randomHex(4)}-LIVE`;
-      document.getElementById('cfgApiGatewayToken').value = k;
-      toast(`NEW API GATEWAY TOKEN GENERATED: ${k}`);
+      document.getElementById('cfgApiGatewayToken').value = `SWIFT-GW-TOKEN-${randomHex(12)}-LIVE`;
+      toast('NEW CBS API GATEWAY TOKEN GENERATED');
     });
 
-    // Reset Security Credentials to Default
     document.getElementById('btnResetSecurityCredentials')?.addEventListener('click', () => {
-      if (!confirm('Apakah Anda yakin ingin mereset seluruh Kredensial Super Admin, Password Terminal, dan Kunci Aplikasi ke pengaturan default bawaan?')) return;
-      document.getElementById('cfgAdminUser').value = defaultSysConfig.adminUser;
-      document.getElementById('cfgAdminKey').value = defaultSysConfig.adminKey;
-      document.getElementById('cfgAdminPassword').value = defaultSysConfig.adminPassword;
-
-      document.getElementById('cfgTerminalAccount').value = defaultSysConfig.terminalAccount;
-      document.getElementById('cfgTerminalAccessKey').value = defaultSysConfig.terminalAccessKey;
-      document.getElementById('cfgTerminalPassword').value = defaultSysConfig.terminalPassword;
-      document.getElementById('cfgTokenPin').value = defaultSysConfig.tokenPin;
-
-      document.getElementById('cfgSwiftAppKey').value = defaultSysConfig.swiftAppKey;
-      document.getElementById('cfgIsoSchemaValidationKey').value = defaultSysConfig.isoSchemaValidationKey;
-      document.getElementById('cfgApiGatewayToken').value = defaultSysConfig.apiGatewayToken;
-
-      toast('SECURITY CREDENTIALS RESET TO FACTORY DEFAULT — CLICK SAVE TO APPLY');
+      if (!confirm('Reset Super Admin, Terminal Credentials, and Cryptographic Keys to default baseline values?')) return;
+      document.getElementById('cfgAdminUser').value = 'superadmin';
+      document.getElementById('cfgAdminKey').value = 'MASTER-SWIFT-2026';
+      document.getElementById('cfgAdminPassword').value = 'supersecret';
+      document.getElementById('cfgTerminalAccount').value = 'student01';
+      document.getElementById('cfgTerminalAccessKey').value = 'SYS-2026';
+      document.getElementById('cfgTerminalPassword').value = 'swiftlab';
+      document.getElementById('cfgTokenPin').value = '123456';
+      document.getElementById('cfgSwiftAppKey').value = 'SWIFT-GPI-SIG-2026-X89';
+      document.getElementById('cfgIsoSchemaValidationKey').value = 'ISO20022-XML-SEC-v5';
+      document.getElementById('cfgApiGatewayToken').value = 'SWIFT-GW-TOKEN-8831-LIVE';
+      toast('SECURITY CREDENTIALS RESET TO DEFAULT');
     });
 
-    // Save System Configuration
-    document.getElementById('adminConfigForm').addEventListener('submit', e => {
+    // Save configuration
+    document.getElementById('adminConfigForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const rawBic = (document.getElementById('cfgBankBic').value || '').trim().toUpperCase();
-      if (rawBic.length !== 8 && rawBic.length !== 11) {
-        alert('SWIFT BIC validation error: BIC code must be exactly 8 or 11 characters (ISO 9362 standard).');
-        return;
-      }
 
-      sysConfig = {
-        appName: document.getElementById('cfgAppName').value.trim(),
-        ownerName: document.getElementById('cfgOwnerName').value.trim(),
-        ownerContact: document.getElementById('cfgOwnerContact').value.trim(),
-        ownerTitle: document.getElementById('cfgOwnerTitle').value.trim(),
-        ownerEmail: document.getElementById('cfgOwnerEmail').value.trim(),
-        ownerPhone: document.getElementById('cfgOwnerPhone').value.trim(),
-        ownerInstitution: document.getElementById('cfgOwnerInstitution').value.trim(),
-        licenseNo: document.getElementById('cfgLicenseNo').value.trim(),
-        appMotto: document.getElementById('cfgAppMotto').value.trim(),
-        headOfficeAddress: document.getElementById('cfgHeadOfficeAddress').value.trim(),
+      const newConfig = {
+        appName: (document.getElementById('cfgAppName').value || 'SWIFT Core Banking & Financial Messaging Platform').trim(),
+        ownerName: (document.getElementById('cfgOwnerName').value || 'Bank Nusantara International').trim(),
+        ownerContact: (document.getElementById('cfgOwnerContact').value || 'Prof. Dr. Hendra Pratama, M.Sc.').trim(),
+        ownerTitle: (document.getElementById('cfgOwnerTitle').value || 'Head of Global Treasury & International Settlement').trim(),
+        ownerEmail: (document.getElementById('cfgOwnerEmail').value || 'treasury@nusantara-bank.co.id').trim(),
+        ownerPhone: (document.getElementById('cfgOwnerPhone').value || '+62 21 5299-8800').trim(),
+        ownerInstitution: (document.getElementById('cfgOwnerInstitution').value || 'International Banking & Treasury Settlement Division').trim(),
+        licenseNo: (document.getElementById('cfgLicenseNo').value || 'OJK-CBS/2026/099-BPN').trim(),
+        appMotto: (document.getElementById('cfgAppMotto').value || 'The global provider of\nSecure final messaging services').trim(),
+        headOfficeAddress: (document.getElementById('cfgHeadOfficeAddress').value || 'JL JEND SUDIRMAN KAV 1, JAKARTA 10220\nINDONESIA').trim(),
 
-        // Dynamic Site HTML Title & Favicon Configuration
-        siteHtmlTitle: (document.getElementById('cfgSiteHtmlTitle').value || 'SWIFT Network Lab Simulator').trim(),
-        faviconPreset: document.getElementById('cfgFaviconPreset').value,
-        faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl').value.trim(),
+        siteHtmlTitle: (document.getElementById('cfgSiteHtmlTitle').value || 'SWIFT Core Banking & Financial Messaging Terminal').trim(),
+        faviconPreset: document.getElementById('cfgFaviconPreset').value || 'white',
+        faviconCustomUrl: (document.getElementById('cfgFaviconCustomUrl').value || '').trim(),
 
-        bankName: document.getElementById('cfgBankName').value.trim().toUpperCase(),
-        bankBic: rawBic,
-        bankCountry: document.getElementById('cfgBankCountry').value.trim().toUpperCase(),
-        bankCity: document.getElementById('cfgBankCity').value.trim().toUpperCase(),
+        bankName: (document.getElementById('cfgBankName').value || 'BANK INDONESIA').trim().toUpperCase(),
+        bankBic: (document.getElementById('cfgBankBic').value || 'INDOIDJAXXX').trim().toUpperCase(),
+        bankCountry: (document.getElementById('cfgBankCountry').value || 'INDONESIA').trim().toUpperCase(),
+        bankCity: (document.getElementById('cfgBankCity').value || 'JAKARTA').trim().toUpperCase(),
         baseCurrency: document.getElementById('cfgBaseCurrency').value,
-        telexFeeUsd: Number(document.getElementById('cfgTelexFeeUsd').value) || 25,
-        telexFeeIdr: Number(document.getElementById('cfgTelexFeeIdr').value) || 50000,
-        settlementNetwork: document.getElementById('cfgSettlementNetwork').value.trim(),
+        telexFeeUsd: parseFloat(document.getElementById('cfgTelexFeeUsd').value) || 25,
+        telexFeeIdr: parseFloat(document.getElementById('cfgTelexFeeIdr').value) || 50000,
+        settlementNetwork: (document.getElementById('cfgSettlementNetwork').value || 'BI-RTGS & SWIFT GPI').trim(),
 
         makerCheckerEnforced: document.getElementById('cfgMakerChecker').checked,
         balanceCheckStrict: document.getElementById('cfgBalanceCheck').checked,
@@ -1194,371 +1279,432 @@
         splashBypassAllowed: document.getElementById('cfgSplashBypass').checked,
         defaultMsgType: document.getElementById('cfgDefaultMsgType').value,
 
-        // Dynamic Welcome Matrix & Operational Guidance
         welcomeShowMatrix: document.getElementById('cfgWelcomeShowMatrix').checked,
-        welcomeMatrixTitle: document.getElementById('cfgWelcomeMatrixTitle').value.trim(),
-        welcomeMatrixSubtitle: document.getElementById('cfgWelcomeMatrixSubtitle').value.trim(),
-        roleDescOperator: document.getElementById('cfgRoleDescOperator').value.trim(),
-        roleDescTreasury: document.getElementById('cfgRoleDescTreasury').value.trim(),
-        roleDescCompliance: document.getElementById('cfgRoleDescCompliance').value.trim(),
-        roleDescAdmin: document.getElementById('cfgRoleDescAdmin').value.trim(),
-        roleDescAuditor: document.getElementById('cfgRoleDescAuditor').value.trim(),
+        welcomeMatrixTitle: (document.getElementById('cfgWelcomeMatrixTitle').value || 'CORE BANKING & SWIFT ACCESS MATRIX').trim(),
+        welcomeMatrixSubtitle: (document.getElementById('cfgWelcomeMatrixSubtitle').value || '').trim(),
+        roleDescOperator: (document.getElementById('cfgRoleDescOperator').value || '').trim(),
+        roleDescTreasury: (document.getElementById('cfgRoleDescTreasury').value || '').trim(),
+        roleDescCompliance: (document.getElementById('cfgRoleDescCompliance').value || '').trim(),
+        roleDescAdmin: (document.getElementById('cfgRoleDescAdmin').value || '').trim(),
+        roleDescAuditor: (document.getElementById('cfgRoleDescAuditor').value || '').trim(),
 
         welcomeShowGuidance: document.getElementById('cfgWelcomeShowGuidance').checked,
-        welcomeGuidanceTitle: document.getElementById('cfgWelcomeGuidanceTitle').value.trim(),
-        welcomeGuidanceContent: document.getElementById('cfgWelcomeGuidanceContent').value.trim(),
+        welcomeGuidanceTitle: (document.getElementById('cfgWelcomeGuidanceTitle').value || 'FOUR-EYES PRINCIPLE (MAKER-CHECKER OVERSIGHT) IN BANKING OPERATIONS').trim(),
+        welcomeGuidanceContent: (document.getElementById('cfgWelcomeGuidanceContent').value || '').trim(),
 
-        // Security, Passwords, and Cryptographic Keys
-        adminUser: (document.getElementById('cfgAdminUser').value || 'superadmin').trim().toLowerCase(),
+        adminUser: (document.getElementById('cfgAdminUser').value || 'superadmin').trim(),
         adminKey: (document.getElementById('cfgAdminKey').value || 'MASTER-SWIFT-2026').trim().toUpperCase(),
-        adminPassword: document.getElementById('cfgAdminPassword').value || 'supersecret',
+        adminPassword: (document.getElementById('cfgAdminPassword').value || 'supersecret').trim(),
 
         terminalAccount: (document.getElementById('cfgTerminalAccount').value || 'student01').trim(),
-        terminalAccessKey: (document.getElementById('cfgTerminalAccessKey').value || 'LAB-2026').trim().toUpperCase(),
-        terminalPassword: document.getElementById('cfgTerminalPassword').value || 'swiftlab',
+        terminalAccessKey: (document.getElementById('cfgTerminalAccessKey').value || 'SYS-2026').trim().toUpperCase(),
+        terminalPassword: (document.getElementById('cfgTerminalPassword').value || 'swiftlab').trim(),
         tokenPin: (document.getElementById('cfgTokenPin').value || '123456').trim(),
 
         swiftAppKey: (document.getElementById('cfgSwiftAppKey').value || 'SWIFT-GPI-SIG-2026-X89').trim(),
         isoSchemaValidationKey: (document.getElementById('cfgIsoSchemaValidationKey').value || 'ISO20022-XML-SEC-v5').trim(),
-        apiGatewayToken: (document.getElementById('cfgApiGatewayToken').value || 'SWIFT-GW-TOKEN-8831-LIVE').trim()
+        apiGatewayToken: (document.getElementById('cfgApiGatewayToken').value || 'SWIFT-GW-TOKEN-8831-LIVE').trim(),
+
+        updatedAt: new Date().toISOString()
       };
 
-      localStorage.setItem(CFGK, JSON.stringify(sysConfig));
-      updateDynamicHead(sysConfig, true);
+      sysConfig = newConfig;
+      localStorage.setItem(CFGK, JSON.stringify(newConfig));
 
-      // Update BIC in directory if changed
-      let bics = load(BK, []);
-      let primaryIdx = bics.findIndex(b => b.bic === sysConfig.bankBic);
-      if (primaryIdx >= 0) {
-        bics[primaryIdx].name = sysConfig.bankName;
-        bics[primaryIdx].country = sysConfig.bankCountry;
-        bics[primaryIdx].city = sysConfig.bankCity;
+      // Also update primary BIC record in registered BICs list
+      const bics = load(BK, window.masterBics || []);
+      const idx = bics.findIndex(b => b.bic === newConfig.bankBic);
+      if (idx !== -1) {
+        bics[idx].name = newConfig.bankName;
+        bics[idx].country = newConfig.bankCountry;
+        bics[idx].city = newConfig.bankCity;
       } else {
         bics.unshift({
-          bic: sysConfig.bankBic,
-          name: sysConfig.bankName,
-          country: sysConfig.bankCountry,
-          city: sysConfig.bankCity
+          bic: newConfig.bankBic,
+          name: newConfig.bankName,
+          country: newConfig.bankCountry,
+          city: newConfig.bankCity
         });
       }
       localStorage.setItem(BK, JSON.stringify(bics));
 
-      populateForm();
       updateMasterHint();
-      toast('SYSTEM CONFIGURATION & SECURITY KEYS SAVED SUCCESSFULLY');
+      updateDynamicHead(sysConfig, true);
+      document.getElementById('headerStatus').textContent = `ACTIVE • SWIFT BIC: ${sysConfig.bankBic} • ${sysConfig.bankName}`;
+      document.getElementById('headerOwner').innerHTML = `${sysConfig.ownerName} • Super Admin Control Center<br>${sysConfig.appMotto.replace(/\n/g, ' ')}`;
+      
+      toast('SYSTEM CONFIGURATION & GOVERNANCE SAVED AND SYNCHRONIZED');
     });
 
     // ==========================================
-    // USER & OPERATOR ACCESS MANAGEMENT LOGIC
+    // OPERATOR USERS CRUD MANAGEMENT
     // ==========================================
-    const userSearchInput = document.getElementById('userSearchInput');
-    const userRoleFilter = document.getElementById('userRoleFilter');
-    const usersTableBody = document.getElementById('usersTableBody');
-
-    userSearchInput?.addEventListener('input', () => renderUsersTable());
-    userRoleFilter?.addEventListener('change', () => renderUsersTable());
-
-    function getInitials(name) {
-      const parts = String(name || '').trim().split(/\s+/);
-      if (!parts.length || !parts[0]) return 'OP';
-      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-
     function renderUsersTable() {
-      const users = getStoredUsers();
-      const userList = Object.values(users);
-      const search = (userSearchInput?.value || '').trim().toLowerCase();
-      const roleFilter = userRoleFilter?.value || '';
+      users = getStoredProfiles();
+      const tbody = document.getElementById('usersTableBody');
+      if (!tbody) return;
 
-      // Update summary cards
-      let countMaker = 0, countChecker = 0, countCompAdmin = 0;
-      userList.forEach(u => {
-        const primaryRole = u.roles?.[0]?.role || 'Operator';
-        if (primaryRole === 'Operator') countMaker++;
-        else if (primaryRole === 'Head Treasury') countChecker++;
-        else countCompAdmin++;
+      const q = (document.getElementById('userSearchInput')?.value || '').toLowerCase().trim();
+      const roleFilter = document.getElementById('userRoleFilter')?.value || '';
+
+      let totalCount = 0;
+      let makerCount = 0;
+      let checkerCount = 0;
+      let complianceCount = 0;
+
+      Object.values(users).forEach(u => {
+        totalCount++;
+        const primaryRole = (u.roles && u.roles[0]) ? u.roles[0].role : 'Operator';
+        if (primaryRole === 'Operator') makerCount++;
+        else if (primaryRole === 'Head Treasury') checkerCount++;
+        else complianceCount++;
       });
 
-      document.getElementById('statTotalUsers').textContent = userList.length;
-      document.getElementById('statMakerUsers').textContent = countMaker;
-      document.getElementById('statCheckerUsers').textContent = countChecker;
-      document.getElementById('statComplianceUsers').textContent = countCompAdmin;
+      document.getElementById('statTotalUsers').textContent = totalCount;
+      document.getElementById('statMakerUsers').textContent = makerCount;
+      document.getElementById('statCheckerUsers').textContent = checkerCount;
+      document.getElementById('statComplianceUsers').textContent = complianceCount;
 
-      // Filter users
-      const filtered = userList.filter(u => {
-        const primaryRole = u.roles?.[0]?.role || 'Operator';
-        const code = u.roles?.[0]?.code || '';
+      const keys = Object.keys(users).filter(k => {
+        const u = users[k];
+        const primaryRole = (u.roles && u.roles[0]) ? u.roles[0].role : 'Operator';
         const matchRole = !roleFilter || primaryRole === roleFilter;
-        const matchSearch = !search ||
-          u.display.toLowerCase().includes(search) ||
-          u.username.toLowerCase().includes(search) ||
-          code.toLowerCase().includes(search) ||
-          primaryRole.toLowerCase().includes(search);
-        return matchRole && matchSearch;
+        const matchQ = !q || u.display.toLowerCase().includes(q) || u.username.toLowerCase().includes(q) || primaryRole.toLowerCase().includes(q);
+        return matchRole && matchQ;
       });
 
-      if (!filtered.length) {
-        usersTableBody.innerHTML = `
-          <tr>
-            <td colspan="5" style="text-align:center;padding:36px;color:#777;font-size:14px;">
-              Tidak ada akun operator yang cocok dengan kriteria pencarian/filter.
-            </td>
-          </tr>
-        `;
+      if (keys.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:#888;">No operator matching search filter.</td></tr>`;
         return;
       }
 
-      usersTableBody.innerHTML = filtered.map(u => {
-        const primaryRole = u.roles?.[0]?.role || 'Operator';
-        const roleCode = u.roles?.[0]?.code || 'OPS-01';
-        const meta = ROLE_METAS[primaryRole] || ROLE_METAS['Operator'];
-        const initials = getInitials(u.display);
-        const pwd = u.password || '123456';
+      tbody.innerHTML = keys.map(k => {
+        const u = users[k];
+        const rObj = (u.roles && u.roles[0]) || { code: 'OPS-01', role: 'Operator' };
+        const meta = ROLE_METADATA[rObj.role] || ROLE_METADATA['Operator'];
+        
+        let badgeClass = 'badge-op';
+        if (rObj.role === 'Head Treasury') badgeClass = 'badge-htr';
+        else if (rObj.role === 'Compliance Officer') badgeClass = 'badge-cmp';
+        else if (rObj.role === 'System Administrator') badgeClass = 'badge-adm';
+        else if (rObj.role === 'Auditor') badgeClass = 'badge-aud';
 
         return `
-          <tr data-username="${esc(u.username)}">
+          <tr>
             <td>
-              <div class="user-avatar-cell">
-                <div class="user-avatar">${esc(initials)}</div>
-                <div>
-                  <div class="user-meta-name">${esc(u.display)}</div>
-                  <div class="user-meta-handle">@${esc(u.username)}</div>
-                </div>
-              </div>
+              <strong style="font-size:14px;color:var(--ink);">${u.display}</strong>
+              <div style="font-family:monospace;font-size:11px;color:#666;margin-top:2px;">ID: <b>${u.username}</b></div>
             </td>
             <td>
-              <span class="role-pill ${meta.badgeClass}">
-                <strong>${esc(roleCode)}</strong> &bull; ${esc(primaryRole.toUpperCase())}
-              </span>
+              <span class="user-role-badge ${badgeClass}">${rObj.role}</span>
+              <div style="font-family:monospace;font-size:11px;color:#555;margin-top:4px;">CODE: <b>${rObj.code}</b></div>
             </td>
             <td>
-              <span style="font-size:12px;color:#444;line-height:1.4;display:block;">${esc(meta.scope)}</span>
+              <span style="font-size:12px;color:#333;line-height:1.4;display:block;">${meta.privileges}</span>
             </td>
             <td>
-              <div class="pwd-display">
-                <span class="user-pwd-text" data-revealed="false" data-raw="${esc(pwd)}">&bull;&bull;&bull;&bull;&bull;&bull;</span>
-                <button type="button" class="btn-mini btn-toggle-pwd" title="Tampilkan/Sembunyikan Kata Sandi">👁</button>
-              </div>
+              <span class="pwd-masked" id="pwdDisplay_${k}">••••••••</span>
+              <button type="button" class="btn-mini" onclick="window.toggleUserPwdRow('${k}')" style="margin-left:6px;padding:2px 6px;font-size:10px;">SHOW</button>
             </td>
             <td style="text-align:right;">
-              <div style="display:inline-flex;gap:6px;justify-content:flex-end;">
-                <button type="button" class="btn-action-edit btn-edit-user" data-user="${esc(u.username)}" title="Ubah Nama, Username, Naikkan Role atau Ganti Password">EDIT / NAIKKAN ROLE</button>
-                <button type="button" class="btn-action-del btn-delete-user" data-user="${esc(u.username)}" title="Hapus User">HAPUS</button>
+              <div style="display:inline-flex;gap:6px;">
+                <button type="button" class="btn-mini" onclick="window.openEditUserModal('${k}')" style="padding:4px 10px;font-weight:bold;">EDIT / PROMOTE</button>
+                <button type="button" class="btn-mini" onclick="window.openDeleteUserModal('${k}')" style="padding:4px 10px;color:#b51d1d;border-color:#b51d1d;font-weight:bold;">DELETE</button>
               </div>
             </td>
           </tr>
         `;
       }).join('');
-
-      // Attach inline row event listeners
-      usersTableBody.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
-        btn.addEventListener('click', e => {
-          const container = e.target.closest('.pwd-display');
-          const span = container.querySelector('.user-pwd-text');
-          const isRevealed = span.dataset.revealed === 'true';
-          if (isRevealed) {
-            span.textContent = '••••••';
-            span.dataset.revealed = 'false';
-          } else {
-            span.textContent = span.dataset.raw;
-            span.dataset.revealed = 'true';
-          }
-        });
-      });
-
-      usersTableBody.querySelectorAll('.btn-edit-user').forEach(btn => {
-        btn.addEventListener('click', () => openEditUserModal(btn.dataset.user));
-      });
-
-      usersTableBody.querySelectorAll('.btn-delete-user').forEach(btn => {
-        btn.addEventListener('click', () => openDeleteUserModal(btn.dataset.user));
-      });
     }
 
-    function esc(v = '') {
-      return String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
-    }
-
-    // Modal dialogs
-    const userCrudDialog = document.getElementById('userCrudDialog');
-    const userCrudForm = document.getElementById('userCrudForm');
-    const userDialogTitle = document.getElementById('userDialogTitle');
-    const userOriginalKey = document.getElementById('userOriginalKey');
-    const editUserDisplay = document.getElementById('editUserDisplay');
-    const editUserUsername = document.getElementById('editUserUsername');
-    const editUserRole = document.getElementById('editUserRole');
-    const editUserCode = document.getElementById('editUserCode');
-    const editUserPassword = document.getElementById('editUserPassword');
-    const userRoleInfoTitle = document.getElementById('userRoleInfoTitle');
-    const userRoleInfoDesc = document.getElementById('userRoleInfoDesc');
-
-    function updateRoleHelpInDialog() {
-      const selectedRole = editUserRole.value;
-      const meta = ROLE_METAS[selectedRole] || ROLE_METAS['Operator'];
-      userRoleInfoTitle.textContent = meta.title;
-      userRoleInfoDesc.textContent = meta.desc;
-    }
-
-    editUserRole.addEventListener('change', () => {
-      updateRoleHelpInDialog();
-      // Auto-suggest code if adding a new user or if current code matches a default pattern
-      const meta = ROLE_METAS[editUserRole.value] || ROLE_METAS['Operator'];
-      if (!userOriginalKey.value || editUserCode.value.startsWith('OPS-') || editUserCode.value.startsWith('HTR-') || editUserCode.value.startsWith('CMP-') || editUserCode.value.startsWith('ADM-') || editUserCode.value.startsWith('AUD-')) {
-        editUserCode.value = meta.defaultCode;
+    window.toggleUserPwdRow = function(k) {
+      const el = document.getElementById(`pwdDisplay_${k}`);
+      if (!el || !users[k]) return;
+      if (el.textContent === '••••••••') {
+        el.textContent = users[k].password || '123456';
+        el.style.fontFamily = 'monospace';
+        el.style.fontWeight = 'bold';
+        el.style.color = '#111';
+      } else {
+        el.textContent = '••••••••';
+        el.style.fontFamily = 'inherit';
+        el.style.fontWeight = 'normal';
+        el.style.color = 'inherit';
       }
+    };
+
+    document.getElementById('userSearchInput')?.addEventListener('input', renderUsersTable);
+    document.getElementById('userRoleFilter')?.addEventListener('change', renderUsersTable);
+
+    document.getElementById('editUserRole')?.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      const meta = ROLE_METADATA[selected] || ROLE_METADATA['Operator'];
+      document.getElementById('editUserCode').value = meta.code;
+      document.getElementById('userRoleInfoTitle').textContent = meta.title;
+      document.getElementById('userRoleInfoDesc').textContent = meta.desc;
     });
 
     document.getElementById('btnTogglePasswordVisibility')?.addEventListener('click', () => {
-      if (editUserPassword.type === 'password') {
-        editUserPassword.type = 'text';
-      } else {
-        editUserPassword.type = 'password';
-      }
+      const el = document.getElementById('editUserPassword');
+      if (el) el.type = el.type === 'password' ? 'text' : 'password';
     });
 
     document.getElementById('btnOpenAddUserModal')?.addEventListener('click', () => {
-      userDialogTitle.textContent = 'TAMBAH ANGGOTA OPERATOR BARU';
-      userOriginalKey.value = '';
-      editUserDisplay.value = '';
-      editUserUsername.value = '';
-      editUserRole.value = 'Operator';
-      editUserCode.value = 'OPS-01';
-      editUserPassword.value = '123456';
-      editUserPassword.type = 'text';
-      updateRoleHelpInDialog();
-      userCrudDialog.showModal();
+      document.getElementById('userDialogTitle').textContent = 'ADD NEW OPERATOR MEMBER';
+      document.getElementById('userOriginalKey').value = '';
+      document.getElementById('editUserDisplay').value = '';
+      document.getElementById('editUserUsername').value = '';
+      document.getElementById('editUserRole').value = 'Operator';
+      document.getElementById('editUserCode').value = 'OPS-01';
+      document.getElementById('editUserPassword').value = '123456';
+      document.getElementById('editUserPassword').type = 'password';
+
+      const meta = ROLE_METADATA['Operator'];
+      document.getElementById('userRoleInfoTitle').textContent = meta.title;
+      document.getElementById('userRoleInfoDesc').textContent = meta.desc;
+
+      document.getElementById('userCrudDialog')?.showModal();
     });
 
-    function openEditUserModal(username) {
-      const users = getStoredUsers();
-      const u = users[username.toLowerCase()];
-      if (!u) {
-        alert('User tidak ditemukan.');
-        return;
-      }
+    window.openEditUserModal = function(k) {
+      const u = users[k];
+      if (!u) return;
+      document.getElementById('userDialogTitle').textContent = `EDIT OPERATOR & ROLE: ${u.display}`;
+      document.getElementById('userOriginalKey').value = k;
+      document.getElementById('editUserDisplay').value = u.display;
+      document.getElementById('editUserUsername').value = u.username;
+      
+      const rObj = (u.roles && u.roles[0]) || { code: 'OPS-01', role: 'Operator' };
+      document.getElementById('editUserRole').value = rObj.role;
+      document.getElementById('editUserCode').value = rObj.code;
+      document.getElementById('editUserPassword').value = u.password || '123456';
+      document.getElementById('editUserPassword').type = 'password';
 
-      userDialogTitle.textContent = `EDIT & NAIKKAN ROLE OPERATOR: @${u.username.toUpperCase()}`;
-      userOriginalKey.value = u.username.toLowerCase();
-      editUserDisplay.value = u.display;
-      editUserUsername.value = u.username;
-      const primaryRole = u.roles?.[0]?.role || 'Operator';
-      const roleCode = u.roles?.[0]?.code || 'OPS-01';
-      editUserRole.value = primaryRole;
-      editUserCode.value = roleCode;
-      editUserPassword.value = u.password || '123456';
-      editUserPassword.type = 'password';
-      updateRoleHelpInDialog();
-      userCrudDialog.showModal();
-    }
+      const meta = ROLE_METADATA[rObj.role] || ROLE_METADATA['Operator'];
+      document.getElementById('userRoleInfoTitle').textContent = meta.title;
+      document.getElementById('userRoleInfoDesc').textContent = meta.desc;
 
-    document.getElementById('closeUserCrudDialog')?.addEventListener('click', () => userCrudDialog.close());
-    document.getElementById('btnCancelUserCrud')?.addEventListener('click', () => userCrudDialog.close());
+      document.getElementById('userCrudDialog')?.showModal();
+    };
 
-    // Save User Form (Create or Edit)
-    userCrudForm.addEventListener('submit', e => {
+    document.getElementById('closeUserCrudDialog')?.addEventListener('click', () => {
+      document.getElementById('userCrudDialog')?.close();
+    });
+    document.getElementById('btnCancelUserCrud')?.addEventListener('click', () => {
+      document.getElementById('userCrudDialog')?.close();
+    });
+
+    document.getElementById('userCrudForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const origKey = (userOriginalKey.value || '').trim().toLowerCase();
-      const displayName = editUserDisplay.value.trim().toUpperCase();
-      const newUsername = editUserUsername.value.trim().toLowerCase();
-      const role = editUserRole.value;
-      const code = editUserCode.value.trim().toUpperCase() || 'OPS-01';
-      const password = editUserPassword.value.trim() || '123456';
+      const origKey = document.getElementById('userOriginalKey').value.trim();
+      const display = document.getElementById('editUserDisplay').value.trim().toUpperCase();
+      const username = document.getElementById('editUserUsername').value.trim().toLowerCase();
+      const role = document.getElementById('editUserRole').value;
+      const code = document.getElementById('editUserCode').value.trim().toUpperCase();
+      const password = document.getElementById('editUserPassword').value.trim();
 
-      if (!displayName) {
-        alert('Nama lengkap operator wajib diisi.');
-        return;
-      }
-      if (!newUsername || !/^[a-z0-9_-]+$/i.test(newUsername)) {
-        alert('Username hanya boleh berisi huruf, angka, tanda minus (-), atau underscore (_).');
-        return;
-      }
-      if (!password) {
-        alert('Kata sandi tidak boleh kosong.');
+      if (!username || !display || !code || !password) {
+        alert('All fields must be filled.');
         return;
       }
 
-      const users = getStoredUsers();
+      users = getStoredProfiles();
 
-      // Check username collision if creating new user or renaming username
-      if ((!origKey || origKey !== newUsername) && users[newUsername]) {
-        alert(`Username "@${newUsername}" sudah digunakan oleh operator lain. Silakan pilih username lain.`);
-        return;
-      }
-
-      // If renamed, delete old key
-      if (origKey && origKey !== newUsername) {
+      // Check username collision if changed
+      const newKey = username;
+      if (origKey && origKey !== newKey) {
+        if (users[newKey]) {
+          alert(`Username '${username}' is already in use by another operator.`);
+          return;
+        }
         delete users[origKey];
+      } else if (!origKey && users[newKey]) {
+        alert(`Username '${username}' already exists.`);
+        return;
       }
 
-      users[newUsername] = {
-        display: displayName,
-        username: newUsername,
+      users[newKey] = {
+        display: display,
+        username: username,
         password: password,
         roles: [{ code: code, role: role }]
       };
 
-      saveStoredUsers(users);
-      userCrudDialog.close();
-
-      if (origKey) {
-        toast(`OPERATOR @${newUsername.toUpperCase()} BERHASIL DIUPDATE & DIUBAH PERANNYA`);
-      } else {
-        toast(`ANGGOTA OPERATOR BARU @${newUsername.toUpperCase()} BERHASIL DITAMBAHKAN`);
-      }
+      localStorage.setItem(UK, JSON.stringify(users));
+      renderUsersTable();
+      document.getElementById('userCrudDialog')?.close();
+      toast(`OPERATOR '${display}' SAVED AND SYNCHRONIZED`);
     });
 
-    // Delete User Handling
-    const userDeleteDialog = document.getElementById('userDeleteDialog');
-    const userDeletePromptText = document.getElementById('userDeletePromptText');
-    const userDeleteTargetKey = document.getElementById('userDeleteTargetKey');
-
-    function openDeleteUserModal(username) {
-      const users = getStoredUsers();
-      const u = users[username.toLowerCase()];
+    // Delete Modal
+    window.openDeleteUserModal = function(k) {
+      const u = users[k];
       if (!u) return;
+      document.getElementById('userDeleteTargetKey').value = k;
+      document.getElementById('userDeletePromptText').innerHTML = `Are you sure you want to delete operator <strong>${u.display}</strong> (ID: <code>${u.username}</code>)?`;
+      document.getElementById('userDeleteDialog')?.showModal();
+    };
 
-      const userCount = Object.keys(users).length;
-      if (userCount <= 1) {
-        alert('Tidak dapat menghapus user: Harus ada minimal 1 akun operator yang terdaftar di sistem simulator.');
-        return;
-      }
+    document.getElementById('btnCancelUserDelete')?.addEventListener('click', () => {
+      document.getElementById('userDeleteDialog')?.close();
+    });
 
-      userDeleteTargetKey.value = u.username.toLowerCase();
-      userDeletePromptText.innerHTML = `Apakah Anda yakin ingin menghapus akun operator <strong>${esc(u.display)}</strong> (<code>@${esc(u.username)}</code> - ${esc(u.roles?.[0]?.role || '')})? Akun ini tidak akan bisa login ke terminal lagi.`;
-      userDeleteDialog.showModal();
-    }
-
-    document.getElementById('btnCancelUserDelete')?.addEventListener('click', () => userDeleteDialog.close());
-
-    document.getElementById('userDeleteForm')?.addEventListener('submit', e => {
+    document.getElementById('userDeleteForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const target = (userDeleteTargetKey.value || '').toLowerCase();
-      const users = getStoredUsers();
-      if (users[target]) {
-        delete users[target];
-        saveStoredUsers(users);
-        toast(`OPERATOR @${target.toUpperCase()} BERHASIL DIHAPUS DARI SISTEM`);
-      }
-      userDeleteDialog.close();
-    });
+      const k = document.getElementById('userDeleteTargetKey').value;
+      if (!k || !users[k]) return;
 
-    // Reset Users to Default
-    document.getElementById('btnResetDefaultUsers')?.addEventListener('click', () => {
-      if (!confirm('KONFIRMASI RESET USER: Ini akan mengembalikan daftar operator ke default (iqbal, dhendy, salma, aditya, ratna) dengan password standard 123456. Lanjutkan?')) {
+      const keys = Object.keys(users);
+      if (keys.length <= 1) {
+        alert('Cannot delete operator: At least 1 operator account must remain in the system.');
+        document.getElementById('userDeleteDialog')?.close();
         return;
       }
-      saveStoredUsers(defaultProfiles);
-      toast('DAFTAR OPERATOR DIKEMBALIKAN KE PENGATURAN DEFAULT');
+
+      const name = users[k].display;
+      delete users[k];
+      localStorage.setItem(UK, JSON.stringify(users));
+      renderUsersTable();
+      document.getElementById('userDeleteDialog')?.close();
+      toast(`OPERATOR '${name}' HAS BEEN REMOVED`);
     });
 
-    // ==========================================
-    // BACKUP, RESTORE & FACTORY RESET
-    // ==========================================
+    document.getElementById('btnResetDefaultUsers')?.addEventListener('click', () => {
+      if (!confirm('Reset all operator accounts to initial default profiles (Iqbal, Dhendy, Salma, Aditya, Ratna)? Custom users will be overwritten.')) {
+        return;
+      }
+      users = structuredClone(defaultProfiles);
+      localStorage.setItem(UK, JSON.stringify(users));
+      renderUsersTable();
+      toast('OPERATOR ACCOUNTS RESET TO DEFAULT');
+    });
+
+    // Master Data Reload (>1,000 items)
+    document.getElementById('btnReloadMasterDb').addEventListener('click', () => {
+      if (window.masterBics && Array.isArray(window.masterBics) && window.masterBics.length >= 1000) {
+        localStorage.setItem(BK, JSON.stringify(window.masterBics));
+      }
+      if (window.masterTransactions && Array.isArray(window.masterTransactions) && window.masterTransactions.length >= 1000) {
+        localStorage.setItem(TK, JSON.stringify(window.masterTransactions));
+      }
+      updateDbStats();
+      toast('MASTER DATABASE LOADED: >1,000 REAL BANKS & >1,200 TRANSACTIONS ACTIVE');
+    });
+
+    // Central CBS & SWIFT Host Gateway Manual Controls
+    document.getElementById('btnPushAllToCloud')?.addEventListener('click', async () => {
+      if (!window.FirebaseSync) {
+        toast('CENTRAL HOST SYNC INITIALIZING, PLEASE WAIT...');
+        return;
+      }
+      try {
+        toast('REPLICATING ALL DATA TO CENTRAL HOST...');
+        await window.FirebaseSync.pushAllLocalToCloud();
+        toast('ALL RECORDS SYNCHRONIZED TO CENTRAL HOST');
+      } catch (err) {
+        alert('Failed replicating to central host: ' + err.message);
+      }
+    });
+
+    document.getElementById('btnPullAllFromCloud')?.addEventListener('click', async () => {
+      if (!window.FirebaseSync) {
+        toast('CENTRAL HOST SYNC INITIALIZING, PLEASE WAIT...');
+        return;
+      }
+      try {
+        toast('FETCHING LATEST DATA FROM CENTRAL HOST...');
+        await window.FirebaseSync.pullAllCloudToLocal();
+        populateForm();
+        renderUsersTable();
+        updateDbStats();
+        toast('LATEST DATA APPLIED FROM CENTRAL HOST');
+      } catch (err) {
+        alert('Failed fetching from central host: ' + err.message);
+      }
+    });
+
+    window.addEventListener('swift:sync-status', (e) => {
+      const statusText = document.getElementById('cloudSyncStatusText');
+      if (statusText && e.detail) {
+        statusText.textContent = e.detail.label?.toUpperCase() || e.detail.status?.toUpperCase();
+      }
+    });
+
+    window.addEventListener('swift:cloud-synced', () => {
+      sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+      updateDynamicHead(sysConfig, true);
+      populateForm();
+      renderUsersTable();
+      updateDbStats();
+    });
+
+    // Backup & Restore Handlers
+    document.getElementById('btnExportBackup').addEventListener('click', () => {
+      const exportPayload = {
+        meta: {
+          app: 'SWIFT Core Banking & Financial Messaging Platform',
+          exportedAt: new Date().toISOString(),
+          version: '4.0.0',
+          schema: 'ISO20022-FIN-ENTERPRISE'
+        },
+        config: load(CFGK, defaultSysConfig),
+        bics: load(BK, []),
+        customers: load(CK, []),
+        nostro: load(NK, []),
+        transactions: load(TK, []),
+        journals: load(JK, []),
+        users: load(UK, defaultProfiles)
+      };
+
+      const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `swift-cbs-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('SYSTEM BACKUP JSON DOWNLOADED (INCLUDING USERS & LEDGER)');
+    });
+
+    document.getElementById('btnTriggerRestore').addEventListener('click', () => {
+      document.getElementById('backupFileInput').click();
+    });
+
+    document.getElementById('backupFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (!imported.config && !imported.transactions && !imported.bics) {
+            throw new Error('Invalid JSON structure. Missing core banking schema keys.');
+          }
+
+          if (imported.config) localStorage.setItem(CFGK, JSON.stringify(imported.config));
+          if (imported.bics) localStorage.setItem(BK, JSON.stringify(imported.bics));
+          if (imported.customers) localStorage.setItem(CK, JSON.stringify(imported.customers));
+          if (imported.nostro) localStorage.setItem(NK, JSON.stringify(imported.nostro));
+          if (imported.transactions) localStorage.setItem(TK, JSON.stringify(imported.transactions));
+          if (imported.journals) localStorage.setItem(JK, JSON.stringify(imported.journals));
+          if (imported.users) localStorage.setItem(UK, JSON.stringify(imported.users));
+
+          populateForm();
+          renderUsersTable();
+          updateDbStats();
+          toast('SYSTEM STATE & USERS RESTORED FROM BACKUP FILE');
+        } catch (err) {
+          alert('Failed to restore backup: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+
     // Desktop Launcher & EXE Builder Download Handlers
     document.getElementById('btnDownloadElectronBuilder')?.addEventListener('click', () => {
       const liveUrl = window.location.origin;
-      const electronScript = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Electron Native .EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING & GPI ENTERPRISE - ELECTRON .EXE COMPILER\r\necho    Builds a Native Windows Desktop .EXE that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nwhere node >nul 2>nul\r\nif %errorlevel% neq 0 (\r\n    echo [ERROR] Node.js is required to compile with Electron.\r\n    echo Please install Node.js from https://nodejs.org\r\n    echo.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/3] Generating local Electron configuration...\r\nif not exist electron ( mkdir electron )\r\ncd electron\r\n\r\n( \r\necho const { app, BrowserWindow, Menu, shell } = require('electron'^);\r\necho const path = require('path'^);\r\necho const LIVE_APP_URL = '${liveUrl}';\r\necho function createWindow(^) {\r\necho   const win = new BrowserWindow({\r\necho     width: 1366, height: 860, minWidth: 1024, minHeight: 700,\r\necho     title: 'SWIFT Core Banking & GPI Enterprise Terminal',\r\necho     backgroundColor: '#f6f4f1',\r\necho     webPreferences: { nodeIntegration: false, contextIsolation: true }\r\necho   }^);\r\necho   win.maximize(^);\r\necho   win.loadURL(LIVE_APP_URL^);\r\necho }\r\necho app.whenReady(^).then(createWindow^);\r\necho app.on('window-all-closed', (^) => { if (process.platform !== 'darwin'^) app.quit(^); }^);\r\n) > main.js\r\n\r\n( \r\necho {\r\necho   "name": "swift-cbs-electron",\r\necho   "version": "1.0.0",\r\necho   "main": "main.js",\r\necho   "scripts": { "start": "electron .", "dist": "electron-builder --win portable --x64" },\r\necho   "devDependencies": { "electron": "^30.0.0", "electron-builder": "^24.13.3" },\r\necho   "build": { "appId": "com.swift.cbs", "productName": "SWIFT Core Banking Terminal", "portable": { "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe" } }\r\necho }\r\n) > package.json\r\n\r\necho [2/3] Installing Electron and Electron-Builder...\r\ncall npm install\r\n\r\necho [3/3] Compiling standalone Windows .EXE...\r\ncall npx electron-builder --win portable --x64\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION FINISHED!\r\necho  Executable file is located at: electron\\dist\\SWIFT_Core_Banking_Terminal_Portable.exe\r\necho =========================================================================\r\npause\r\n`;
+      const electronScript = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Electron Native .EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING - ELECTRON .EXE COMPILER\r\necho    Builds a Native Windows Desktop .EXE that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nwhere node >nul 2>nul\r\nif %errorlevel% neq 0 (\r\n    echo [ERROR] Node.js is required to compile with Electron.\r\n    echo Please install Node.js from https://nodejs.org\r\n    echo.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/3] Generating local Electron configuration...\r\nif not exist electron ( mkdir electron )\r\ncd electron\r\n\r\n( \r\necho const { app, BrowserWindow, Menu, shell } = require('electron'^);\r\necho const path = require('path'^);\r\necho const LIVE_APP_URL = '${liveUrl}';\r\necho function createWindow(^) {\r\necho   const win = new BrowserWindow({\r\necho     width: 1366, height: 860, minWidth: 1024, minHeight: 700,\r\necho     title: 'SWIFT Core Banking Terminal',\r\necho     backgroundColor: '#f6f4f1',\r\necho     webPreferences: { nodeIntegration: false, contextIsolation: true }\r\necho   }^);\r\necho   win.maximize(^);\r\necho   win.loadURL(LIVE_APP_URL^);\r\necho }\r\necho app.whenReady(^).then(createWindow^);\r\necho app.on('window-all-closed', (^) => { if (process.platform !== 'darwin'^) app.quit(^); }^);\r\n) > main.js\r\n\r\n( \r\necho {\r\necho   "name": "swift-cbs-electron",\r\necho   "version": "1.0.0",\r\necho   "main": "main.js",\r\necho   "scripts": { "start": "electron .", "dist": "electron-builder --win portable --x64" },\r\necho   "devDependencies": { "electron": "30.0.0", "electron-builder": "24.13.3" },\r\necho   "build": { "appId": "com.swift.cbs", "productName": "SWIFT Core Banking Terminal", "electronVersion": "30.0.0", "portable": { "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe" } }\r\necho }\r\n) > package.json\r\n\r\necho [2/3] Installing Electron and Electron-Builder...\r\ncall npm install --save-dev electron electron-builder\r\n\r\necho [3/3] Compiling standalone Windows .EXE...\r\ncall npx --yes electron-builder --win portable --x64\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION FINISHED!\r\necho  Executable file is located at: electron\\dist\\SWIFT_Core_Banking_Terminal_Portable.exe\r\necho =========================================================================\r\npause\r\n`;
       const blob = new Blob([electronScript], { type: 'application/x-bat' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1571,157 +1717,33 @@
 
     document.getElementById('btnDownloadDesktopLauncher')?.addEventListener('click', () => {
       const liveUrl = window.location.origin;
-      const scriptContent = `@echo off\r\n:: SWIFT Core Banking & GPI Enterprise Terminal - Native Windows Desktop Launcher\r\n:: Always connects to the live cloud system for automatic real-time updates.\r\ntitle SWIFT Core Banking Terminal\r\nset "APP_URL=${liveUrl}"\r\n\r\nstart msedge.exe --app=%APP_URL% --window-size=1280,850 --enable-features=OverlayScrollbar\r\nif %errorlevel% neq 0 (\r\n    start chrome.exe --app=%APP_URL% --window-size=1280,850\r\n)\r\nif %errorlevel% neq 0 (\r\n    start "" "%APP_URL%"\r\n)\r\nexit\r\n`;
+      const scriptContent = `@echo off\r\n:: SWIFT Core Banking Terminal - Native Windows Desktop Launcher\r\n:: Always connects to the live cloud system for automatic real-time updates.\r\ntitle SWIFT Core Banking Terminal\r\nset "APP_URL=${liveUrl}"\r\n\r\nstart msedge.exe --app=%APP_URL% --window-size=1280,850 --enable-features=OverlayScrollbar\r\nif %errorlevel% neq 0 (\r\n    start chrome.exe --app=%APP_URL% --window-size=1280,850\r\n)\r\nif %errorlevel% neq 0 (\r\n    start "" "%APP_URL%"\r\n)\r\nexit\r\n`;
       const blob = new Blob([scriptContent], { type: 'application/x-bat' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'SWIFT_Core_Banking_Terminal.bat';
+      a.download = 'SWIFT_Core_Banking_Terminal_Launcher.bat';
       a.click();
       URL.revokeObjectURL(url);
-      toast('DESKTOP LAUNCHER (.BAT) DOWNLOADED');
+      toast('DESKTOP LAUNCHER SCRIPT (.BAT) DOWNLOADED');
     });
 
     document.getElementById('btnDownloadExeBuilder')?.addEventListener('click', () => {
       const liveUrl = window.location.origin;
-      const builderContent = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Native Windows EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING & GPI ENTERPRISE - WINDOWS .EXE COMPILER\r\necho    Compiles a Standalone Native Executable that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nset "TARGET_URL=${liveUrl}"\r\nset "OUT_EXE=SWIFT_Core_Banking_Terminal.exe"\r\nset "CSC_PATH=C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe"\r\n\r\nif not exist "%CSC_PATH%" (\r\n    set "CSC_PATH=C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe"\r\n)\r\n\r\necho [1/3] Generating C# Native Desktop Host Source Code...\r\n(\r\necho using System;\r\necho using System.Diagnostics;\r\necho using System.Drawing;\r\necho using System.Windows.Forms;\r\necho using System.Runtime.InteropServices;\r\necho.\r\necho namespace SwiftCoreBanking {\r\necho     public class Program {\r\necho         [DllImport("user32.dll"^) ]\r\necho         private static extern bool SetProcessDPIAware(^);\r\necho.\r\necho         [STAThread]\r\necho         public static void Main(string[] args^) {\r\necho             try { SetProcessDPIAware(^); } catch { }\r\necho             Application.EnableVisualStyles(^);\r\necho             Application.SetCompatibleTextRenderingDefault(false^);\r\necho.\r\necho             string liveUrl = "%TARGET_URL%";\r\necho             try {\r\necho                 ProcessStartInfo psi = new ProcessStartInfo {\r\necho                     FileName = "msedge.exe",\r\necho                     Arguments = "--app=" + liveUrl + " --window-size=1280,850 --enable-features=OverlayScrollbar",\r\necho                     UseShellExecute = true\r\necho                 };\r\necho                 Process.Start(psi^);\r\necho                 return;\r\necho             } catch { }\r\necho             try {\r\necho                 ProcessStartInfo psi = new ProcessStartInfo {\r\necho                     FileName = "chrome.exe",\r\necho                     Arguments = "--app=" + liveUrl + " --window-size=1280,850",\r\necho                     UseShellExecute = true\r\necho                 };\r\necho                 Process.Start(psi^);\r\necho                 return;\r\necho             } catch { }\r\necho             Process.Start(liveUrl^);\r\necho         }\r\necho     }\r\necho }\r\n) > _SwiftHost.cs\r\n\r\necho [2/3] Compiling standalone executable via Windows .NET Compiler...\r\nif exist "%CSC_PATH%" (\r\n    "%CSC_PATH%" /target:winexe /out:"%OUT_EXE%" /platform:anycpu _SwiftHost.cs\r\n    if exist "%OUT_EXE%" (\r\n        echo [3/3] SUCCESS: %OUT_EXE% has been created successfully!\r\n        del _SwiftHost.cs\r\n        echo.\r\n        echo =========================================================================\r\n        echo  Executable: %OUT_EXE%\r\n        echo  Target URL: %TARGET_URL%\r\n        echo  Status: Standalone Windows .EXE Ready. Always stays updated online!\r\n        echo =========================================================================\r\n        pause\r\n        exit /b 0\r\n    )\r\n)\r\necho [FALLBACK] Creating direct Windows App Launcher...\r\ndel _SwiftHost.cs\r\n(\r\necho @echo off\r\necho start msedge.exe --app=%TARGET_URL% --window-size=1280,850\r\n) > SWIFT_Core_Banking_Terminal.bat\r\necho Created SWIFT_Core_Banking_Terminal.bat as alternative launcher.\r\npause\r\n`;
-      const blob = new Blob([builderContent], { type: 'application/x-bat' });
+      const csBuilderContent = `@echo off\r\n:: SWIFT Core Banking Terminal - Native Windows .EXE Compiler\r\n:: Uses built-in Windows C# compiler (csc.exe) to create a standalone lightweight .exe without node.js\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking .EXE Compiler\r\n\r\necho =========================================================================\r\necho   SWIFT CORE BANKING SYSTEM - NATIVE .EXE COMPILER\r\necho   Target URL: ${liveUrl}\r\necho =========================================================================\r\necho.\r\n\r\nset "CSC_PATH=%SystemRoot%\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe"\r\nif not exist "%CSC_PATH%" (\r\n    set "CSC_PATH=%SystemRoot%\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe"\r\n)\r\nif not exist "%CSC_PATH%" (\r\n    echo [ERROR] Microsoft .NET Framework 4.0 or higher is required.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/2] Creating native wrapper source code...\r\n( \r\necho using System;\r\necho using System.Drawing;\r\necho using System.Windows.Forms;\r\necho namespace SwiftTerminal {\r\necho   static class Program {\r\necho     [STAThread]\r\necho     static void Main(^) {\r\necho       Application.EnableVisualStyles(^);\r\necho       Application.SetCompatibleTextRenderingDefault(false^);\r\necho       Form f = new Form {\r\necho         Text = "SWIFT Core Banking Terminal",\r\necho         Width = 1366, Height = 860, StartPosition = FormStartPosition.CenterScreen,\r\necho         WindowState = FormWindowState.Maximized, BackColor = Color.FromArgb(246, 244, 241)\r\necho       };\r\necho       WebBrowser wb = new WebBrowser { Dock = DockStyle.Fill, ScriptErrorsSuppressed = true, Url = new Uri("${liveUrl}") };\r\necho       f.Controls.Add(wb^);\r\necho       Application.Run(f^);\r\necho     }\r\necho   }\r\necho }\r\n) > AppWrapper.cs\r\n\r\necho [2/2] Compiling SWIFT_Core_Banking_Terminal.exe...\r\n"%CSC_PATH%" /nologo /target:winexe /out:SWIFT_Core_Banking_Terminal.exe AppWrapper.cs\r\nif exist AppWrapper.cs del AppWrapper.cs\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION SUCCESSFUL: SWIFT_Core_Banking_Terminal.exe\r\necho =========================================================================\r\npause\r\n`;
+      const blob = new Blob([csBuilderContent], { type: 'application/x-bat' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Build_Native_Windows_EXE.bat';
+      a.download = 'Compile_Native_Windows_EXE.bat';
       a.click();
       URL.revokeObjectURL(url);
-      toast('NATIVE WINDOWS .EXE BUILDER (.BAT) DOWNLOADED');
-    });
-
-    // Export Backup
-    document.getElementById('btnExportBackup').addEventListener('click', () => {
-      const data = {
-        version: '1.2',
-        exportDate: new Date().toISOString(),
-        config: sysConfig,
-        users: getStoredUsers(),
-        bics: load(BK, []),
-        tx: load(TK, []),
-        customers: load(CK, []),
-        nostro: load(NK, []),
-        journals: load(JK, [])
-      };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `swift-simulator-backup-${new Date().toISOString().slice(0, 10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast('SIMULATOR BACKUP JSON DOWNLOADED (TERMASUK USER & OPERATOR)');
-    });
-
-    // Restore Backup
-    document.getElementById('btnTriggerRestore').addEventListener('click', () => {
-      document.getElementById('backupFileInput').click();
-    });
-
-    document.getElementById('backupFileInput').addEventListener('change', e => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        try {
-          const data = JSON.parse(ev.target.result);
-          if (data && data.config) {
-            sysConfig = { ...defaultSysConfig, ...data.config };
-            localStorage.setItem(CFGK, JSON.stringify(sysConfig));
-          }
-          if (data && data.users && typeof data.users === 'object') {
-            localStorage.setItem(UK, JSON.stringify(data.users));
-          }
-          if (Array.isArray(data.bics)) localStorage.setItem(BK, JSON.stringify(data.bics));
-          if (Array.isArray(data.tx)) localStorage.setItem(TK, JSON.stringify(data.tx));
-          if (Array.isArray(data.customers)) localStorage.setItem(CK, JSON.stringify(data.customers));
-          if (Array.isArray(data.nostro)) localStorage.setItem(NK, JSON.stringify(data.nostro));
-          if (Array.isArray(data.journals)) localStorage.setItem(JK, JSON.stringify(data.journals));
-          populateForm();
-          renderUsersTable();
-          toast('SIMULATOR STATE & USERS RESTORED FROM BACKUP FILE');
-        } catch (err) {
-          alert('Failed to parse backup JSON file: ' + err.message);
-        }
-      };
-      reader.readAsText(file);
-    });
-
-    function updateDbStats() {
-      const bics = load(BK, window.masterBics || []);
-      const tx = load(TK, window.masterTransactions || []);
-      const elB = document.getElementById('statBicCount');
-      if (elB) elB.textContent = `${bics.length.toLocaleString()} Banks (ISO 9362)`;
-      const elT = document.getElementById('statTxCount');
-      if (elT) elT.textContent = `${tx.length.toLocaleString()} Records`;
-    }
-
-    document.getElementById('btnReloadMasterDb')?.addEventListener('click', () => {
-      if (!confirm('RELOAD MASTER DATABASE: This will synchronize your storage with 1,100+ verified real global banks and 1,250 active SWIFT 2026 transactions. Continue?')) return;
-      if (window.masterBics && window.masterBics.length >= 1000) {
-        localStorage.setItem(BK, JSON.stringify(window.masterBics));
-      }
-      if (window.masterTransactions && window.masterTransactions.length >= 1000) {
-        localStorage.setItem(TK, JSON.stringify(window.masterTransactions));
-      }
-      localStorage.setItem('swiftLabMasterTxVer', '2026-SEP-1250TX-V1');
-      updateDbStats();
-      toast('MASTER DATABASE LOADED: >1,000 REAL BANKS & >1,200 TRANSACTIONS ACTIVE');
-    });
-
-    // Central CBS & SWIFT Host Gateway Manual Controls
-    document.getElementById('btnPushAllToCloud')?.addEventListener('click', async () => {
-      if (!window.FirebaseSync) {
-        toast('SINKRONISASI CBS HOST SEDANG MEMULAI, MOHON TUNGGU...');
-        return;
-      }
-      try {
-        toast('MEREPLIKASI SELURUH DATA KE CENTRAL CBS HOST...');
-        await window.FirebaseSync.pushAllLocalToCloud();
-        toast('SELURUH REKORD BERHASIL TERSINKRONISASI KE CENTRAL HOST');
-      } catch (err) {
-        alert('Gagal mereplikasi ke Central Host: ' + err.message);
-      }
-    });
-
-    document.getElementById('btnPullAllFromCloud')?.addEventListener('click', async () => {
-      if (!window.FirebaseSync) {
-        toast('SINKRONISASI CBS HOST SEDANG MEMULAI, MOHON TUNGGU...');
-        return;
-      }
-      try {
-        toast('MENARIK DATA MUTASI TERBARU DARI CENTRAL CBS HOST...');
-        await window.FirebaseSync.pullAllCloudToLocal();
-        populateForm();
-        renderUsersTable();
-        updateDbStats();
-        toast('DATA TERBARU DARI CENTRAL CBS HOST TELAH BERHASIL DITERAPKAN');
-      } catch (err) {
-        alert('Gagal menyelaraskan dari Central Host: ' + err.message);
-      }
-    });
-
-    window.addEventListener('swift:sync-status', (e) => {
-      const statusText = document.getElementById('cloudSyncStatusText');
-      if (statusText && e.detail) {
-        statusText.textContent = e.detail.label?.toUpperCase() || e.detail.status?.toUpperCase();
-      }
-    });
-
-    window.addEventListener('swift:cloud-synced', () => {
-      populateForm();
-      renderUsersTable();
-      updateDbStats();
+      toast('NATIVE .EXE COMPILER (.BAT) DOWNLOADED');
     });
 
     // Factory Reset
     document.getElementById('btnFactoryReset').addEventListener('click', () => {
-      if (!confirm('CONFIRM FACTORY RESET: This will erase transactional edits and reset everything to baseline Bank Praktikum Nusantara with full master database (>1,000 banks & records) and default users. Continue?')) {
+      if (!confirm('CONFIRM FACTORY RESET: This will reset transactional edits and restore default Bank Nusantara International master database and users. Continue?')) {
         return;
       }
       localStorage.removeItem('swiftLabCoreV4');
@@ -1745,11 +1767,220 @@
       populateForm();
       renderUsersTable();
       updateDbStats();
-      toast('FACTORY RESET COMPLETE — BASELINE WITH >1,000 RECORDS & DEFAULT USERS RESTORED');
+      toast('FACTORY RESET COMPLETE — BASELINE RESTORED');
+    });
+
+    // ==========================================
+    // TAB 8: CLOUD & PRIVATE FIREBASE CONFIGURATION (BYOD)
+    // ==========================================
+    function getStoredCustomFb() {
+      try {
+        const raw = localStorage.getItem('swiftLabCustomFirebase');
+        return raw ? JSON.parse(raw) : null;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function renderFirebaseConfigSection() {
+      const active = window.FirebaseSync?.getActiveConfig() || {};
+      const stored = getStoredCustomFb();
+
+      const isCustom = active.isCustom || (stored && stored.enabled);
+      const badge = document.getElementById('customFirebaseBadge');
+      const typeEl = document.getElementById('fbActiveType');
+      const projEl = document.getElementById('fbActiveProjectId');
+      const dbEl = document.getElementById('fbActiveDbId');
+
+      if (typeEl) typeEl.textContent = isCustom ? 'Private Isolated Firebase Database' : 'Default Central Host Cloud';
+      if (projEl) projEl.textContent = active.projectId || 'spherical-voice-bmn89';
+      if (dbEl) dbEl.textContent = active.firestoreDatabaseId || '(default)';
+
+      if (badge) {
+        badge.textContent = isCustom ? `PRIVATE DB (${(active.projectId || '').toUpperCase()})` : 'CBS HOST & SWIFT: SYNCHRONIZED';
+        badge.style.color = isCustom ? '#1d4ed8' : '#059669';
+        badge.style.borderColor = isCustom ? '#2563eb' : '#059669';
+        badge.style.background = isCustom ? '#eff6ff' : '#ecfdf5';
+      }
+
+      const chk = document.getElementById('cfgEnableCustomFirebase');
+      if (chk) chk.checked = !!isCustom;
+
+      if (stored) {
+        document.getElementById('cfgFbProjectId').value = stored.projectId || '';
+        document.getElementById('cfgFbApiKey').value = stored.apiKey || '';
+        document.getElementById('cfgFbDatabaseId').value = stored.firestoreDatabaseId || '(default)';
+        document.getElementById('cfgFbAuthDomain').value = stored.authDomain || '';
+        document.getElementById('cfgFbStorageBucket').value = stored.storageBucket || '';
+        document.getElementById('cfgFbAppId').value = stored.appId || '';
+      }
+    }
+
+    // Auto-parse Firebase SDK config object
+    document.getElementById('btnParseFirebaseConfig')?.addEventListener('click', () => {
+      const txt = document.getElementById('pasteFirebaseConfig')?.value || '';
+      const msg = document.getElementById('pasteParseMsg');
+      if (!txt.trim()) {
+        alert('Please paste the firebaseConfig code block first.');
+        return;
+      }
+
+      function extractVal(key) {
+        const patterns = [
+          new RegExp(`${key}\\s*:\\s*["'\`]([^"'\`]+)["'\`]`, 'i'),
+          new RegExp(`"${key}"\\s*:\\s*["'\`]([^"'\`]+)["'\`]`, 'i')
+        ];
+        for (const p of patterns) {
+          const match = txt.match(p);
+          if (match && match[1]) return match[1].trim();
+        }
+        return '';
+      }
+
+      const apiKey = extractVal('apiKey');
+      const projectId = extractVal('projectId');
+      const authDomain = extractVal('authDomain');
+      const firestoreDatabaseId = extractVal('firestoreDatabaseId') || extractVal('databaseId') || '(default)';
+      const storageBucket = extractVal('storageBucket');
+      const appId = extractVal('appId');
+
+      let count = 0;
+      if (apiKey) { document.getElementById('cfgFbApiKey').value = apiKey; count++; }
+      if (projectId) { document.getElementById('cfgFbProjectId').value = projectId; count++; }
+      if (authDomain) { document.getElementById('cfgFbAuthDomain').value = authDomain; count++; }
+      if (firestoreDatabaseId) { document.getElementById('cfgFbDatabaseId').value = firestoreDatabaseId; count++; }
+      if (storageBucket) { document.getElementById('cfgFbStorageBucket').value = storageBucket; count++; }
+      if (appId) { document.getElementById('cfgFbAppId').value = appId; count++; }
+
+      if (count >= 2) {
+        document.getElementById('cfgEnableCustomFirebase').checked = true;
+        if (msg) msg.textContent = `${count} parameters detected and populated automatically.`;
+        toast('FIREBASE CONFIG PARSED SUCCESSFULLY');
+      } else {
+        alert('Could not detect Firebase parameters. Ensure text contains apiKey and projectId.');
+      }
+    });
+
+    // Test Connection to Proposed Firebase
+    document.getElementById('btnTestFbConnection')?.addEventListener('click', async () => {
+      const resultBox = document.getElementById('fbTestResultBox');
+      const projectId = document.getElementById('cfgFbProjectId')?.value.trim();
+      const apiKey = document.getElementById('cfgFbApiKey')?.value.trim();
+      const firestoreDatabaseId = document.getElementById('cfgFbDatabaseId')?.value.trim() || '(default)';
+      const authDomain = document.getElementById('cfgFbAuthDomain')?.value.trim() || `${projectId}.firebaseapp.com`;
+      const storageBucket = document.getElementById('cfgFbStorageBucket')?.value.trim() || `${projectId}.firebasestorage.app`;
+      const appId = document.getElementById('cfgFbAppId')?.value.trim() || `1:custom:web:${projectId}`;
+
+      if (!projectId || !apiKey) {
+        alert('Please provide at least a Project ID and Web API Key to test the connection.');
+        return;
+      }
+
+      if (resultBox) {
+        resultBox.classList.remove('hidden');
+        resultBox.style.background = '#fef3c7';
+        resultBox.style.color = '#92400e';
+        resultBox.style.borderColor = '#f59e0b';
+        resultBox.innerHTML = 'Testing connection to Firebase Project <code>' + projectId + '</code>...';
+      }
+
+      try {
+        const res = await window.FirebaseSync.testCustomConnection({
+          projectId, apiKey, firestoreDatabaseId, authDomain, storageBucket, appId
+        });
+
+        if (res.success) {
+          resultBox.style.background = '#ecfdf5';
+          resultBox.style.color = '#065f46';
+          resultBox.style.borderColor = '#10b981';
+          resultBox.innerHTML = '<strong>CONNECTION SUCCESSFUL:</strong> Firestore database in project <code>' + projectId + '</code> is online and accessible.';
+          toast('CONNECTION TEST TO PRIVATE FIREBASE SUCCEEDED');
+        } else {
+          resultBox.style.background = '#fef2f2';
+          resultBox.style.color = '#991b1b';
+          resultBox.style.borderColor = '#ef4444';
+          resultBox.innerHTML = '<strong>CONNECTION FAILED:</strong> ' + res.message;
+        }
+      } catch (err) {
+        if (resultBox) {
+          resultBox.style.background = '#fef2f2';
+          resultBox.style.color = '#991b1b';
+          resultBox.style.borderColor = '#ef4444';
+          resultBox.innerHTML = '<strong>ERROR:</strong> ' + (err.message || err);
+        }
+      }
+    });
+
+    // Save & Activate Custom Firebase
+    document.getElementById('btnSaveActivateFb')?.addEventListener('click', async () => {
+      const isEnabled = document.getElementById('cfgEnableCustomFirebase')?.checked;
+      const projectId = document.getElementById('cfgFbProjectId')?.value.trim();
+      const apiKey = document.getElementById('cfgFbApiKey')?.value.trim();
+      const firestoreDatabaseId = document.getElementById('cfgFbDatabaseId')?.value.trim() || '(default)';
+      const authDomain = document.getElementById('cfgFbAuthDomain')?.value.trim() || `${projectId}.firebaseapp.com`;
+      const storageBucket = document.getElementById('cfgFbStorageBucket')?.value.trim() || `${projectId}.firebasestorage.app`;
+      const appId = document.getElementById('cfgFbAppId')?.value.trim() || `1:custom:web:${projectId}`;
+
+      if (!isEnabled) {
+        if (confirm('Checkbox is unchecked. Revert connection to Default Central Host?')) {
+          await window.FirebaseSync.resetToDefaultCentralFirebase();
+          renderFirebaseConfigSection();
+          toast('CONNECTION REVERTED TO CENTRAL HOST DEFAULT');
+        }
+        return;
+      }
+
+      if (!projectId || !apiKey) {
+        alert('Please fill in both Project ID and API Key.');
+        return;
+      }
+
+      try {
+        toast('CONNECTING TO PRIVATE FIREBASE...');
+        await window.FirebaseSync.saveAndActivateCustomConfig({
+          projectId, apiKey, firestoreDatabaseId, authDomain, storageBucket, appId
+        });
+        renderFirebaseConfigSection();
+        toast('PRIVATE FIREBASE ACTIVATED & SYNCHRONIZING');
+      } catch (err) {
+        alert('Failed to activate Firebase: ' + err.message);
+      }
+    });
+
+    // Migrate Current Local Data into New Custom Firebase
+    document.getElementById('btnMigrateToNewFb')?.addEventListener('click', async () => {
+      if (!confirm('CONFIRM MIGRATION: Copy all current transaction records, customer balances, Nostro accounts, BICs, user logins, and system settings to the currently active Firebase database?')) {
+        return;
+      }
+      try {
+        toast('UPLOADING DATA TO ACTIVE FIREBASE DATABASE...');
+        await window.FirebaseSync.pushAllLocalToCloud();
+        toast('ALL DATA MIGRATED TO PRIVATE FIREBASE SUCCESSFULLY');
+      } catch (err) {
+        alert('Data migration failed: ' + err.message);
+      }
+    });
+
+    // Revert to Default Central Firebase
+    document.getElementById('btnResetDefaultFb')?.addEventListener('click', async () => {
+      if (!confirm('Revert to Default Central Host database? Private Firebase configuration will be deactivated.')) {
+        return;
+      }
+      try {
+        await window.FirebaseSync.resetToDefaultCentralFirebase();
+        renderFirebaseConfigSection();
+        toast('REVERTED TO DEFAULT CENTRAL HOST');
+      } catch (err) {
+        alert('Reset failed: ' + err.message);
+      }
+    });
+
+    window.addEventListener('swift:firebase-reconfigured', () => {
+      renderFirebaseConfigSection();
     });
 
     // LIVE HEADER TELEMETRY (Date, Time, & Network Ping Latency)
-    // Required format: dd/mm/yyyy hh:mm:ss - 000ms
+    // Format: dd/mm/yyyy hh:mm:ss - 000ms
     let liveAdminPingMs = 12;
 
     async function probeAdminNetworkPing() {

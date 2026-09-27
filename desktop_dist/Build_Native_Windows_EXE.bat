@@ -61,8 +61,17 @@ echo }
 ) > _SwiftHost.cs
 
 echo [2/3] Compiling standalone executable via Windows .NET Compiler...
+set "ICON_ARG="
+if exist "icon.ico" (
+    set "ICON_ARG=/win32icon:icon.ico"
+    echo [INFO] Custom icon detected: icon.ico
+) else if exist "%~dp0icon.ico" (
+    set "ICON_ARG=/win32icon:\"%~dp0icon.ico\""
+    echo [INFO] Custom icon detected: icon.ico
+)
+
 if exist "%CSC_PATH%" (
-    "%CSC_PATH%" /target:winexe /out:"%OUT_EXE%" /platform:anycpu _SwiftHost.cs
+    "%CSC_PATH%" /target:winexe /out:"%OUT_EXE%" /platform:anycpu %ICON_ARG% _SwiftHost.cs
     if exist "%OUT_EXE%" (
         echo [3/3] SUCCESS: %OUT_EXE% has been created successfully!
         del _SwiftHost.cs

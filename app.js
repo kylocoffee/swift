@@ -34,7 +34,7 @@ const ROLE_INFO = {
   'Operator': 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.',
   'Head Treasury': 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.',
   'Compliance Officer': 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.',
-  'System Administrator': 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.',
+  'System Administrator': 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer system data.',
   'Auditor': 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.'
 };
 
@@ -56,7 +56,7 @@ const seedNostro = [
 ];
 
 const seedBic = [
-  { bic: 'IDBKIDJA', name: 'BANK PRAKTIKUM NUSANTARA', country: 'INDONESIA', city: 'JAKARTA' },
+  { bic: 'INDOIDJAXXX', name: 'BANK INDONESIA', country: 'INDONESIA', city: 'JAKARTA' },
   { bic: 'CITIUS33XXX', name: 'CITIBANK N.A.', country: 'UNITED STATES', city: 'NEW YORK' },
   { bic: 'DBSSSGSGXXX', name: 'DBS BANK LTD', country: 'SINGAPORE', city: 'SINGAPORE' },
   { bic: 'CHASUS33XXX', name: 'JPMORGAN CHASE BANK', country: 'UNITED STATES', city: 'NEW YORK' },
@@ -67,7 +67,7 @@ const seedBic = [
 const seedTx = [
   {
     id: 'T001', trn: 'TRN20260918001', uetr: 'f81d4fae-7dec-41d0-a765-00a0c91e6bf1', reference: 'IDBK2609180001',
-    type: 'pacs.008', date: '2026-09-18T08:42:15', valueDate: '2026-09-18', sender: 'IDBKIDJA', receiver: 'CITIUS33XXX',
+    type: 'pacs.008', date: '2026-09-18T08:42:15', valueDate: '2026-09-18', sender: 'INDOIDJAXXX', receiver: 'CITIUS33XXX',
     currency: 'USD', amount: 125000, status: 'Released', charges: 'SHA',
     orderingName: 'CV NUSANTARA EKSPOR', orderingAccount: '1001-3088-02', orderingAddress: 'JL GATOT SUBROTO NO 44\nJAKARTA PUSAT\nINDONESIA',
     beneficiaryName: 'GLOBAL MACHINERY CORP', beneficiaryAccount: 'US89CITI1000992288', beneficiaryAddress: '388 GREENWICH STREET\nNEW YORK NY 10013\nUNITED STATES',
@@ -80,7 +80,7 @@ const seedTx = [
   },
   {
     id: 'T002', trn: 'TRN20260918002', uetr: '2c4455a1-0000-4000-8000-000000001002', reference: 'IDBK2609180002',
-    type: 'MT103', date: '2026-09-18T09:16:03', valueDate: '2026-09-19', sender: 'IDBKIDJA', receiver: 'DBSSSGSGXXX',
+    type: 'MT103', date: '2026-09-18T09:16:03', valueDate: '2026-09-19', sender: 'INDOIDJAXXX', receiver: 'DBSSSGSGXXX',
     currency: 'SGD', amount: 72500, status: 'Validated', charges: 'OUR',
     orderingName: 'SALMA LESTARI', orderingAccount: '1001-6055-05', orderingAddress: 'JL ASIA AFRIKA NO 15\nBANDUNG\nINDONESIA',
     beneficiaryName: 'SINGAPORE MANAGEMENT ACADEMY', beneficiaryAccount: 'SG44DBSS0099881122', beneficiaryAddress: '12 MARINA BOULEVARD\nSINGAPORE 018982',
@@ -92,7 +92,7 @@ const seedTx = [
   },
   {
     id: 'T003', trn: 'TRN20260917003', uetr: '91d802b4-0000-4000-8000-000000001003', reference: 'CHAS2609170099', relatedReference: 'COV26091701',
-    type: 'pacs.009', date: '2026-09-17T14:10:42', valueDate: '2026-09-18', sender: 'CHASUS33XXX', receiver: 'IDBKIDJA',
+    type: 'pacs.009', date: '2026-09-17T14:10:42', valueDate: '2026-09-18', sender: 'CHASUS33XXX', receiver: 'INDOIDJAXXX',
     currency: 'USD', amount: 980000, status: 'Pending', charges: 'SHA',
     narrative: 'INTERBANK LIQUIDITY NOSTRO REPLENISHMENT',
     audit: [
@@ -101,7 +101,7 @@ const seedTx = [
   },
   {
     id: 'T004', trn: 'TRN20260916004', uetr: '6f2273c0-0000-4000-8000-000000001004', reference: 'IDBK2609160004', relatedReference: 'REL26091604',
-    type: 'MT202', date: '2026-09-16T11:29:18', valueDate: '2026-09-16', sender: 'IDBKIDJA', receiver: 'BOFAUS3NXXX',
+    type: 'MT202', date: '2026-09-16T11:29:18', valueDate: '2026-09-16', sender: 'INDOIDJAXXX', receiver: 'BOFAUS3NXXX',
     currency: 'EUR', amount: 412300, status: 'Rejected', charges: 'SHA',
     narrative: 'BANK SETTLEMENT REJECTED DUE TO ROUTING ISSUE',
     audit: [
@@ -111,7 +111,7 @@ const seedTx = [
   },
   {
     id: 'T005', trn: 'TRN20260915005', uetr: '88b710f4-0000-4000-8000-000000001005', reference: 'HSBC2609158811',
-    type: 'pacs.008', date: '2026-09-15T16:51:08', valueDate: '2026-09-16', sender: 'HSBCSGSGXXX', receiver: 'IDBKIDJA',
+    type: 'pacs.008', date: '2026-09-15T16:51:08', valueDate: '2026-09-16', sender: 'HSBCSGSGXXX', receiver: 'INDOIDJAXXX',
     currency: 'IDR', amount: 2150000000, status: 'Released', charges: 'SHA',
     orderingName: 'SINGAPORE TRADING PTE LTD', orderingAccount: 'SG88HSBC1122334455', orderingAddress: '21 COLLYER QUAY\nSINGAPORE 049320',
     beneficiaryName: 'PT INDO JAYA MAKMUR', beneficiaryAccount: '1001-2099-01', beneficiaryAddress: 'JL JEND SUDIRMAN KAV 21\nJAKARTA SELATAN\nINDONESIA',
@@ -123,7 +123,7 @@ const seedTx = [
   },
   {
     id: 'T006', trn: 'TRN20260915006', uetr: '53d277a0-0000-4000-8000-000000001006', reference: 'IDBK2609150006',
-    type: 'MT103', date: '2026-09-15T10:18:22', valueDate: '2026-09-15', sender: 'IDBKIDJA', receiver: 'DBSSSGSGXXX',
+    type: 'MT103', date: '2026-09-15T10:18:22', valueDate: '2026-09-15', sender: 'INDOIDJAXXX', receiver: 'DBSSSGSGXXX',
     currency: 'SGD', amount: 188400, status: 'Released', charges: 'SHA',
     orderingName: 'PT INDO JAYA MAKMUR', orderingAccount: '1001-2099-01', orderingAddress: 'JL JEND SUDIRMAN KAV 21\nJAKARTA SELATAN\nINDONESIA',
     beneficiaryName: 'ASIAN LOGISTICS SINGAPORE', beneficiaryAccount: 'SG77DBSS8833221100', beneficiaryAddress: '8 MARINA VIEW\nSINGAPORE 018960',
@@ -135,7 +135,7 @@ const seedTx = [
   },
   {
     id: 'T007', trn: 'TRN20260914007', uetr: 'a9214d70-0000-4000-8000-000000001007', reference: 'CITI2609145511',
-    type: 'pacs.008', date: '2026-09-14T13:45:51', valueDate: '2026-09-15', sender: 'CITIUS33XXX', receiver: 'IDBKIDJA',
+    type: 'pacs.008', date: '2026-09-14T13:45:51', valueDate: '2026-09-15', sender: 'CITIUS33XXX', receiver: 'INDOIDJAXXX',
     currency: 'USD', amount: 540000, status: 'Validated', charges: 'SHA',
     orderingName: 'NEW YORK COFFEE ROASTERS LLC', orderingAccount: 'US77CITI88334411', orderingAddress: '111 WALL STREET\nNEW YORK NY 10005',
     beneficiaryName: 'CV NUSANTARA EKSPOR', beneficiaryAccount: '1001-3088-02', beneficiaryAddress: 'JL GATOT SUBROTO NO 44\nJAKARTA PUSAT\nINDONESIA',
@@ -146,7 +146,7 @@ const seedTx = [
   },
   {
     id: 'T008', trn: 'TRN20260914008', uetr: '71e0cc42-0000-4000-8000-000000001008', reference: 'IDBK2609140008', relatedReference: 'COV26091488',
-    type: 'MT202', date: '2026-09-14T09:20:14', valueDate: '2026-09-14', sender: 'IDBKIDJA', receiver: 'CHASUS33XXX',
+    type: 'MT202', date: '2026-09-14T09:20:14', valueDate: '2026-09-14', sender: 'INDOIDJAXXX', receiver: 'CHASUS33XXX',
     currency: 'USD', amount: 1320000, status: 'Released', charges: 'SHA',
     narrative: 'TREASURY NOSTRO FUNDING TRANSFER TO CHASE NY',
     audit: [
@@ -155,7 +155,7 @@ const seedTx = [
   },
   {
     id: 'T009', trn: 'TRN20260913009', uetr: '3b119fa2-0000-4000-8000-000000001009', reference: 'BOFA2609131100', relatedReference: 'LIQ26091301',
-    type: 'pacs.009', date: '2026-09-13T17:03:38', valueDate: '2026-09-14', sender: 'BOFAUS3NXXX', receiver: 'IDBKIDJA',
+    type: 'pacs.009', date: '2026-09-13T17:03:38', valueDate: '2026-09-14', sender: 'BOFAUS3NXXX', receiver: 'INDOIDJAXXX',
     currency: 'EUR', amount: 288750, status: 'Pending', charges: 'SHA',
     narrative: 'INTERBANK LIQUIDITY SETTLEMENT EUR',
     audit: [
@@ -164,7 +164,7 @@ const seedTx = [
   },
   {
     id: 'T010', trn: 'TRN20260912010', uetr: 'd9046a18-0000-4000-8000-000000001010', reference: 'IDBK2609120010',
-    type: 'MT103', date: '2026-09-12T12:39:06', valueDate: '2026-09-12', sender: 'IDBKIDJA', receiver: 'HSBCSGSGXXX',
+    type: 'MT103', date: '2026-09-12T12:39:06', valueDate: '2026-09-12', sender: 'INDOIDJAXXX', receiver: 'HSBCSGSGXXX',
     currency: 'JPY', amount: 45000000, status: 'Released', charges: 'OUR',
     orderingName: 'PT TOKYO MITRA INDUSTRI', orderingAccount: '1001-7044-06', orderingAddress: 'KAWASAN INDUSTRI MM2100\nBEKASI\nINDONESIA',
     beneficiaryName: 'OSAKA PRECISION TOOLS CO', beneficiaryAccount: 'JP99HSBC33445566', beneficiaryAddress: 'CHUO-KU\nOSAKA 541-0041\nJAPAN',
@@ -273,19 +273,19 @@ let journals = load(JK, seedJournals);
 // Super Admin & System Master Configuration State
 const CFGK = 'swiftLabSysConfig';
 const defaultSysConfig = {
-  appName: 'SWIFT Network & Core Banking Laboratory Simulator',
-  ownerName: 'Bank Praktikum Nusantara',
+  appName: 'SWIFT Core Banking & Financial Messaging Platform',
+  ownerName: 'Bank Nusantara International',
   ownerContact: 'Prof. Dr. Hendra Pratama, M.Sc.',
-  ownerTitle: 'Head of International Banking Laboratory',
-  ownerEmail: 'lab.banking@nusantara-bank.ac.id',
+  ownerTitle: 'Head of Global Treasury & International Settlement',
+  ownerEmail: 'treasury@nusantara-bank.co.id',
   ownerPhone: '+62 21 5299-8800',
-  ownerInstitution: 'Faculty of Economics & Business - Banking & Finance Department',
-  licenseNo: 'OJK-LAB-SIM/2026/099-BPN',
+  ownerInstitution: 'International Banking & Treasury Settlement Division',
+  licenseNo: 'OJK-CBS/2026/099-BPN',
   appMotto: 'The global provider of\nSecure final messaging services',
   headOfficeAddress: 'JL JEND SUDIRMAN KAV 1, JAKARTA 10220\nINDONESIA',
 
-  bankName: 'BANK PRAKTIKUM NUSANTARA',
-  bankBic: 'IDBKIDJA',
+  bankName: 'BANK INDONESIA',
+  bankBic: 'INDOIDJAXXX',
   bankCountry: 'INDONESIA',
   bankCity: 'JAKARTA',
   baseCurrency: 'USD',
@@ -308,7 +308,7 @@ const defaultSysConfig = {
   // Terminal Student Login Credentials
   terminalAccount: 'student01',
   terminalPassword: 'swiftlab',
-  terminalAccessKey: 'LAB-2026',
+  terminalAccessKey: 'SYS-2026',
   tokenPin: '123456',
 
   // SWIFT Application Cryptographic & API Gateway Keys
@@ -318,12 +318,12 @@ const defaultSysConfig = {
 
   // Dynamic Welcome Matrix & Operational Guidance Box Configuration
   welcomeShowMatrix: true,
-  welcomeMatrixTitle: 'CORE BANKING & SWIFT LAB ACCESS MATRIX',
-  welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
+  welcomeMatrixTitle: 'CORE BANKING & SWIFT ACCESS MATRIX',
+  welcomeMatrixSubtitle: 'Select an operational module from the navigation bar above to initiate payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.',
   roleDescOperator: 'Maker: Draft and record customer payment instructions, inspect customer balances, and view UETRs.',
   roleDescTreasury: 'Checker & Authorizer: Authorize Validated/Released status, manage correspondent Nostro liquidity, and review treasury analytics.',
   roleDescCompliance: 'AML/CFT & Sanctions Reviewer: Screen transaction parties against sanctions lists, verify compliance, and approve (Validated) or reject.',
-  roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer lab data.',
+  roleDescAdmin: 'System Administrator: Manage global BIC directories, maintain customer records, configure routing, and administer system data.',
   roleDescAuditor: 'Independent Oversight: Inspect end-to-end audit trails, verify General Ledger double entries, and review compliance logs.',
 
   welcomeShowGuidance: true,
@@ -331,7 +331,7 @@ const defaultSysConfig = {
   welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
 
   // Dynamic Site HTML Title & Favicon Configuration
-  siteHtmlTitle: 'SWIFT Network & Core Banking Laboratory Simulator',
+  siteHtmlTitle: 'SWIFT Core Banking & Financial Messaging Terminal',
   faviconPreset: 'white',
   faviconCustomUrl: ''
 };
@@ -343,10 +343,10 @@ function getEffectiveTitle(config) {
   if (config?.siteHtmlTitle && config.siteHtmlTitle.trim()) {
     return config.siteHtmlTitle.trim();
   }
-  if (config?.bankName && config.bankName !== 'BANK PRAKTIKUM NUSANTARA') {
-    return `${config.bankName} — SWIFT Network & Core Banking Simulator`;
+  if (config?.bankName && config.bankName !== 'BANK INDONESIA') {
+    return `${config.bankName} — SWIFT Core Banking Terminal`;
   }
-  return config?.appName || 'SWIFT Network & Core Banking Laboratory Simulator';
+  return config?.appName || 'SWIFT Core Banking & Financial Messaging Platform';
 }
 
 function getFaviconUrl(config) {
@@ -426,8 +426,8 @@ window.addEventListener('swift:cloud-synced', () => {
 function updateFooterInfo() {
   const footerNote = $('#appFooterNote');
   if (!footerNote) return;
-  const bic = sysConfig.bankBic || 'IDBKIDJA';
-  const bank = sysConfig.bankName || 'BANK PRAKTIKUM NUSANTARA';
+  const bic = sysConfig.bankBic || 'INDOIDJAXXX';
+  const bank = sysConfig.bankName || 'BANK INDONESIA';
   const opInfo = activeSession 
     ? `${activeSession.name.toUpperCase()} (${activeSession.code} &bull; ${activeSession.role.toUpperCase()})`
     : 'UNASSIGNED';
@@ -463,8 +463,8 @@ function applySysConfig() {
     bics[primaryBicIdx].country = sysConfig.bankCountry;
     bics[primaryBicIdx].city = sysConfig.bankCity;
   } else {
-    let oldDefaultIdx = bics.findIndex(b => b.bic === 'IDBKIDJA');
-    if (oldDefaultIdx >= 0 && sysConfig.bankBic !== 'IDBKIDJA') {
+    let oldDefaultIdx = bics.findIndex(b => b.bic === 'INDOIDJAXXX');
+    if (oldDefaultIdx >= 0 && sysConfig.bankBic !== 'INDOIDJAXXX') {
       bics[oldDefaultIdx].bic = sysConfig.bankBic;
       bics[oldDefaultIdx].name = sysConfig.bankName;
       bics[oldDefaultIdx].country = sysConfig.bankCountry;
@@ -633,7 +633,7 @@ function postCoreBankingRelease(t, operatorName) {
 let pending = null, currentView = 'menu', viewHistory = ['menu'], activeSession = null, currentTrackingId = null, currentLedgerTab = 'customers';
 
 // Login screen logic
-// 1. Student / Lab Account Authentication
+// 1. Operator Account Authentication
 $('#accountForm')?.addEventListener('submit', e => {
   e.preventDefault();
   sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
@@ -643,11 +643,11 @@ $('#accountForm')?.addEventListener('submit', e => {
 
   const expAcc = (sysConfig.terminalAccount || 'student01').trim();
   const expPwd = sysConfig.terminalPassword || 'swiftlab';
-  const expKey = (sysConfig.terminalAccessKey || 'LAB-2026').trim().toUpperCase();
+  const expKey = (sysConfig.terminalAccessKey || 'SYS-2026').trim().toUpperCase();
 
   // Accept configured credentials or standard fallback
   const ok = (acc === expAcc && pwd === expPwd && key === expKey) ||
-             (acc && pwd === 'swiftlab' && key === 'LAB-2026') ||
+             (acc && pwd === 'swiftlab' && (key === 'SYS-2026' || key === 'LAB-2026')) ||
              (acc && pwd.length >= 3 && key.length >= 2);
   $('#accountError')?.classList.toggle('hidden', !!ok);
   if (ok) {
@@ -655,7 +655,7 @@ $('#accountForm')?.addEventListener('submit', e => {
   }
 });
 
-// 2. USB Token Connection Simulation
+// 2. USB Token Connection Authentication
 $('#usbBack')?.addEventListener('click', () => {
   const bar = $('.usb-progress i');
   if (bar) bar.style.width = '0%';
@@ -769,8 +769,8 @@ function renderMenu() {
   let matrixHtml = '';
   if (sysConfig.welcomeShowMatrix !== false) {
     matrixHtml = `
-      <h3>${esc(sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT LAB ACCESS MATRIX')}</h3>
-      <p style="margin-bottom:14px;color:#555;font-size:13px">${esc(sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to simulate SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.')}</p>
+      <h3>${esc(sysConfig.welcomeMatrixTitle || 'CORE BANKING & SWIFT ENTERPRISE ACCESS MATRIX')}</h3>
+      <p style="margin-bottom:14px;color:#555;font-size:13px">${esc(sysConfig.welcomeMatrixSubtitle || 'Select an operational module from the navigation bar above to process SWIFT payment messaging, inspect Core Banking General Ledger journals, or conduct sanctions screening.')}</p>
       <div class="role-matrix-grid">
         ${roles.map(r => `
           <article class="role-card ${r === activeSession?.role ? 'active' : ''}">
@@ -1606,7 +1606,7 @@ function renderLedger() {
   }
 }
 
-// Rekening Koran (Customer Bank Statement)
+// Customer Bank Account Statement (Consolidated Ledger)
 function openCustomerStatement(accNo) {
   const cust = customers.find(c => c.accountNo === accNo);
   if (!cust) return note('CUSTOMER ACCOUNT NOT FOUND');
@@ -1644,10 +1644,10 @@ function openCustomerStatement(accNo) {
         <div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
             <span style="border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:bold;padding:4px 8px;font-size:16px">BPN</span>
-            <h2 style="margin:0;font-size:22px;letter-spacing:1px">${esc(sysConfig.ownerName || 'BANK PRAKTIKUM NUSANTARA')}</h2>
+            <h2 style="margin:0;font-size:22px;letter-spacing:1px">${esc(sysConfig.ownerName || 'BANK INDONESIA')}</h2>
           </div>
           <p style="margin:2px 0;font-size:12px;color:#444">Operational Head Office &amp; International Treasury &bull; Graha Nusantara Tower 18th Fl, Jakarta</p>
-          <p style="margin:2px 0;font-size:12px;color:#444">BIC / SWIFT: <strong>${esc(sysConfig.bankBic || 'IDBKIDJA')}</strong> &bull; RTGS: <strong>0140001</strong> &bull; Client Services: 1500-BPN</p>
+          <p style="margin:2px 0;font-size:12px;color:#444">BIC / SWIFT: <strong>${esc(sysConfig.bankBic || 'INDOIDJAXXX')}</strong> &bull; RTGS: <strong>0140001</strong> &bull; Client Services: 1500-BPN</p>
         </div>
         <div class="statement-title-badge">
           <h1>STATEMENT OF ACCOUNT</h1>
@@ -1995,7 +1995,7 @@ function renderAdvice(selectedId = null) {
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px">
         <div>
           <h2 style="margin:0 0 4px;font-size:20px">SWIFT PAYMENT ADVICE &amp; SETTLEMENT RECEIPT</h2>
-          <p style="margin:0;font-size:13px;color:#555">Official cross-border remittance advice voucher of Bank Praktikum Nusantara (Debit / Credit Advice).</p>
+          <p style="margin:0;font-size:13px;color:#555">Official cross-border remittance advice voucher of Bank Nusantara International (Debit / Credit Advice).</p>
         </div>
         <div style="display:flex;gap:10px;align-items:center">
           <select id="adviceTxSelect" style="height:36px;border:1px solid var(--ink);padding:0 10px;font-size:13px;font-weight:bold;background:#fff">
@@ -2127,7 +2127,7 @@ function renderAnalysis() {
     <div class="content-page">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:12px 16px;background:#fcfbf9;border:1px solid var(--ink);">
         <div>
-          <b style="font-size:14px;font-family:monospace;letter-spacing:1px;">SWIFT LAB MASTER DATABASE TELEMETRY</b>
+          <b style="font-size:14px;font-family:monospace;letter-spacing:1px;">SWIFT NETWORK MASTER DATABASE TELEMETRY</b>
           <p style="margin:4px 0 0;font-size:12px;color:#555;">Real-world correspondent banking metrics sourced from global central banks and clearing systems.</p>
         </div>
         <div style="display:flex;gap:20px;font-family:monospace;font-size:13px;font-weight:bold;">
@@ -2159,7 +2159,7 @@ function renderAnalysis() {
 
   $('#reset')?.addEventListener('click', () => {
     if (!can('reset')) return denied();
-    if (!confirm('RELOAD MASTER DATABASE: This will reset transactional records to the authentic 1,100+ real banks and 1,050 realistic SWIFT transactions. Continue?')) return;
+    if (!confirm('RELOAD MASTER DATABASE: This will reset transactional records to authentic 1,100+ real banks and 1,050 realistic SWIFT transactions. Continue?')) return;
     tx = (typeof window !== 'undefined' && Array.isArray(window.masterTransactions) && window.masterTransactions.length >= 1000) ? structuredClone(window.masterTransactions) : structuredClone(seedTx);
     bics = (typeof window !== 'undefined' && Array.isArray(window.masterBics) && window.masterBics.length >= 1000) ? structuredClone(window.masterBics) : structuredClone(seedBic);
     customers = structuredClone(seedCustomers);
@@ -2176,7 +2176,7 @@ function bank(bic) {
 }
 
 function timeAt(base, minutes) {
-  return new Date(new Date(base).getTime() + minutes * 60000).toLocaleString('id-ID');
+  return new Date(new Date(base).getTime() + minutes * 60000).toLocaleString('en-US');
 }
 
 // UETR Tracking Screen
@@ -2194,13 +2194,13 @@ function openTracking(t) {
 
   const stages = [
     { label: 'Originator bank', bank: origin, time: timeAt(t.date, 0), detail: 'Message created and submitted' },
-    { label: 'Network validation', bank: { name: 'SWIFT LAB GATEWAY', bic: 'NETWORK', city: 'Validation', country: 'Processing' }, time: timeAt(t.date, 4), detail: t.status === 'Rejected' ? 'Validation completed; exception detected' : 'Message format and routing validated' },
+    { label: 'Network validation', bank: { name: 'SWIFT ALLIANCE GATEWAY', bic: 'NETWORK', city: 'Validation', country: 'Processing' }, time: timeAt(t.date, 4), detail: t.status === 'Rejected' ? 'Validation completed; exception detected' : 'Message format and routing validated' },
     { label: t.status === 'Rejected' ? 'Processing exception' : 'Correspondent processing', bank: { name: 'INTERMEDIARY BANK', bic: 'CORRESPONDENT', city: 'Processing hub', country: 'International' }, time: timeAt(t.date, 12), detail: t.status === 'Rejected' ? 'Payment stopped for compliance review' : 'Payment routed to beneficiary bank' },
     { label: 'Beneficiary bank', bank: beneficiary, time: timeAt(t.date, 28), detail: t.status === 'Released' ? 'Funds credited to beneficiary account' : 'Awaiting final credit' }
   ];
 
   const history = t.audit?.length ? t.audit : [
-    { time: t.date, operator: 'SYSTEM', role: 'Imported record', action: 'RECORD_IMPORTED', note: 'Initial training data', from: '', to: t.status }
+    { time: t.date, operator: 'SYSTEM', role: 'System record', action: 'RECORD_IMPORTED', note: 'Production dataset record', from: '', to: t.status }
   ];
 
   $('#trackingContent').innerHTML = `
@@ -2360,7 +2360,7 @@ function isoMessage(t, type) {
   const account = (n, v) => '<' + n + '><Id><Othr>' + tag('Id', v) + '</Othr></Id></' + n + '>';
   const parties = customer ? '<Dbtr>' + tag('Nm', t.orderingName || 'ORDERING CUSTOMER') + '</Dbtr>' + account('DbtrAcct', t.orderingAccount || 'ACC-9901') + agent('DbtrAgt', t.sender) + agent('CdtrAgt', t.receiver) + '<Cdtr>' + tag('Nm', t.beneficiaryName || 'BENEFICIARY') + '</Cdtr>' + account('CdtrAcct', t.beneficiaryAccount || 'ACC-9902') : agent('Dbtr', t.sender) + agent('Cdtr', t.receiver);
 
-  return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Bank Praktikum Nusantara Core Banking & SWIFT Lab -->\n<Document xmlns="urn:iso:std:iso:20022:tech:xsd:' + type + '.001.08">\n  <' + root + '>\n    <GrpHdr>' + tag('MsgId', t.reference || t.id) + tag('CreDtTm', t.date) + '<NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr>\n    <CdtTrfTxInf><PmtId>' + tag('InstrId', t.reference || t.id) + tag('EndToEndId', t.reference || t.id) + tag('UETR', t.uetr) + '</PmtId><IntrBkSttlmAmt Ccy="' + xmlEsc(t.currency) + '">' + Number(t.amount).toFixed(t.currency === 'JPY' ? 0 : 2) + '</IntrBkSttlmAmt>' + tag('IntrBkSttlmDt', t.valueDate) + (customer ? tag('ChrgBr', ({ SHA: 'SHAR', OUR: 'DEBT', BEN: 'CRED' })[t.charges || 'SHA']) : '') + agent('InstgAgt', t.sender) + agent('InstdAgt', t.receiver) + parties + (t.narrative ? '<RmtInf>' + tag('Ustrd', t.narrative) + '</RmtInf>' : '') + '</CdtTrfTxInf>\n  </' + root + '>\n</Document>';
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- Bank Nusantara International Core Banking & SWIFT Alliance Gateway -->\n<Document xmlns="urn:iso:std:iso:20022:tech:xsd:' + type + '.001.08">\n  <' + root + '>\n    <GrpHdr>' + tag('MsgId', t.reference || t.id) + tag('CreDtTm', t.date) + '<NbOfTxs>1</NbOfTxs><SttlmInf><SttlmMtd>INDA</SttlmMtd></SttlmInf></GrpHdr>\n    <CdtTrfTxInf><PmtId>' + tag('InstrId', t.reference || t.id) + tag('EndToEndId', t.reference || t.id) + tag('UETR', t.uetr) + '</PmtId><IntrBkSttlmAmt Ccy="' + xmlEsc(t.currency) + '">' + Number(t.amount).toFixed(t.currency === 'JPY' ? 0 : 2) + '</IntrBkSttlmAmt>' + tag('IntrBkSttlmDt', t.valueDate) + (customer ? tag('ChrgBr', ({ SHA: 'SHAR', OUR: 'DEBT', BEN: 'CRED' })[t.charges || 'SHA']) : '') + agent('InstgAgt', t.sender) + agent('InstdAgt', t.receiver) + parties + (t.narrative ? '<RmtInf>' + tag('Ustrd', t.narrative) + '</RmtInf>' : '') + '</CdtTrfTxInf>\n  </' + root + '>\n</Document>';
 }
 
 function csvMessage(t) {
@@ -2548,7 +2548,7 @@ $('#btnCloseDesktopModal')?.addEventListener('click', () => {
 
 $('#btnDlElectronBuilder')?.addEventListener('click', () => {
   const liveUrl = window.location.origin;
-  const electronScript = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Electron Native .EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING & GPI ENTERPRISE - ELECTRON .EXE COMPILER\r\necho    Builds a Native Windows Desktop .EXE that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nwhere node >nul 2>nul\r\nif %errorlevel% neq 0 (\r\n    echo [ERROR] Node.js is required to compile with Electron.\r\n    echo Please install Node.js from https://nodejs.org\r\n    echo.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/3] Generating local Electron configuration...\r\nif not exist electron ( mkdir electron )\r\ncd electron\r\n\r\n( \r\necho const { app, BrowserWindow, Menu, shell } = require('electron'^);\r\necho const path = require('path'^);\r\necho const LIVE_APP_URL = '${liveUrl}';\r\necho function createWindow(^) {\r\necho   const win = new BrowserWindow({\r\necho     width: 1366, height: 860, minWidth: 1024, minHeight: 700,\r\necho     title: 'SWIFT Core Banking & GPI Enterprise Terminal',\r\necho     backgroundColor: '#f6f4f1',\r\necho     webPreferences: { nodeIntegration: false, contextIsolation: true }\r\necho   }^);\r\necho   win.maximize(^);\r\necho   win.loadURL(LIVE_APP_URL^);\r\necho }\r\necho app.whenReady(^).then(createWindow^);\r\necho app.on('window-all-closed', (^) => { if (process.platform !== 'darwin'^) app.quit(^); }^);\r\n) > main.js\r\n\r\n( \r\necho {\r\necho   "name": "swift-cbs-electron",\r\necho   "version": "1.0.0",\r\necho   "main": "main.js",\r\necho   "scripts": { "start": "electron .", "dist": "electron-builder --win portable --x64" },\r\necho   "devDependencies": { "electron": "^30.0.0", "electron-builder": "^24.13.3" },\r\necho   "build": { "appId": "com.swift.cbs", "productName": "SWIFT Core Banking Terminal", "portable": { "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe" } }\r\necho }\r\n) > package.json\r\n\r\necho [2/3] Installing Electron and Electron-Builder...\r\ncall npm install\r\n\r\necho [3/3] Compiling standalone Windows .EXE...\r\ncall npx electron-builder --win portable --x64\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION FINISHED!\r\necho  Executable file is located at: electron\\dist\\SWIFT_Core_Banking_Terminal_Portable.exe\r\necho =========================================================================\r\npause\r\n`;
+  const electronScript = `@echo off\r\nsetlocal enabledelayedexpansion\r\ntitle SWIFT Core Banking - Electron Native .EXE Builder\r\n\r\necho =========================================================================\r\necho    SWIFT CORE BANKING - ELECTRON .EXE COMPILER\r\necho    Builds a Native Windows Desktop .EXE that Auto-Updates Online\r\necho =========================================================================\r\necho.\r\n\r\nwhere node >nul 2>nul\r\nif %errorlevel% neq 0 (\r\n    echo [ERROR] Node.js is required to compile with Electron.\r\n    echo Please install Node.js from https://nodejs.org\r\n    echo.\r\n    pause\r\n    exit /b 1\r\n)\r\n\r\necho [1/3] Generating local Electron configuration...\r\nif not exist electron ( mkdir electron )\r\ncd electron\r\n\r\n( \r\necho const { app, BrowserWindow, Menu, shell } = require('electron'^);\r\necho const path = require('path'^);\r\necho const LIVE_APP_URL = '${liveUrl}';\r\necho function createWindow(^) {\r\necho   const win = new BrowserWindow({\r\necho     width: 1366, height: 860, minWidth: 1024, minHeight: 700,\r\necho     title: 'SWIFT Core Banking Terminal',\r\necho     backgroundColor: '#f6f4f1',\r\necho     webPreferences: { nodeIntegration: false, contextIsolation: true }\r\necho   }^);\r\necho   win.maximize(^);\r\necho   win.loadURL(LIVE_APP_URL^);\r\necho }\r\necho app.whenReady(^).then(createWindow^);\r\necho app.on('window-all-closed', (^) => { if (process.platform !== 'darwin'^) app.quit(^); }^);\r\n) > main.js\r\n\r\n( \r\necho {\r\necho   "name": "swift-cbs-electron",\r\necho   "version": "1.0.0",\r\necho   "main": "main.js",\r\necho   "scripts": { "start": "electron .", "dist": "electron-builder --win portable --x64" },\r\necho   "devDependencies": { "electron": "30.0.0", "electron-builder": "24.13.3" },\r\necho   "build": { "appId": "com.swift.cbs", "productName": "SWIFT Core Banking Terminal", "electronVersion": "30.0.0", "portable": { "artifactName": "SWIFT_Core_Banking_Terminal_Portable.exe" } }\r\necho }\r\n) > package.json\r\n\r\necho [2/3] Installing Electron and Electron-Builder...\r\ncall npm install --save-dev electron electron-builder\r\n\r\necho [3/3] Compiling standalone Windows .EXE...\r\ncall npx --yes electron-builder --win portable --x64\r\n\r\necho.\r\necho =========================================================================\r\necho  COMPILATION FINISHED!\r\necho  Executable file is located at: electron\\dist\\SWIFT_Core_Banking_Terminal_Portable.exe\r\necho =========================================================================\r\npause\r\n`;
   const blob = new Blob([electronScript], { type: 'application/x-bat' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

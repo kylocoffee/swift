@@ -1,13 +1,19 @@
 [
   {
-    "bic": "IDBKIDJA",
-    "name": "BANK PRAKTIKUM NUSANTARA",
+    "bic": "INDOIDJAXXX",
+    "name": "BANK INDONESIA (CENTRAL BANK)",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
   {
-    "bic": "BIDNIDJA",
+    "bic": "INDOIDJA",
     "name": "BANK INDONESIA (CENTRAL BANK)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BMRIIDJAXXX",
+    "name": "PT BANK MANDIRI (PERSERO) TBK",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -18,8 +24,20 @@
     "city": "JAKARTA"
   },
   {
+    "bic": "BBRIIDJAXXX",
+    "name": "PT BANK RAKYAT INDONESIA (PERSERO) TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
     "bic": "BBRIIDJA",
     "name": "PT BANK RAKYAT INDONESIA (PERSERO) TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BBNIIDJAXXX",
+    "name": "PT BANK NEGARA INDONESIA (PERSERO) TBK",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -30,8 +48,20 @@
     "city": "JAKARTA"
   },
   {
+    "bic": "BBTNIDJAXXX",
+    "name": "PT BANK TABUNGAN NEGARA (PERSERO) TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
     "bic": "BBTNIDJA",
     "name": "PT BANK TABUNGAN NEGARA (PERSERO) TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BSINIDJAXXX",
+    "name": "PT BANK SYARIAH INDONESIA TBK",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -42,14 +72,20 @@
     "city": "JAKARTA"
   },
   {
+    "bic": "CENAIDJAXXX",
+    "name": "PT BANK CENTRAL ASIA TBK (BCA)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
     "bic": "CENAIDJA",
     "name": "PT BANK CENTRAL ASIA TBK (BCA)",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
   {
-    "bic": "BDINIDJA",
-    "name": "PT BANK DANAMON INDONESIA TBK",
+    "bic": "BNIAIDJAXXX",
+    "name": "PT BANK CIMB NIAGA TBK",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -60,8 +96,728 @@
     "city": "JAKARTA"
   },
   {
+    "bic": "BDINIDJAXXX",
+    "name": "PT BANK DANAMON INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BDINIDJA",
+    "name": "PT BANK DANAMON INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BBBAIDJAXXX",
+    "name": "PT BANK PERMATA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
     "bic": "BBBAIDJA",
     "name": "PT BANK PERMATA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "PNBNIDJAXXX",
+    "name": "PT BANK PANIN TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "PNBNIDJA",
+    "name": "PT BANK PANIN TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "NISPIDJAXXX",
+    "name": "PT BANK OCBC NISP TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "NISPIDJA",
+    "name": "PT BANK OCBC NISP TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MEGAIDJAXXX",
+    "name": "PT BANK MEGA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MEGAIDJA",
+    "name": "PT BANK MEGA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MBBEIDJAXXX",
+    "name": "PT BANK MAYBANK INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MBBEIDJA",
+    "name": "PT BANK MAYBANK INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SMBCIDJAXXX",
+    "name": "PT BANK BTPN TBK (SMBC GROUP)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SMBCIDJA",
+    "name": "PT BANK BTPN TBK (SMBC GROUP)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "DBSIIDJAXXX",
+    "name": "PT BANK DBS INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "DBSIIDJA",
+    "name": "PT BANK DBS INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "UOVBIDJAXXX",
+    "name": "PT BANK UOB INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "UOVBIDJA",
+    "name": "PT BANK UOB INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HBAPIDJAXXX",
+    "name": "PT BANK HSBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HBAPIDJA",
+    "name": "PT BANK HSBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SCBLIDJAXXX",
+    "name": "STANDARD CHARTERED BANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SCBLIDJA",
+    "name": "STANDARD CHARTERED BANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "CITIIDJAXXX",
+    "name": "CITIBANK N.A. INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "CITIIDJA",
+    "name": "CITIBANK N.A. INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BJBRIDJAXXX",
+    "name": "PT BANK BJB (BANK JABAR BANTEN) TBK",
+    "country": "INDONESIA",
+    "city": "BANDUNG"
+  },
+  {
+    "bic": "BJBRIDJA",
+    "name": "PT BANK BJB (BANK JABAR BANTEN) TBK",
+    "country": "INDONESIA",
+    "city": "BANDUNG"
+  },
+  {
+    "bic": "BJTMIDJAXXX",
+    "name": "PT BANK JATIM TBK",
+    "country": "INDONESIA",
+    "city": "SURABAYA"
+  },
+  {
+    "bic": "BJTMIDJA",
+    "name": "PT BANK JATIM TBK",
+    "country": "INDONESIA",
+    "city": "SURABAYA"
+  },
+  {
+    "bic": "BPJEIDJAXXX",
+    "name": "PT BANK JATENG",
+    "country": "INDONESIA",
+    "city": "SEMARANG"
+  },
+  {
+    "bic": "BPJEIDJA",
+    "name": "PT BANK JATENG",
+    "country": "INDONESIA",
+    "city": "SEMARANG"
+  },
+  {
+    "bic": "BDKIIDJAXXX",
+    "name": "PT BANK DKI",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BDKIIDJA",
+    "name": "PT BANK DKI",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BPYDIDJAXXX",
+    "name": "PT BANK BPD DIY",
+    "country": "INDONESIA",
+    "city": "YOGYAKARTA"
+  },
+  {
+    "bic": "BPYDIDJA",
+    "name": "PT BANK BPD DIY",
+    "country": "INDONESIA",
+    "city": "YOGYAKARTA"
+  },
+  {
+    "bic": "BPDLIDJAXXX",
+    "name": "PT BANK BPD BALI",
+    "country": "INDONESIA",
+    "city": "DENPASAR"
+  },
+  {
+    "bic": "BPDLIDJA",
+    "name": "PT BANK BPD BALI",
+    "country": "INDONESIA",
+    "city": "DENPASAR"
+  },
+  {
+    "bic": "BSMTIDJAXXX",
+    "name": "PT BANK SUMUT",
+    "country": "INDONESIA",
+    "city": "MEDAN"
+  },
+  {
+    "bic": "BSMTIDJA",
+    "name": "PT BANK SUMUT",
+    "country": "INDONESIA",
+    "city": "MEDAN"
+  },
+  {
+    "bic": "BNGRIDJAXXX",
+    "name": "PT BANK NAGARI (BPD SUMBAR)",
+    "country": "INDONESIA",
+    "city": "PADANG"
+  },
+  {
+    "bic": "BNGRIDJA",
+    "name": "PT BANK NAGARI (BPD SUMBAR)",
+    "country": "INDONESIA",
+    "city": "PADANG"
+  },
+  {
+    "bic": "BDRKIDJAXXX",
+    "name": "PT BANK RIAU KEPRI SYARIAH",
+    "country": "INDONESIA",
+    "city": "PEKANBARU"
+  },
+  {
+    "bic": "BDRKIDJA",
+    "name": "PT BANK RIAU KEPRI SYARIAH",
+    "country": "INDONESIA",
+    "city": "PEKANBARU"
+  },
+  {
+    "bic": "BPDMIDJAXXX",
+    "name": "PT BANK SUMSEL BABEL",
+    "country": "INDONESIA",
+    "city": "PALEMBANG"
+  },
+  {
+    "bic": "BPDMIDJA",
+    "name": "PT BANK SUMSEL BABEL",
+    "country": "INDONESIA",
+    "city": "PALEMBANG"
+  },
+  {
+    "bic": "BPDWIDJAXXX",
+    "name": "PT BANK KALBAR",
+    "country": "INDONESIA",
+    "city": "PONTIANAK"
+  },
+  {
+    "bic": "BPDWIDJA",
+    "name": "PT BANK KALBAR",
+    "country": "INDONESIA",
+    "city": "PONTIANAK"
+  },
+  {
+    "bic": "BKSLIDJAXXX",
+    "name": "PT BANK KALSEL",
+    "country": "INDONESIA",
+    "city": "BANJARMASIN"
+  },
+  {
+    "bic": "BKSLIDJA",
+    "name": "PT BANK KALSEL",
+    "country": "INDONESIA",
+    "city": "BANJARMASIN"
+  },
+  {
+    "bic": "BPTKIDJAXXX",
+    "name": "PT BANK KALTENG",
+    "country": "INDONESIA",
+    "city": "PALANGKARAYA"
+  },
+  {
+    "bic": "BPTKIDJA",
+    "name": "PT BANK KALTENG",
+    "country": "INDONESIA",
+    "city": "PALANGKARAYA"
+  },
+  {
+    "bic": "BPTMIDJAXXX",
+    "name": "PT BANK KALTIMTARA",
+    "country": "INDONESIA",
+    "city": "SAMARINDA"
+  },
+  {
+    "bic": "BPTMIDJA",
+    "name": "PT BANK KALTIMTARA",
+    "country": "INDONESIA",
+    "city": "SAMARINDA"
+  },
+  {
+    "bic": "BSLEIDJAXXX",
+    "name": "PT BANK SULSELBAR",
+    "country": "INDONESIA",
+    "city": "MAKASSAR"
+  },
+  {
+    "bic": "BSLEIDJA",
+    "name": "PT BANK SULSELBAR",
+    "country": "INDONESIA",
+    "city": "MAKASSAR"
+  },
+  {
+    "bic": "BMANIDJAXXX",
+    "name": "PT BANK SULUTGO",
+    "country": "INDONESIA",
+    "city": "MANADO"
+  },
+  {
+    "bic": "BMANIDJA",
+    "name": "PT BANK SULUTGO",
+    "country": "INDONESIA",
+    "city": "MANADO"
+  },
+  {
+    "bic": "BSLTIDJAXXX",
+    "name": "PT BANK SULTENG",
+    "country": "INDONESIA",
+    "city": "PALU"
+  },
+  {
+    "bic": "BSLTIDJA",
+    "name": "PT BANK SULTENG",
+    "country": "INDONESIA",
+    "city": "PALU"
+  },
+  {
+    "bic": "BSLRIDJAXXX",
+    "name": "PT BANK SULTRA",
+    "country": "INDONESIA",
+    "city": "KENDARI"
+  },
+  {
+    "bic": "BSLRIDJA",
+    "name": "PT BANK SULTRA",
+    "country": "INDONESIA",
+    "city": "KENDARI"
+  },
+  {
+    "bic": "BMALIDJAXXX",
+    "name": "PT BANK MALUKU MALUT",
+    "country": "INDONESIA",
+    "city": "AMBON"
+  },
+  {
+    "bic": "BMALIDJA",
+    "name": "PT BANK MALUKU MALUT",
+    "country": "INDONESIA",
+    "city": "AMBON"
+  },
+  {
+    "bic": "BPAPIDJAXXX",
+    "name": "PT BANK PAPUA",
+    "country": "INDONESIA",
+    "city": "JAYAPURA"
+  },
+  {
+    "bic": "BPAPIDJA",
+    "name": "PT BANK PAPUA",
+    "country": "INDONESIA",
+    "city": "JAYAPURA"
+  },
+  {
+    "bic": "ICBKIDJAXXX",
+    "name": "PT BANK ICBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "ICBKIDJA",
+    "name": "PT BANK ICBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "ARTOSIDJAXXX",
+    "name": "PT BANK JAGO TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "ARTOSIDJA",
+    "name": "PT BANK JAGO TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "NOBUIDJAXXX",
+    "name": "PT BANK NATIONALNOBU TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "NOBUIDJA",
+    "name": "PT BANK NATIONALNOBU TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BYBAIDJAXXX",
+    "name": "PT BANK NEO COMMERCE TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BYBAIDJA",
+    "name": "PT BANK NEO COMMERCE TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BKEIIDJAXXX",
+    "name": "PT BANK SEABANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BKEIIDJA",
+    "name": "PT BANK SEABANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BCADIDJAXXX",
+    "name": "PT BANK DIGITAL BCA (BLU)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BCADIDJA",
+    "name": "PT BANK DIGITAL BCA (BLU)",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "FAJRIDJAXXX",
+    "name": "PT SUPER BANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "FAJRIDJA",
+    "name": "PT SUPER BANK INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HARKIDJAXXX",
+    "name": "PT ALLO BANK INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HARKIDJA",
+    "name": "PT ALLO BANK INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BVICIDJAXXX",
+    "name": "PT BANK VICTORIA INTERNATIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BVICIDJA",
+    "name": "PT BANK VICTORIA INTERNATIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SBMRIDJAXXX",
+    "name": "PT BANK SINARMAS TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SBMRIDJA",
+    "name": "PT BANK SINARMAS TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "DIPOIDJAXXX",
+    "name": "PT BANK SAHABAT SAMPOERNA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "DIPOIDJA",
+    "name": "PT BANK SAHABAT SAMPOERNA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BREDIDJAXXX",
+    "name": "PT BANK RESONA PERDANIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BREDIDJA",
+    "name": "PT BANK RESONA PERDANIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "INAPIDJAXXX",
+    "name": "PT BANK INA PERDANA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "INAPIDJA",
+    "name": "PT BANK INA PERDANA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BARTIDJAXXX",
+    "name": "PT BANK BUMI ARTA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BARTIDJA",
+    "name": "PT BANK BUMI ARTA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BCAIIDJAXXX",
+    "name": "PT BANK CAPITAL INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BCAIIDJA",
+    "name": "PT BANK CAPITAL INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "ARTAIDJAXXX",
+    "name": "PT BANK ARTHA GRAHA INTERNASIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "ARTAIDJA",
+    "name": "PT BANK ARTHA GRAHA INTERNASIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BBKPIDJAXXX",
+    "name": "PT BANK KB BUKOPIN TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BBKPIDJA",
+    "name": "PT BANK KB BUKOPIN TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MUIBIDJAXXX",
+    "name": "PT BANK JTRUST INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MUIBIDJA",
+    "name": "PT BANK JTRUST INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SHBKIDJAXXX",
+    "name": "PT BANK SHINHAN INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SHBKIDJA",
+    "name": "PT BANK SHINHAN INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HNBNIDJAXXX",
+    "name": "PT BANK KEB HANA INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "HNBNIDJA",
+    "name": "PT BANK KEB HANA INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SDRAIDJAXXX",
+    "name": "PT BANK WOORI SAUDARA INDONESIA 1906 TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "SDRAIDJA",
+    "name": "PT BANK WOORI SAUDARA INDONESIA 1906 TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "CHBKIDJAXXX",
+    "name": "PT BANK CTBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "CHBKIDJA",
+    "name": "PT BANK CTBC INDONESIA",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "COMMIDJAXXX",
+    "name": "PT BANK COMMONWEALTH",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "COMMIDJA",
+    "name": "PT BANK COMMONWEALTH",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BGANIDJAXXX",
+    "name": "PT BANK GANESHA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BGANIDJA",
+    "name": "PT BANK GANESHA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "MDHRIDJAXXX",
+    "name": "PT BANK MESTIKA DHARMA TBK",
+    "country": "INDONESIA",
+    "city": "MEDAN"
+  },
+  {
+    "bic": "MDHRIDJA",
+    "name": "PT BANK MESTIKA DHARMA TBK",
+    "country": "INDONESIA",
+    "city": "MEDAN"
+  },
+  {
+    "bic": "BMASIDJAXXX",
+    "name": "PT BANK MASPION INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "SURABAYA"
+  },
+  {
+    "bic": "BMASIDJA",
+    "name": "PT BANK MASPION INDONESIA TBK",
+    "country": "INDONESIA",
+    "city": "SURABAYA"
+  },
+  {
+    "bic": "BABPIDJAXXX",
+    "name": "PT BANK MNC INTERNASIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BABPIDJA",
+    "name": "PT BANK MNC INTERNASIONAL TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BMSIIDJAXXX",
+    "name": "PT BANK MULTIARTA SENTOSA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BMSIIDJA",
+    "name": "PT BANK MULTIARTA SENTOSA TBK",
+    "country": "INDONESIA",
+    "city": "JAKARTA"
+  },
+  {
+    "bic": "BIDNIDJA",
+    "name": "BANK INDONESIA (CENTRAL BANK)",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -74,18 +830,6 @@
   {
     "bic": "NISPIDA",
     "name": "PT BANK OCBC NISP TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "PNBNIDJA",
-    "name": "PT BANK PANIN TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "MEGAIDJA",
-    "name": "PT BANK MEGA TBK",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -120,18 +864,6 @@
     "city": "JAKARTA"
   },
   {
-    "bic": "CITIIDJA",
-    "name": "CITIBANK N.A. INDONESIA BRANCH",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "SCBLIDJA",
-    "name": "STANDARD CHARTERED BANK INDONESIA",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
     "bic": "DBSSIDJA",
     "name": "PT BANK DBS INDONESIA",
     "country": "INDONESIA",
@@ -146,12 +878,6 @@
   {
     "bic": "BOTKIDJA",
     "name": "MUFG BANK LTD JAKARTA BRANCH",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "SMBCIDJA",
-    "name": "PT BANK SUMITOMO MITSUI INDONESIA",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -180,18 +906,6 @@
     "city": "JAKARTA"
   },
   {
-    "bic": "BABPIDJA",
-    "name": "PT BANK MNC INTERNASIONAL TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "BBKPIDJA",
-    "name": "PT BANK KB BUKOPIN TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
     "bic": "BCICIDJA",
     "name": "PT BANK JTRUST INDONESIA TBK",
     "country": "INDONESIA",
@@ -210,38 +924,14 @@
     "city": "JAKARTA"
   },
   {
-    "bic": "BMASIDJA",
-    "name": "PT BANK MASPION INDONESIA TBK",
-    "country": "INDONESIA",
-    "city": "SURABAYA"
-  },
-  {
     "bic": "BMTDIDJA",
     "name": "PT BANK MESTIKA DHARMA TBK",
     "country": "INDONESIA",
     "city": "MEDAN"
   },
   {
-    "bic": "BVICIDJA",
-    "name": "PT BANK VICTORIA INTERNATIONAL TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "BGANIDJA",
-    "name": "PT BANK GANESHA TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
     "bic": "BAPRIDJA",
     "name": "PT BANK BUMI ARTA TBK",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
-    "bic": "SHBKIDJA",
-    "name": "PT BANK SHINHAN INDONESIA",
     "country": "INDONESIA",
     "city": "JAKARTA"
   },
@@ -264,40 +954,16 @@
     "city": "JAKARTA"
   },
   {
-    "bic": "BJBRIDJA",
-    "name": "PT BANK PEMBANGUNAN DAERAH JAWA BARAT DAN BANTEN TBK (BJB)",
-    "country": "INDONESIA",
-    "city": "BANDUNG"
-  },
-  {
-    "bic": "BJTMIDJA",
-    "name": "PT BANK PEMBANGUNAN DAERAH JAWA TIMUR TBK (BANK JATIM)",
-    "country": "INDONESIA",
-    "city": "SURABAYA"
-  },
-  {
     "bic": "BPDTIDJA",
     "name": "PT BANK PEMBANGUNAN DAERAH JAWA TENGAH (BANK JATENG)",
     "country": "INDONESIA",
     "city": "SEMARANG"
   },
   {
-    "bic": "BDKIIDJA",
-    "name": "PT BANK DKI",
-    "country": "INDONESIA",
-    "city": "JAKARTA"
-  },
-  {
     "bic": "BPDIYIDJA",
     "name": "PT BANK PEMBANGUNAN DAERAH D.I. YOGYAKARTA",
     "country": "INDONESIA",
     "city": "YOGYAKARTA"
-  },
-  {
-    "bic": "BSMTIDJA",
-    "name": "PT BANK PEMBANGUNAN DAERAH SUMATERA UTARA (BANK SUMUT)",
-    "country": "INDONESIA",
-    "city": "MEDAN"
   },
   {
     "bic": "BNAGIDJA",
@@ -342,12 +1008,6 @@
     "city": "SAMARINDA"
   },
   {
-    "bic": "BKSLIDJA",
-    "name": "PT BANK PEMBANGUNAN DAERAH KALIMANTAN SELATAN",
-    "country": "INDONESIA",
-    "city": "BANJARMASIN"
-  },
-  {
     "bic": "BKTGIDJA",
     "name": "PT BANK PEMBANGUNAN DAERAH KALIMANTAN TENGAH",
     "country": "INDONESIA",
@@ -358,12 +1018,6 @@
     "name": "PT BANK SULSELBAR",
     "country": "INDONESIA",
     "city": "MAKASSAR"
-  },
-  {
-    "bic": "BSLTIDJA",
-    "name": "PT BANK SULUTGO",
-    "country": "INDONESIA",
-    "city": "MANADO"
   },
   {
     "bic": "BBALIDJA",
@@ -382,12 +1036,6 @@
     "name": "PT BANK NTB SYARIAH",
     "country": "INDONESIA",
     "city": "MATARAM"
-  },
-  {
-    "bic": "BMALIDJA",
-    "name": "PT BANK MALUKU MALUT",
-    "country": "INDONESIA",
-    "city": "AMBON"
   },
   {
     "bic": "BPADIDJA",

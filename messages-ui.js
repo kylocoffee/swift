@@ -27,7 +27,7 @@ if (modalGrid) {
     <div class="wide" style="background:#f9f8f4;border:2px solid var(--ink);padding:12px;margin:8px 0">
       <b style="display:block;font-size:13px;margin-bottom:6px">CORE BANKING: SELECT ORDERING CUSTOMER ACCOUNT</b>
       <select id="custQuickFill" style="width:100%;height:38px;border:1px solid #333;background:#fff;padding:0 8px;font-size:13px;font-weight:bold">
-        <option value="">-- SELECT ORDERING ACCOUNT (BANK PRAKTIKUM NUSANTARA) --</option>
+        <option value="">-- SELECT ORDERING ACCOUNT (BANK INDONESIA) --</option>
       </select>
       <div id="custBalanceInfo" style="font-size:12px;margin-top:6px;font-weight:bold;color:#0a5c0a"></div>
     </div>
@@ -68,7 +68,7 @@ function fillMessageFields(t){
   if(t) ensureMessageData(t);
   const qf = $('#custQuickFill');
   if (qf && typeof customers !== 'undefined') {
-    qf.innerHTML = '<option value="">-- SELECT ORDERING ACCOUNT (BANK PRAKTIKUM NUSANTARA) --</option>' + customers.map(c => `
+    qf.innerHTML = '<option value="">-- SELECT ORDERING ACCOUNT (BANK INDONESIA) --</option>' + customers.map(c => `
       <option value="${c.accountNo}" ${t?.orderingAccount === c.accountNo ? 'selected' : ''}>
         ${c.accountNo} - ${c.name} (${c.currency} ${Number(c.balance).toLocaleString()})
       </option>
@@ -119,7 +119,7 @@ function renderSwiftFormExampleHTML(t){
   const uetr = (t.uetr || '').toLowerCase();
   const ref = t.reference || t.trn || t.id || '123ABCD';
   const mur = (t.trn || t.reference || t.id || '2127182').replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
-  const lt = b => (b || 'IDBKIDJA').slice(0, 8) + 'X' + ((b || '').length === 11 ? b.slice(8) : 'XXX');
+  const lt = b => (b || 'INDOIDJAXXX').slice(0, 8) + 'X' + ((b || '').length === 11 ? b.slice(8) : 'XXX');
   const msgNum = (t.type || 'MT103').replace(/[^0-9]/g, '') || '103';
 
   return `

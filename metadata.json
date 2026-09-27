@@ -1,6 +1,6 @@
 {
-  "name": "SWIFT Network & Core Banking Laboratory Simulator",
-  "description": "Educational multi-currency SWIFT and Core Banking simulator with dynamic branding, real-time messaging, and multi-role compliance governance.",
+  "name": "SWIFT Core Banking & Financial Messaging Platform",
+  "description": "Enterprise multi-currency SWIFT FIN and ISO 20022 Core Banking platform with real-time financial messaging, Nostro liquidity management, and multi-tier compliance governance.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
