@@ -84,7 +84,7 @@ const seedTx = [
     currency: 'SGD', amount: 72500, status: 'Validated', charges: 'OUR',
     orderingName: 'SALMA LESTARI', orderingAccount: '1001-6055-05', orderingAddress: 'JL ASIA AFRIKA NO 15\nBANDUNG\nINDONESIA',
     beneficiaryName: 'SINGAPORE MANAGEMENT ACADEMY', beneficiaryAccount: 'SG44DBSS0099881122', beneficiaryAddress: '12 MARINA BOULEVARD\nSINGAPORE 018982',
-    narrative: 'TUITION FEE SEMESTER 1 SIMULATION',
+    narrative: 'TUITION FEE INTERNATIONAL EXCHANGE PROGRAM',
     audit: [
       { time: '2026-09-18T09:16:03.000Z', operator: 'IQBAL', role: 'Operator', action: 'TRANSACTION_CREATED', note: 'Maker input: education fee transfer', from: '', to: 'Pending' },
       { time: '2026-09-18T09:20:00.000Z', operator: 'SALMA', role: 'Compliance Officer', action: 'STATUS_CHANGE', note: 'Document verified, passed KYC/AML', from: 'Pending', to: 'Validated' }
@@ -230,11 +230,42 @@ function load(k, d) {
   }
 }
 
+const TX_DATASET_VERSION_KEY = 'swiftLabMasterTxVer';
+const CURRENT_TX_VERSION = '2026-SEP-1250TX-V1';
+
 const getMasterBics = () => (typeof window !== 'undefined' && Array.isArray(window.masterBics) && window.masterBics.length >= 1000) ? window.masterBics : seedBic;
 const getMasterTx = () => (typeof window !== 'undefined' && Array.isArray(window.masterTransactions) && window.masterTransactions.length >= 1000) ? window.masterTransactions : seedTx;
 
-let tx = load(TK, getMasterTx());
-let bics = load(BK, getMasterBics());
+function initMasterTransactions() {
+  const currentVer = localStorage.getItem(TX_DATASET_VERSION_KEY);
+  const storedTx = load(TK, null);
+  const masterTx = getMasterTx();
+
+  if (!storedTx || !Array.isArray(storedTx) || storedTx.length < 1000 || currentVer !== CURRENT_TX_VERSION) {
+    if (Array.isArray(masterTx) && masterTx.length >= 1000) {
+      localStorage.setItem(TK, JSON.stringify(masterTx));
+      localStorage.setItem(TX_DATASET_VERSION_KEY, CURRENT_TX_VERSION);
+      return masterTx;
+    }
+  }
+  return storedTx || masterTx;
+}
+
+function initMasterBics() {
+  const storedBics = load(BK, null);
+  const masterBics = getMasterBics();
+
+  if (!storedBics || !Array.isArray(storedBics) || storedBics.length < 1000) {
+    if (Array.isArray(masterBics) && masterBics.length >= 1000) {
+      localStorage.setItem(BK, JSON.stringify(masterBics));
+      return masterBics;
+    }
+  }
+  return storedBics || masterBics;
+}
+
+let tx = initMasterTransactions();
+let bics = initMasterBics();
 let customers = load(CK, seedCustomers);
 let nostro = load(NK, seedNostro);
 let journals = load(JK, seedJournals);
@@ -300,13 +331,23 @@ const defaultSysConfig = {
   welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
 
   // Dynamic Site HTML Title & Favicon Configuration
-  siteHtmlTitle: 'SWIFT Network Lab Simulator',
+  siteHtmlTitle: 'SWIFT Network & Core Banking Laboratory Simulator',
   faviconPreset: 'white',
   faviconCustomUrl: ''
 };
 
 let sysConfig = load(CFGK, defaultSysConfig);
 sysConfig = { ...defaultSysConfig, ...sysConfig };
+
+function getEffectiveTitle(config) {
+  if (config?.siteHtmlTitle && config.siteHtmlTitle.trim()) {
+    return config.siteHtmlTitle.trim();
+  }
+  if (config?.bankName && config.bankName !== 'BANK PRAKTIKUM NUSANTARA') {
+    return `${config.bankName} — SWIFT Network & Core Banking Simulator`;
+  }
+  return config?.appName || 'SWIFT Network & Core Banking Laboratory Simulator';
+}
 
 function getFaviconUrl(config) {
   const preset = config?.faviconPreset || 'white';
@@ -330,7 +371,7 @@ function getFaviconUrl(config) {
 }
 
 function updateDynamicHead(config, isAdmin = false) {
-  const title = config?.siteHtmlTitle || config?.appName || 'SWIFT Network Lab Simulator';
+  const title = getEffectiveTitle(config);
   document.title = isAdmin ? `Super Admin Master Console — ${title}` : title;
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', title);
@@ -348,6 +389,39 @@ function updateDynamicHead(config, isAdmin = false) {
 
 // Immediately synchronize head & favicon upon module load
 updateDynamicHead(sysConfig);
+
+// Cross-tab and Firebase Cloud real-time synchronization
+function reloadAppStateFromStorage() {
+  try {
+    sysConfig = { ...defaultSysConfig, ...load(CFGK, defaultSysConfig) };
+    tx = load(TK, getMasterTx());
+    bics = load(BK, getMasterBics());
+    customers = load(CK, seedCustomers);
+    nostro = load(NK, seedNostro);
+    journals = load(JK, seedJournals);
+    PROFILES = getStoredProfiles();
+    
+    updateDynamicHead(sysConfig);
+    if (typeof applySysConfig === 'function') applySysConfig();
+    if (typeof updateFooterInfo === 'function') updateFooterInfo();
+    if (typeof syncDatalists === 'function') syncDatalists();
+    if (activeSession && typeof navigate === 'function' && typeof currentView === 'string') {
+      navigate(currentView, false);
+    }
+  } catch(err) {
+    console.warn('Error reloading state from sync:', err);
+  }
+}
+
+window.addEventListener('storage', (e) => {
+  if (e.key === CFGK && e.newValue) {
+    reloadAppStateFromStorage();
+  }
+});
+
+window.addEventListener('swift:cloud-synced', () => {
+  reloadAppStateFromStorage();
+});
 
 function updateFooterInfo() {
   const footerNote = $('#appFooterNote');

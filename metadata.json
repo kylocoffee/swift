@@ -1,6 +1,6 @@
 {
-  "name": "SWIFT Network Lab Simulator",
-  "description": "SWIFT banking laboratory simulator for educational use and transaction management.",
+  "name": "SWIFT Network & Core Banking Laboratory Simulator",
+  "description": "Educational multi-currency SWIFT and Core Banking simulator with dynamic branding, real-time messaging, and multi-role compliance governance.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

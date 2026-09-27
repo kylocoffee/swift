@@ -5,7 +5,7 @@ import path from 'path';
 // Real banks organized by region with verified SWIFT BICs, official names, countries, and financial centers
 const rawBanks = [
   // ==================== INDONESIA (Central Bank, BUMN, National Commercial, Regional Development Banks) ====================
-  { bic: 'IDBKIDJA', name: 'BANK PRAKTIKUM NUSANTARA (LAB SIMULATOR)', country: 'INDONESIA', city: 'JAKARTA' },
+  { bic: 'IDBKIDJA', name: 'BANK PRAKTIKUM NUSANTARA', country: 'INDONESIA', city: 'JAKARTA' },
   { bic: 'BIDNIDJA', name: 'BANK INDONESIA (CENTRAL BANK)', country: 'INDONESIA', city: 'JAKARTA' },
   { bic: 'BMRIIDJA', name: 'PT BANK MANDIRI (PERSERO) TBK', country: 'INDONESIA', city: 'JAKARTA' },
   { bic: 'BBRIIDJA', name: 'PT BANK RAKYAT INDONESIA (PERSERO) TBK', country: 'INDONESIA', city: 'JAKARTA' },

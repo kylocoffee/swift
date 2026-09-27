@@ -113,6 +113,83 @@ function showMessageErrors(issues){
   el.scrollIntoView({ block: 'nearest' });
 }
 
+function renderSwiftFormExampleHTML(t){
+  const d = (t.valueDate || '').replaceAll('-', '').slice(2);
+  const a = PaymentMessages.formatFinAmount ? PaymentMessages.formatFinAmount(t.amount, t.currency) : (t.currency === 'JPY' ? Number(t.amount).toFixed(0) + ',' : Number(t.amount).toFixed(2).replace('.', ','));
+  const uetr = (t.uetr || '').toLowerCase();
+  const ref = t.reference || t.trn || t.id || '123ABCD';
+  const mur = (t.trn || t.reference || t.id || '2127182').replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+  const lt = b => (b || 'IDBKIDJA').slice(0, 8) + 'X' + ((b || '').length === 11 ? b.slice(8) : 'XXX');
+  const msgNum = (t.type || 'MT103').replace(/[^0-9]/g, '') || '103';
+
+  return `
+    <section class="swift-mt103-spec-wrap" style="margin:20px 0 24px;">
+      <h3 class="tracking-section-title">SWIFT MT${msgNum} &amp; UETR Tag Syntax Architecture</h3>
+      
+      <div style="background:#ffffff;border:2px solid #1e293b;border-radius:12px;padding:22px 24px;box-shadow:0 4px 14px rgba(0,0,0,0.06);position:relative;">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;">
+          <b style="font-size:16px;color:#0f172a;letter-spacing:0.3px;">SWIFT MT${msgNum} Form Example</b>
+          <span style="font-size:11px;font-weight:bold;padding:3px 8px;background:#f1f5f9;color:#334155;border-radius:4px;font-family:monospace;">ISO 15022 / FIN USER HEADER BLOCK 3</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:18px;">
+          <!-- Monospace SWIFT Blocks -->
+          <div style="font-family:'Courier New', Courier, monospace;font-size:14px;line-height:2;color:#1e293b;background:#f8fafc;padding:16px 20px;border-radius:8px;border:1px solid #cbd5e1;overflow-x:auto;">
+            <div style="color:#64748b;">{1:F01${esc(lt(t.sender))}0000000000}{2:I${msgNum}${esc(lt(t.receiver))}XXXXN}</div>
+            
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">
+              <span style="color:#64748b;">{3:{108:${esc(mur)}}{111:001}{121:</span>
+              <span style="border:2px solid #ea580c;padding:1px 8px;border-radius:4px;font-weight:bold;background:#fff7ed;color:#c2410c;box-shadow:0 0 0 1px rgba(234,88,12,0.2);" title="Unique End-to-end Transaction Reference (Tag 121)">${esc(uetr)}</span>
+              <span style="color:#64748b;">}}</span>
+            </div>
+
+            <div style="margin-top:8px;display:flex;align-items:center;gap:6px;">
+              <span style="font-weight:bold;color:#334155;">:20:</span>
+              <span style="border:2px solid #ea580c;padding:1px 8px;border-radius:4px;font-weight:bold;background:#fff7ed;color:#0f172a;" title="Transaction Reference #">${esc(ref)}</span>
+            </div>
+
+            <div style="color:#334155;">:23B:CRED</div>
+
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span style="font-weight:bold;color:#334155;">:32A:</span>
+              <span style="border:2px solid #ea580c;padding:1px 8px;border-radius:4px;font-weight:bold;background:#fff7ed;color:#0f172a;" title="Date of Payment (YYMMDD)">${esc(d)}</span>
+              <span style="border:2px solid #ea580c;padding:1px 8px;border-radius:4px;font-weight:bold;background:#fff7ed;color:#0f172a;" title="Sender's Currency">${esc(t.currency)}</span>
+              <span style="border:2px solid #ea580c;padding:1px 8px;border-radius:4px;font-weight:bold;background:#fff7ed;color:#0f172a;" title="Instructed Settled Amount">${esc(a)}</span>
+            </div>
+          </div>
+
+          <!-- Parameter Mapping Box Matching Diagram -->
+          <div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:14px 18px;">
+            <div style="font-size:12px;font-weight:bold;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">SWIFT Field &amp; Tag Decomposition</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));gap:10px;">
+              <div style="background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;border-left:4px solid #ea580c;">
+                <span style="font-size:11px;color:#64748b;font-weight:bold;display:block;">UETR (Tag 121)</span>
+                <span style="font-family:monospace;font-size:11.5px;font-weight:bold;color:#c2410c;word-break:break-all;">${esc(uetr)}</span>
+              </div>
+              <div style="background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;border-left:4px solid #ea580c;">
+                <span style="font-size:11px;color:#64748b;font-weight:bold;display:block;">Reference # (:20:)</span>
+                <span style="font-family:monospace;font-size:12px;font-weight:bold;color:#0f172a;">${esc(ref)}</span>
+              </div>
+              <div style="background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;border-left:4px solid #ea580c;">
+                <span style="font-size:11px;color:#64748b;font-weight:bold;display:block;">Amount (:32A:)</span>
+                <span style="font-family:monospace;font-size:12px;font-weight:bold;color:#0f172a;">${esc(a)}</span>
+              </div>
+              <div style="background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;border-left:4px solid #ea580c;">
+                <span style="font-size:11px;color:#64748b;font-weight:bold;display:block;">Sender’s Currency (:32A:)</span>
+                <span style="font-family:monospace;font-size:12px;font-weight:bold;color:#0f172a;">${esc(t.currency)}</span>
+              </div>
+              <div style="background:#fff;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;border-left:4px solid #ea580c;">
+                <span style="font-size:11px;color:#64748b;font-weight:bold;display:block;">Date of Payment (:32A:)</span>
+                <span style="font-family:monospace;font-size:12px;font-weight:bold;color:#0f172a;">${esc(d)} (YYMMDD)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderMessageControls(t){
   const problems = PaymentMessages.checks(t);
   const unique = !tx.some(x => x.id !== t.id && x.uetr === t.uetr);
@@ -126,7 +203,7 @@ function renderMessageControls(t){
 
   const wrap = $('.audit-wrap', $('#trackingContent'));
   if (wrap) {
-    wrap.insertAdjacentHTML('beforebegin', '<section class="validation-wrap"><h3 class="tracking-section-title">Message Integrity &amp; Compliance Controls</h3><div class="validation-grid">' + checks.map(([title, detail, ok]) => `<div class="validation-item ${ok ? '' : 'warning'}"><b>${title}</b>${esc(detail)}</div>`).join('') + '</div></section>');
+    wrap.insertAdjacentHTML('beforebegin', renderSwiftFormExampleHTML(t) + '<section class="validation-wrap"><h3 class="tracking-section-title">Message Integrity &amp; Compliance Controls</h3><div class="validation-grid">' + checks.map(([title, detail, ok]) => `<div class="validation-item ${ok ? '' : 'warning'}"><b>${title}</b>${esc(detail)}</div>`).join('') + '</div></section>');
   }
   const tNum = $('.tracking-number');
   if (tNum) {
@@ -139,7 +216,7 @@ function renderMessageControls(t){
   }
 }
 
-$('#exportForm')?.insertAdjacentHTML('afterbegin', '<p class="message-help">TRAINING MESSAGE COPY · Educational SWIFT Network &amp; Core Banking Simulation.</p>');
+$('#exportForm')?.insertAdjacentHTML('afterbegin', '<p class="message-help">SWIFT MESSAGE COPY &middot; Official Core Banking &amp; SWIFT GPI Transmission.</p>');
 const fmtLabel = $('#exportFormat')?.closest('label');
 if (fmtLabel) {
   fmtLabel.insertAdjacentHTML('afterend', '<label class="output-label"><b>OUTPUT FORMAT</b><select id="messageOutput"><option value="copy">Message Copy — Plaintext (Header + SWIFT Text)</option><option value="html">Message Copy — HTML (Printable Payment Advice)</option><option value="raw">Raw FIN Format — SWIFT Telex Transmission Syntax</option></select></label>');

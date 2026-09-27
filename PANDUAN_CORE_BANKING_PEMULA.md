@@ -242,13 +242,13 @@ Berikut alur simulasi yang dapat dipraktikkan langsung di simulator:
 ### Langkah 1: Login Terminal & Verifikasi Token Fisik USB
 1. Buka simulator pada peramban (*browser*).
 2. Klik di mana saja pada layar pembuka bertuliskan *"SWIFT SECURE FINANCIAL MESSAGING TERMINAL"*.
-3. Pada layar terminal akun, masukkan:
-   - **Account ID**: `student01`
-   - **Password**: `swiftlab`
-   - **Terminal Security Key**: `LAB-2026`
-   - Klik **SUBMIT CREDENTIALS**.
+3. Pada layar login terminal akun, masukkan:
+   - **Account ID**: `student01` (atau ID akun terminal bank praktikum Anda)
+   - **Password**: `swiftlab` (tersensor / titik pelindung `••••••••`)
+   - **Key**: `LAB-2026` (tersensor / titik pelindung `••••••••` demi privasi dan keamanan praktikum)
+   - Klik **Login**.
 4. Pada layar USB Key PKI, klik tombol **CONNECT USB KEY**. Lampu indikator akan berubah menjadi hijau (*CONNECTED*).
-5. Pilih operator: **iqbal**, masukkan password: `123456`, lalu klik **LOGIN**.
+5. Pilih operator: **iqbal**, masukkan password: `123456` (tersensor), lalu klik **LOGIN**.
 6. Anda sekarang berada di ruang kerja utama perbankan.
 
 ### Langkah 2: Memeriksa Saldo Nasabah
@@ -322,20 +322,20 @@ Berikut alur simulasi yang dapat dipraktikkan langsung di simulator:
 Untuk menjaga integritas laboratorium praktikum dan mencegah manipulasi konfigurasi oleh mahasiswa, hak akses administratif tertinggi (**Super Admin Control Center**) dipisahkan secara fisik ke dalam berkas mandiri: **`admin.html`**.
 
 ```
-+-------------------------------------------------------------------------------------------------------------------+
-|                                     PORTAL KONTROL PUSAT SUPER ADMIN (admin.html)                                 |
-+---------------------+---------------------+---------------------+---------------------+---------------------------+
-| 1. Lembaga & Pemilik| 2. Identitas Bank   | 3. Kebijakan Sistem | 4. Manajemen User   | 5. Keamanan, Sandi & Kunci|
-+---------------------+---------------------+---------------------+---------------------+---------------------------+
-| • Nama Universitas  | • Nama Bank         | • Four-Eyes Mandat  | • Tambah Operator   | • Akun ID Super Admin     |
-| • Kepala Lab / Dosen| • Kode SWIFT BIC    | • Validasi Saldo    | • Edit / Promosi    | • Master Password Admin   |
-| • Kontak & Telepon  | • Mata Uang Pokok   | • Skrining Sanksi   | • Ubah Username/PWD | • Master Authorization Key|
-| • Alamat Resmi      | • Biaya Telex USD   | • GL Auto-Posting   | • Hapus Operator    | • Login Mahasiswa Stage 1 |
-| • Nomor Lisensi OJK | • Jaringan Kliring  | • Default ISO/MT    | • Cari & Filter     | • PIN Token Hardware USB  |
-| • Motto Aplikasi    | • Format Pesan      | • Bypass Intro Fast | • Multi-Role Hak    | • Kunci Kriptografi SWIFT |
-+---------------------+---------------------+---------------------+---------------------+---------------------------+
-|                                  6. Backup, Restore & Reset Pabrik Baseline Data                                  |
-+-------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------+
+|                                              PORTAL KONTROL PUSAT SUPER ADMIN (admin.html)                                              |
++---------------------+---------------------+---------------------+---------------------+---------------------+---------------------------+
+| 1. Lembaga & Title  | 2. Identitas Bank   | 3. Kebijakan Sistem | 4. Panduan & Matriks| 5. Manajemen User   | 6. Keamanan, Sandi & Kunci|
++---------------------+---------------------+---------------------+---------------------+---------------------+---------------------------+
+| • Nama Universitas  | • Nama Bank         | • Four-Eyes Mandat  | • Toggle Matriks    | • Tambah Operator   | • Akun ID Super Admin     |
+| • Kepala Lab/Dosen  | • Kode SWIFT BIC    | • Validasi Saldo    | • Judul Matriks     | • Edit / Promosi    | • Master Password Admin   |
+| • Kontak & Telepon  | • Mata Uang Pokok   | • Skrining Sanksi   | • Teks 5 Peran      | • Ubah Username/PWD | • Master Authorization Key|
+| • Alamat Resmi      | • Biaya Telex USD   | • GL Auto-Posting   | • Toggle Box Panduan| • Hapus Operator    | • Login Mahasiswa Stage 1 |
+| • Judul HTML Tab    | • Jaringan Kliring  | • Default ISO/MT    | • Judul Box Panduan | • Cari & Filter     | • PIN Token Hardware USB  |
+| • Preset Favicon    | • Format Pesan      | • Bypass Intro Fast | • Poin-poin Panduan | • Multi-Role Hak    | • Kunci Kriptografi SWIFT |
++---------------------+---------------------+---------------------+---------------------+---------------------+---------------------------+
+|                                    7. Backup, Restore, Master DB (>1.000 Bank) & Reset Pabrik                                           |
++-----------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### 10.1. Akses & Kredensial Masuk Super Admin
@@ -347,11 +347,14 @@ Untuk menjaga integritas laboratorium praktikum dan mencegah manipulasi konfigur
 
 ---
 
-### 10.2. Fitur 1: Profil Lembaga & Pemilik Laboratorium (Tab 1)
-Dosen atau pengelola laboratorium dapat menyesuaikan metadata institusi:
+### 10.2. Fitur 1: Profil Lembaga, Pemilik & Branding Judul/Favicon Dinamis (Tab 1)
+Dosen atau pengelola laboratorium dapat menyesuaikan identitas institusi dan visual peramban:
 - **Nama Aplikasi & Pemilik**: Menampilkan nama fakultas/program studi Anda (misal: *Fakultas Ekonomi dan Bisnis Universitas Indonesia*).
 - **Penanggung Jawab / Dosen**: Nama guru besar atau kepala laboratorium.
 - **Alamat & Lisensi**: Alamat resmi yang otomatis tercetak pada lembar *Payment Advice Voucher* dan *Rekening Koran*.
+- **Judul HTML Browser (`<title>`)**: **(🔒 Hak Eksklusif Superadmin)** Judul dinamis yang disinkronkan ke tab peramban dan bookmark seluruh terminal mahasiswa. Mahasiswa/operator biasa tidak memiliki hak atau akses untuk mengubah judul ini.
+- **Pilihan Favicon Dinamis**: **(🔒 Hak Eksklusif Superadmin)** Memilih skema warna favicon (Putih Standar, Hitam Tinta, Emas Treasury, Hijau Emerald, Biru Cyan GPI, Merah Crimson, atau Custom SVG/URL).
+- **Pratinjau Tab Peramban Langsung (Live Tab Simulation)**: Pratinjau interaktif kartu tab peramban dalam mode Gelap (*Dark*) dan Terang (*Light*).
 
 ---
 
@@ -371,7 +374,14 @@ Mengubah entitas bank yang disimulasikan di kelas:
 
 ---
 
-### 10.5. Fitur 4: Manajemen User & Operator Mahasiswa (Tab 4: Tambah, Edit, Promosi & Hapus)
+### 10.5. Fitur 4: Petunjuk Operasional Dinamis & Matriks Akses Mahasiswa (Tab 4)
+Dosen dapat menyesuaikan isi tampilan layar beranda mahasiswa secara visual tanpa koding:
+- **Pengaturan Matriks Akses Multi-Peran**: Mengaktifkan/menonaktifkan tabel peran, mengganti judul dan subjudul, serta mengedit deskripsi tugas untuk 5 peran (Operator/Maker, Head Treasury/Checker, Compliance Officer, System Administrator, Auditor).
+- **Pengaturan Box Petunjuk Operasional (Four-Eyes Principle)**: Menampilkan atau menyembunyikan box petunjuk panduan di layar sambutan, mengubah judul petunjuk, dan menyusun butir-butir alur kerja Maker-Checker sesuai materi perkuliahan.
+
+---
+
+### 10.6. Fitur 5: Manajemen User & Operator Mahasiswa (Tab 5: Tambah, Edit, Promosi & Hapus)
 Dosen dapat mengelola seluruh akun mahasiswa yang akan masuk ke simulator:
 
 1. **Menambah Operator Baru (+ CREATE NEW OPERATOR USER)**:
@@ -391,12 +401,16 @@ Dosen dapat mengelola seluruh akun mahasiswa yang akan masuk ke simulator:
    - Dosen dapat menaikkan jabatan mahasiswa (misalnya dari *Operator/Maker* menjadi *Head Treasury/Checker* untuk rotasi tugas praktikum).
    - Dosen dapat mereset atau mengganti password mahasiswa jika lupa kata sandi.
 
-3. **Menghapus Operator (DELETE)**:
+3. **Cari & Filter Operator**:
+   - Kotak pencarian langsung memfilter mahasiswa berdasarkan nama atau username.
+   - Dropdown filter memudahkan pengelompokan per peran perbankan.
+
+4. **Menghapus Operator (DELETE)**:
    - Klik tombol **DELETE** untuk menghapus akun mahasiswa yang sudah selesai praktikum atau salah dibuat.
 
 ---
 
-### 10.6. Fitur 5: Manajemen Akun, Password, dan Kunci Aplikasi (Tab 5)
+### 10.7. Fitur 6: Manajemen Akun, Password, dan Kunci Aplikasi (Tab 6)
 Super Admin memiliki kendali mutlak atas seluruh kunci pengamanan aplikasi:
 
 ```
@@ -426,21 +440,28 @@ Super Admin memiliki kendali mutlak atas seluruh kunci pengamanan aplikasi:
 
 #### Cara Mengubah Kredensial Super Admin & Mahasiswa:
 1. Masuk ke halaman `admin.html`.
-2. Buka tab **5. SECURITY, PASSWORDS & KEYS**.
+2. Buka tab **6. SECURITY, PASSWORDS & KEYS**.
 3. Ketikkan Username, Key, atau Password baru pada kolom yang tersedia. Anda dapat menekan tombol **LIHAT** untuk memeriksa kata sandi yang diketik.
 4. Klik **SAVE SYSTEM CONFIGURATION** di pojok kanan bawah.
 5. Perubahan seketika berlaku untuk seluruh sesi praktikum berikutnya.
 
 ---
 
-### 10.7. Fitur 6: Pencadangan, Pemulihan Data & Reset Pabrik (Tab 6)
+### 10.8. Fitur 7: Replikasi Central CBS Host Real-Time, Pencadangan & Reset Sistem (Tab 7)
+- **Replikasi Jaringan Central CBS & SWIFT Host Real-Time**:
+  - Seluruh terminal kerja perbankan, teller counter, dan konsol supervisor terhubung langsung secara terpusat ke **Central Core Banking Host**.
+  - Setiap instruksi pembayaran pacs.008/MT103 yang divalidasi, mutasi rekening, maupun pengkreditan nostro antar-terminal akan **langsung ter-update secara instan detik itu juga di seluruh workstation jaringan**.
+  - **Indikator Status Gateway**: Tertera pada badge pojok atas antarmuka: `🟢 CBS HOST & SWIFT GPI: SYNCHRONIZED`.
+  - **Replikasi Data ke Host Central (REPLIKASI DATA LOKAL KE HOST CENTRAL ↗)**: Memaksa pengiriman seluruh data buku besar dan mutasi lokal ke server host utama.
+  - **Sinkronisasi dari Host (SINKRONISASI DATA TERBARU DARI HOST ↙)**: Menyelaraskan dan menarik data transaksi mutasi terbaru dari server host utama.
 - **Unduh Backup JSON (DOWNLOAD FULL BACKUP)**: Mengunduh snapshot lengkap seluruh basis data (konfigurasi lab, direktori BIC, saldo nasabah, saldo nostro, mutasi transaksi, akun user, dan buku besar). Sangat berguna bagi dosen untuk mengarsipkan tugas kelas atau membuat paket soal studi kasus.
 - **Pulihkan Data (RESTORE BACKUP FILE)**: Mengunggah berkas JSON hasil praktikum sebelumnya untuk diperiksa/dinilai oleh asisten lab atau dosen pengampu.
+- **Sinkronisasi Master Database (>1.100 Bank & 1.050 Transaksi)**: Klik **RELOAD MASTER DATABASE** untuk memuat direktori 1.100+ bank riil global dan riwayat 1.050 transaksi simulasi.
 - **Reset Pabrik (RESET TO FACTORY BASELINE)**: Mengembalikan laboratorium ke kondisi awal standar Bank Praktikum Nusantara (menghapus transaksi latihan mahasiswa dan memulihkan saldo modal awal).
 
 ---
 
-### 10.8. Skenario Pembelajaran & Roleplay Kelas:
+### 10.9. Skenario Pembelajaran & Roleplay Kelas:
 1. **Sesi 1 - Rotasi Peran (Roleplaying)**: Dosen membagi mahasiswa menjadi 3 kelompok dalam 1 meja: Kelompok A (*Maker*), Kelompok B (*Compliance*), Kelompok C (*Checker*). Transaksi harus diinput oleh Maker, disaring oleh Compliance, dan dirilis oleh Checker.
 2. **Sesi 2 - Penanganan Likuiditas Nostro Menipis**: Dosen menyimulasikan rekening nostro di Citibank New York defisit. Mahasiswa bagian Treasury wajib melakukan *Liquidity Injection* sebelum transaksi valas bernilai besar dapat disahkan.
 3. **Sesi 3 - Audit Rekonsiliasi & EOD**: Mahasiswa Auditor memeriksa seluruh mutasi rekening koran, memvalidasi Neraca Saldo di tab Trial Balance, dan mengeksekusi penutupan harian (*End of Day*).

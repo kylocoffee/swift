@@ -4,8 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Dedicated Super Admin & Master Configuration Console for SWIFT Lab Simulator.">
-  <title>Super Admin Master Console — SWIFT Lab</title>
+  <title>Super Admin Master Console — SWIFT Network &amp; Core Banking Laboratory Simulator</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <script>
+    (function() {
+      try {
+        var raw = localStorage.getItem('swiftLabSysConfig');
+        if (raw) {
+          var cfg = JSON.parse(raw);
+          var baseTitle = (cfg.siteHtmlTitle && cfg.siteHtmlTitle.trim()) 
+            ? cfg.siteHtmlTitle.trim() 
+            : ((cfg.bankName && cfg.bankName !== 'BANK PRAKTIKUM NUSANTARA') 
+                ? (cfg.bankName + ' — SWIFT Network & Core Banking Simulator') 
+                : (cfg.appName || 'SWIFT Network & Core Banking Laboratory Simulator'));
+          if (baseTitle) {
+            document.title = 'Super Admin Master Console — ' + baseTitle;
+          }
+          var preset = cfg.faviconPreset || 'white';
+          var faviconUrl = '';
+          if (preset === 'custom' && cfg.faviconCustomUrl && cfg.faviconCustomUrl.trim()) {
+            var cRaw = cfg.faviconCustomUrl.trim();
+            faviconUrl = cRaw.startsWith('<svg') ? ('data:image/svg+xml,' + encodeURIComponent(cRaw)) : cRaw;
+          } else {
+            var colors = { white: 'white', black: 'black', gold: '%23d4af37', green: '%2310b981', cyan: '%2306b6d4', red: '%23ef4444' };
+            var stroke = colors[preset] || 'white';
+            faviconUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='" + stroke + "' stroke-width='4'/%3E%3Cpath d='M5 32h54M32 5v54M10 19h44M10 45h44M32 5c14 13 14 41 0 54M32 5c-14 13-14 41 0 54' fill='none' stroke='" + stroke + "' stroke-width='3'/%3E%3C/svg%3E";
+          }
+          if (faviconUrl) {
+            var link = document.querySelector("link[rel*='icon']");
+            if (link) link.href = faviconUrl;
+          }
+        }
+      } catch(e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="override.css">
   <link rel="stylesheet" href="navigation.css">
@@ -44,7 +76,7 @@
         <input id="adminUser" required autocomplete="off">
       </label>
       <label>Master Key
-        <input id="adminKey" required autocomplete="off">
+        <input id="adminKey" type="password" required autocomplete="new-password">
       </label>
       <label>Password
         <input id="adminPassword" type="password" required autocomplete="new-password">
@@ -70,7 +102,10 @@
 
     <div class="identity-row">
       <div><b>SYSTEM STATUS</b><span id="headerStatus">ACTIVE • SWIFT BIC: IDBKIDJA</span></div>
-      <div><b>AUTHENTICATED USER</b><span>SUPER ADMINISTRATOR • MASTER CONTROLLER</span></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#ecfdf5;color:#059669;letter-spacing:0.5px;font-family:monospace;">🟢 CBS HOST &amp; SWIFT GPI: SYNCHRONIZED</span>
+        <b>AUTHENTICATED USER</b><span>SUPER ADMINISTRATOR • MASTER CONTROLLER</span>
+      </div>
     </div>
 
     <nav class="admin-tabs">
@@ -132,13 +167,16 @@
         </div>
 
         <div style="margin-top:24px;border-top:2px solid var(--ink);padding-top:18px;">
-          <h4 style="margin:0 0 6px;font-size:15px;text-transform:uppercase;">Site HTML Title &amp; Dynamic Favicon Branding</h4>
-          <p class="sub" style="margin-bottom:14px;">Sesuaikan judul halaman browser (tag <code>&lt;title&gt;</code>) serta warna atau logo favicon yang ditampilkan secara dinamis pada tab browser seluruh terminal mahasiswa.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <h4 style="margin:0;font-size:15px;text-transform:uppercase;">Site HTML Title &amp; Dynamic Favicon Branding</h4>
+            <span style="font-size:10px;letter-spacing:1px;background:#1a237e;color:#ffffff;padding:3px 8px;font-weight:bold;text-transform:uppercase;border-radius:2px;">🔒 Superadmin Exclusive Master Control</span>
+          </div>
+          <p class="sub" style="margin-bottom:14px;">Pengaturan hak khusus <b>Superadmin (Dosen / Instruktur)</b> untuk mengontrol judul tab browser (<code>&lt;title&gt;</code>) dan ikon favicon di seluruh terminal mahasiswa secara dinamis dan real-time.</p>
           
           <div class="admin-grid">
-            <label class="full">Browser HTML Title (&lt;title&gt; &amp; OpenGraph)
-              <input id="cfgSiteHtmlTitle" required>
-              <span class="hint">Judul yang muncul pada tab browser dan bookmark jendela (Default: <code>SWIFT Network Lab Simulator</code>).</span>
+            <label class="full">Browser HTML Title (&lt;title&gt; &amp; OpenGraph) &bull; <span style="color:#d32f2f;font-weight:bold;">Superadmin Only</span>
+              <input id="cfgSiteHtmlTitle" required placeholder="SWIFT Network &amp; Core Banking Laboratory Simulator">
+              <span class="hint">Judul tab browser yang disinkronkan ke seluruh terminal praktikum mahasiswa. Hanya Superadmin yang berwenang mengubah judul ini.</span>
             </label>
             
             <label>Favicon Logo Style / Color Preset
@@ -505,21 +543,21 @@
             <label class="full">SWIFT GPI PKI Digital Signature Key (Certificate Hash)
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgSwiftAppKey" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+                <button type="button" id="btnGenSwiftKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
               </div>
               <span class="hint">Kunci enkripsi &amp; tanda tangan digital sertifikat non-repudiation untuk rilis pesan FIN &amp; ISO 20022.</span>
             </label>
             <label class="full">ISO 20022 XML Schema Validation Secret Key
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgIsoSchemaValidationKey" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+                <button type="button" id="btnGenIsoKey" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
               </div>
               <span class="hint">Kunci otentikasi validator parser skema pacs.008 &amp; pacs.009 XML.</span>
             </label>
             <label class="full">Core Banking API Gateway Bearer Token
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="cfgApiGatewayToken" required autocomplete="off" style="flex:1;font-family:monospace;">
-                <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU ⚡</button>
+                <button type="button" id="btnGenGwToken" class="btn-mini" style="height:44px;padding:0 14px;white-space:nowrap;">GENERATE BARU</button>
               </div>
               <span class="hint">Token otorisasi integrasi API antarmuka Core Banking System dengan jaringan kliring BI-RTGS &amp; SWIFT.</span>
             </label>
@@ -537,9 +575,27 @@
 
       <!-- Tab 6: Master Data Backup, Restore & Reset -->
       <div id="tabBackup" class="admin-section hidden">
-        <h3>Master Data Backup, Restore &amp; Factory Reset</h3>
-        <p class="sub">Export complete simulator state for archiving, restore saved student practicum sessions, or reset the laboratory.</p>
+        <h3>Master Data Backup, Restore &amp; High-Availability Host Replication</h3>
+        <p class="sub">Export production database state for regulatory audit, synchronize distributed multi-terminal nodes with central CBS host, or perform system re-initialization.</p>
         
+        <!-- Central High-Availability CBS & SWIFT Host Gateway Card -->
+        <div class="backup-card" style="border-color:#059669;background:#f0fdf4;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+            <h4 style="color:#065f46;margin:0;">Central High-Availability CBS &amp; SWIFT Host Gateway</h4>
+            <span class="firebase-sync-badge" style="font-size:11px;font-weight:bold;padding:4px 8px;border:1px solid #059669;background:#fff;color:#059669;font-family:monospace;">🟢 CBS HOST &amp; SWIFT GPI: SYNCHRONIZED</span>
+          </div>
+          <p style="color:#1f2937;">Arsitektur multi-site database perbankan terpusat aktif. Seluruh mutasi rekening, otorisasi transaksi pacs.008/MT103, likuiditas nostro, dan jurnal umum GL disinkronisasikan secara langsung (ACID compliant) ke seluruh workstation jaringan perbankan secara <i>real-time</i>.</p>
+          <div style="display:flex;gap:20px;margin:12px 0;font-size:12px;font-family:monospace;color:#065f46;flex-wrap:wrap;">
+            <div>NETWORK DOMAIN: <strong>SWIFT GPI LIVE HOST</strong></div>
+            <div>CLUSTER REPLICA: <strong>PRIMARY ACTIVE</strong></div>
+            <div>STATUS LINK: <strong id="cloudSyncStatusText">TERHUBUNG &amp; SINKRON (REAL-TIME)</strong></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button id="btnPushAllToCloud" class="pill" type="button" style="background:#059669;color:#fff;border-color:#059669;">REPLIKASI DATA LOKAL KE HOST CENTRAL ↗</button>
+            <button id="btnPullAllFromCloud" class="pill secondary" type="button" style="border-color:#059669;color:#065f46;">SINKRONISASI DATA TERBARU DARI HOST ↙</button>
+          </div>
+        </div>
+
         <div class="backup-card" style="border-color:var(--ink);background:#fcfbf9;">
           <h4>Global SWIFT Master Database (&gt;1,000 Real Banks &amp; Transactions)</h4>
           <p>The system contains authentic, certified SWIFT BICs and ISO 20022 transactions sourced from real central banks, commercial institutions, and global corporations worldwide.</p>
@@ -551,21 +607,21 @@
         </div>
 
         <div class="backup-card">
-          <h4>Export Complete Laboratory State (JSON)</h4>
+          <h4>Export Complete Core Banking State (JSON)</h4>
           <p>Download a comprehensive JSON snapshot containing all system configuration, BIC directories, customer accounts, Nostro liquidity pools, transactions, and General Ledger journals.</p>
           <button id="btnExportBackup" class="pill" type="button">DOWNLOAD FULL BACKUP (JSON)</button>
         </div>
 
         <div class="backup-card">
-          <h4>Restore / Import Laboratory State (JSON)</h4>
-          <p>Upload a previously exported simulator JSON file to restore the exact environment state. Caution: This replaces current data.</p>
+          <h4>Restore / Import Core Banking State (JSON)</h4>
+          <p>Upload a previously exported system JSON file to restore the exact environment state. Caution: This replaces current data.</p>
           <input id="backupFileInput" type="file" accept=".json" style="display:none;">
           <button id="btnTriggerRestore" class="pill secondary" type="button">SELECT &amp; RESTORE BACKUP FILE</button>
         </div>
 
         <div class="backup-card" style="border-color:#b51d1d;background:#fffaf8;">
-          <h4 style="color:#b51d1d;">Reset Simulator to Factory Baseline</h4>
-          <p>Erase all student transactional records, reset account balances, and restore initial educational seeds and default Bank Praktikum Nusantara configuration.</p>
+          <h4 style="color:#b51d1d;">Reset Database to Core Baseline</h4>
+          <p>Erase all local transactional records, reset account balances, and restore initial baseline and default Bank Praktikum Nusantara configuration.</p>
           <button id="btnFactoryReset" class="pill" type="button" style="border-color:#b51d1d;color:#b51d1d;">RESET TO FACTORY BASELINE</button>
         </div>
       </div>
@@ -573,7 +629,7 @@
       <div class="admin-actions-bar">
         <div style="display:flex;gap:12px;align-items:center;">
           <button id="btnLogoutRoot" class="pill secondary" type="button">LOCK CONSOLE</button>
-          <a href="/" target="_blank" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;">OPEN STUDENT SIMULATOR ↗</a>
+          <a href="/" target="_blank" class="pill secondary" style="text-decoration:none;display:inline-grid;place-items:center;">OPEN CORE BANKING TERMINAL ↗</a>
         </div>
         <button id="btnSaveConfig" class="pill" type="submit">SAVE SYSTEM CONFIGURATION</button>
       </div>
@@ -639,7 +695,7 @@
   <dialog id="userDeleteDialog" class="confirm-dialog">
     <form id="userDeleteForm" method="dialog">
       <h2>HAPUS PENGGUNA / OPERATOR?</h2>
-      <p id="userDeletePromptText">Apakah Anda yakin ingin menghapus akun operator ini dari simulator?</p>
+      <p id="userDeletePromptText">Apakah Anda yakin ingin menghapus akun operator ini dari sistem Core Banking?</p>
       <input id="userDeleteTargetKey" type="hidden">
       <div class="modal-actions">
         <button class="pill secondary" type="button" id="btnCancelUserDelete">BATAL</button>
@@ -651,6 +707,7 @@
   <div id="adminToast" class="toast"></div>
 
   <script src="data/database_master.js?v=11"></script>
+  <script type="module" src="firebase-sync.js"></script>
   <script>
     const CFGK = 'swiftLabSysConfig';
     const TK = 'swiftLabTransactions';
@@ -717,10 +774,20 @@
       welcomeGuidanceContent: '• Operator (Maker): Inputs and drafts customer payment instructions (Outward Remittance) under Pending status.\n• Compliance Officer: Executes AML/CFT & Sanctions Screening, verifying parties against sanctions lists and elevating status to Validated.\n• Head Treasury (Checker): Authorizes transactions, debits customer accounts, credits correspondent Nostro accounts, and releases messages to the SWIFT network under Released status.\n• Auditor: Inspects end-to-end non-repudiation audit trails and performs double-entry General Ledger reconciliation.',
 
       // Dynamic Site HTML Title & Favicon Configuration
-      siteHtmlTitle: 'SWIFT Network Lab Simulator',
+      siteHtmlTitle: 'SWIFT Network & Core Banking Laboratory Simulator',
       faviconPreset: 'white',
       faviconCustomUrl: ''
     };
+
+    function getEffectiveTitle(config) {
+      if (config?.siteHtmlTitle && config.siteHtmlTitle.trim()) {
+        return config.siteHtmlTitle.trim();
+      }
+      if (config?.bankName && config.bankName !== 'BANK PRAKTIKUM NUSANTARA') {
+        return `${config.bankName} — SWIFT Network & Core Banking Simulator`;
+      }
+      return config?.appName || 'SWIFT Network & Core Banking Laboratory Simulator';
+    }
 
     function getFaviconUrl(config) {
       const preset = config?.faviconPreset || 'white';
@@ -744,7 +811,7 @@
     }
 
     function updateDynamicHead(config, isAdmin = false) {
-      const title = config?.siteHtmlTitle || config?.appName || 'SWIFT Network Lab Simulator';
+      const title = getEffectiveTitle(config);
       document.title = isAdmin ? `Super Admin Master Console — ${title}` : title;
       const ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) ogTitle.setAttribute('content', title);
@@ -762,10 +829,13 @@
 
     function updateFaviconPreview() {
       const tempConfig = {
-        siteHtmlTitle: document.getElementById('cfgSiteHtmlTitle')?.value?.trim() || 'SWIFT Network Lab Simulator',
+        appName: document.getElementById('cfgAppName')?.value?.trim() || 'SWIFT Network & Core Banking Laboratory Simulator',
+        bankName: document.getElementById('cfgBankName')?.value?.trim() || 'BANK PRAKTIKUM NUSANTARA',
+        siteHtmlTitle: document.getElementById('cfgSiteHtmlTitle')?.value?.trim() || '',
         faviconPreset: document.getElementById('cfgFaviconPreset')?.value || 'white',
         faviconCustomUrl: document.getElementById('cfgFaviconCustomUrl')?.value || ''
       };
+      const displayTitle = getEffectiveTitle(tempConfig);
       const customWrap = document.getElementById('wrapFaviconCustomUrl');
       if (customWrap) {
         customWrap.classList.toggle('hidden', tempConfig.faviconPreset !== 'custom');
@@ -777,8 +847,8 @@
       const titleLight = document.getElementById('prevTitleLight');
       if (prevDark) prevDark.src = iconUrl;
       if (prevLight) prevLight.src = iconUrl;
-      if (titleDark) titleDark.textContent = tempConfig.siteHtmlTitle;
-      if (titleLight) titleLight.textContent = tempConfig.siteHtmlTitle;
+      if (titleDark) titleDark.textContent = displayTitle;
+      if (titleLight) titleLight.textContent = displayTitle;
 
       updateDynamicHead(tempConfig, true);
     }
@@ -980,10 +1050,21 @@
     }
 
     // Live Listeners for Favicon & Title Preview
-    ['cfgSiteHtmlTitle', 'cfgFaviconCustomUrl'].forEach(id => {
+    ['cfgSiteHtmlTitle', 'cfgAppName', 'cfgBankName', 'cfgFaviconCustomUrl'].forEach(id => {
       document.getElementById(id)?.addEventListener('input', updateFaviconPreview);
     });
     document.getElementById('cfgFaviconPreset')?.addEventListener('change', updateFaviconPreview);
+
+    // Cross-tab real-time synchronization
+    window.addEventListener('storage', (e) => {
+      if (e.key === CFGK && e.newValue) {
+        try {
+          sysConfig = { ...defaultSysConfig, ...JSON.parse(e.newValue) };
+          updateDynamicHead(sysConfig, true);
+          populateForm();
+        } catch(err) {}
+      }
+    });
 
     // Tabs
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
@@ -1531,16 +1612,61 @@
     }
 
     document.getElementById('btnReloadMasterDb')?.addEventListener('click', () => {
-      if (!confirm('RELOAD MASTER DATABASE: This will synchronize your simulator storage with 1,100+ authentic real banks and 1,050 realistic SWIFT transactions. Continue?')) return;
+      if (!confirm('RELOAD MASTER DATABASE: This will synchronize your storage with 1,100+ verified real global banks and 1,250 active SWIFT 2026 transactions. Continue?')) return;
       if (window.masterBics && window.masterBics.length >= 1000) {
         localStorage.setItem(BK, JSON.stringify(window.masterBics));
       }
       if (window.masterTransactions && window.masterTransactions.length >= 1000) {
         localStorage.setItem(TK, JSON.stringify(window.masterTransactions));
       }
-      localStorage.setItem('swiftLabRealMasterV5', '1');
+      localStorage.setItem('swiftLabMasterTxVer', '2026-SEP-1250TX-V1');
       updateDbStats();
-      toast('MASTER DATABASE LOADED: >1,000 REAL BANKS & TRANSACTIONS ACTIVE');
+      toast('MASTER DATABASE LOADED: >1,000 REAL BANKS & >1,200 TRANSACTIONS ACTIVE');
+    });
+
+    // Central CBS & SWIFT Host Gateway Manual Controls
+    document.getElementById('btnPushAllToCloud')?.addEventListener('click', async () => {
+      if (!window.FirebaseSync) {
+        toast('SINKRONISASI CBS HOST SEDANG MEMULAI, MOHON TUNGGU...');
+        return;
+      }
+      try {
+        toast('MEREPLIKASI SELURUH DATA KE CENTRAL CBS HOST...');
+        await window.FirebaseSync.pushAllLocalToCloud();
+        toast('SELURUH REKORD BERHASIL TERSINKRONISASI KE CENTRAL HOST');
+      } catch (err) {
+        alert('Gagal mereplikasi ke Central Host: ' + err.message);
+      }
+    });
+
+    document.getElementById('btnPullAllFromCloud')?.addEventListener('click', async () => {
+      if (!window.FirebaseSync) {
+        toast('SINKRONISASI CBS HOST SEDANG MEMULAI, MOHON TUNGGU...');
+        return;
+      }
+      try {
+        toast('MENARIK DATA MUTASI TERBARU DARI CENTRAL CBS HOST...');
+        await window.FirebaseSync.pullAllCloudToLocal();
+        populateForm();
+        renderUsersTable();
+        updateDbStats();
+        toast('DATA TERBARU DARI CENTRAL CBS HOST TELAH BERHASIL DITERAPKAN');
+      } catch (err) {
+        alert('Gagal menyelaraskan dari Central Host: ' + err.message);
+      }
+    });
+
+    window.addEventListener('swift:sync-status', (e) => {
+      const statusText = document.getElementById('cloudSyncStatusText');
+      if (statusText && e.detail) {
+        statusText.textContent = e.detail.label?.toUpperCase() || e.detail.status?.toUpperCase();
+      }
+    });
+
+    window.addEventListener('swift:cloud-synced', () => {
+      populateForm();
+      renderUsersTable();
+      updateDbStats();
     });
 
     // Factory Reset

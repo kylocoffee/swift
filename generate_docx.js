@@ -253,7 +253,7 @@ const doc = new Document({
 
         // BAB 7
         createHeading1('7. PANDUAN SIMULASI LANGKAH DEMI LANGKAH'),
-        createBullet('Langkah 1: Klik splash screen, masukkan Akun student01, Password swiftlab, Key LAB-2026. Klik CONNECT USB KEY, pilih operator iqbal (Maker), password 123456.'),
+        createBullet('Langkah 1: Klik splash screen, masukkan Akun student01, Password swiftlab (tersensor), Key LAB-2026 (tersensor). Klik CONNECT USB KEY, pilih operator iqbal (Maker), password 123456 (tersensor).'),
         createBullet('Langkah 2: Buka CORE LEDGER -> Tab CUSTOMER ACCOUNTS. Klik + DEPOSIT pada PT INDO EXPORT TAMA jika perlu menambah saldo.'),
         createBullet('Langkah 3: Buka menu RECORD. Buat transfer pacs.008 senilai USD 25,000 ke CITIUS33XXX. Pilih rekening pengirim PT INDO EXPORT TAMA. Klik SUBMIT (status Pending).'),
         createBullet('Langkah 4: Logout, login sebagai salma (Compliance Officer, pass 123456). Buka SEARCH, klik menu titik tiga (...) -> UPDATE STATUS -> Validated.'),
@@ -264,11 +264,19 @@ const doc = new Document({
 
         // BAB 8
         createHeading1('8. AKSES PORTAL SUPER ADMIN (DOSEN / INSTRUKTUR)'),
-        createParagraph('Pengaturan laboratorium bank ditempatkan pada halaman terpisah admin.html untuk menjaga keamanan praktikum mahasiswa:'),
-        createBullet('URL Portal: Buka /admin.html pada peramban web.'),
-        createBullet('Master Key: MASTER-SWIFT-2026'),
-        createBullet('Password: supersecret'),
-        createParagraph('Instruktur dapat mengubah nama bank simulasi, kode BIC, tarif telex, mencadangkan database ke file JSON, atau mereset seluruh data kembali ke kondisi awal pabrik.')
+        createParagraph('Pengaturan laboratorium bank ditempatkan pada halaman mandiri admin.html untuk menjaga keamanan dan integritas praktikum mahasiswa:'),
+        createBullet('URL Portal Super Admin: Buka /admin.html (atau /admin) pada peramban web.'),
+        createBullet('Identifier Super Admin: superadmin (atau admin)'),
+        createBullet('Master Key: MASTER-SWIFT-2026 (input tersensor / password-masked)'),
+        createBullet('Master Password: supersecret (atau 123456, input tersensor)'),
+        createParagraph('Portal Super Admin menyediakan 7 Tab Konfigurasi Lengkap:'),
+        createBullet('Tab 1 - Profil Lembaga & Branding Visual: Konfigurasi nama kampus, alamat, lisensi OJK, Judul HTML Tab Browser dinamis (Hak Eksklusif Superadmin), serta pemilihan tema Favicon Logo Dinamis (Putih Standar, Hitam Tinta, Emas Treasury, Hijau Emerald, Cyan GPI, Merah Crimson, atau Custom SVG/URL) dengan pratinjau tab browser langsung.'),
+        createBullet('Tab 2 - Identitas Bank & Routing SWIFT: Mengatur Nama Bank Simulasi, SWIFT BIC (ISO 9362), mata uang dasar (USD, IDR, EUR, SGD, JPY), serta biaya telex jaringan.'),
+        createBullet('Tab 3 - Kebijakan Operasional: Mengaktifkan Four-Eyes Principle, validasi saldo ketat, skrining AML sanksi, dan jurnal otomatis buku besar GL.'),
+        createBullet('Tab 4 - Petunjuk & Matriks Akses Dinamis: Menyesuaikan tampilan Box Petunjuk Operasional (Four-Eyes Principle) dan Matriks 5 Peran (Maker, Checker, Compliance, Admin, Auditor) pada layar sambutan mahasiswa.'),
+        createBullet('Tab 5 - Manajemen User Mahasiswa: CRUD akun operator, edit password, pencarian & filter, serta penugasan multi-peran (Maker, Checker, Compliance, Admin, Auditor).'),
+        createBullet('Tab 6 - Keamanan & Kunci Kriptografi: Mengubah kredensial login admin/mahasiswa, PIN token USB, serta generator kunci digital signature SWIFT GPI dan ISO 20022.'),
+        createBullet('Tab 7 - Replikasi CBS Host Real-Time & Reset Sistem: Replikasi transaksi real-time antar workstation/terminal dengan Central Core Banking Host terpusat (badge: CBS HOST & SWIFT GPI: SYNCHRONIZED), tombol Replikasi & Sinkronisasi Host, ekspor/impor snapshot database, reload 1.100+ bank riil global & 1.050 transaksi, serta reset pabrik ke baseline awal.')
       ]
     }
   ]

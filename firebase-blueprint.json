@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "system_config": {
+      "title": "System Configuration",
+      "description": "Global simulator configuration including bank info, keys, and settings",
+      "type": "object",
+      "properties": {
+        "appName": { "type": "string" },
+        "bankName": { "type": "string" },
+        "bankBic": { "type": "string" },
+        "bankCountry": { "type": "string" },
+        "bankCity": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "transactions": {
+      "title": "SWIFT Transactions",
+      "description": "Collection of SWIFT and Core Banking transactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reference": { "type": "string" },
+        "uetr": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "status": { "type": "string" },
+        "senderBic": { "type": "string" },
+        "receiverBic": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "reference", "amount", "currency", "status"]
+    },
+    "customers": {
+      "title": "Customer Accounts",
+      "description": "Core banking customer master records and balances",
+      "type": "object",
+      "properties": {
+        "accountNumber": { "type": "string" },
+        "name": { "type": "string" },
+        "balance": { "type": "number" },
+        "currency": { "type": "string" }
+      },
+      "required": ["accountNumber", "name", "balance"]
+    },
+    "nostro": {
+      "title": "Nostro Liquidity Pools",
+      "description": "Correspondent bank Nostro account balances",
+      "type": "object",
+      "properties": {
+        "bic": { "type": "string" },
+        "bankName": { "type": "string" },
+        "currency": { "type": "string" },
+        "balance": { "type": "number" }
+      }
+    },
+    "bics": {
+      "title": "SWIFT BIC Directory",
+      "description": "Global SWIFT bank identifier code registry",
+      "type": "object",
+      "properties": {
+        "bic": { "type": "string" },
+        "name": { "type": "string" },
+        "city": { "type": "string" },
+        "country": { "type": "string" }
+      }
+    },
+    "users": {
+      "title": "Operator Users",
+      "description": "Simulator operator logins and roles",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "display": { "type": "string" },
+        "password": { "type": "string" },
+        "roles": { "type": "array" }
+      }
+    },
+    "journals": {
+      "title": "General Ledger Journals",
+      "description": "Double entry accounting journals for core banking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "description": { "type": "string" },
+        "entries": { "type": "array" }
+      }
+    }
+  },
+  "firestore": {
+    "/system_config/{docId}": {
+      "schema": "system_config",
+      "description": "Stores system configuration documents"
+    },
+    "/transactions/{txId}": {
+      "schema": "transactions",
+      "description": "Stores SWIFT transaction records"
+    },
+    "/customers/{accNo}": {
+      "schema": "customers",
+      "description": "Stores customer balance records"
+    },
+    "/nostro/{nostroId}": {
+      "schema": "nostro",
+      "description": "Stores nostro accounts"
+    },
+    "/bics/{bicCode}": {
+      "schema": "bics",
+      "description": "Stores BIC directory entries"
+    },
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Stores user operator credentials"
+    },
+    "/journals/{journalId}": {
+      "schema": "journals",
+      "description": "Stores GL accounting journals"
+    }
+  }
+}

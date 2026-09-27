@@ -28,10 +28,10 @@ To replicate Tier-1 commercial banking terminal security, access requires a thre
 
 ### Stage 1: Terminal Login
 Upon opening the application, the terminal authentication screen is presented:
-- **Account**: `student01`
-- **Password**: `swiftlab`
-- **Access Key**: `LAB-2026`
-- Click **LOGIN TO SWIFT NETWORK** to proceed.
+- **Account**: `student01` (or your assigned bank terminal account)
+- **Password**: `swiftlab` (masked `••••••••`)
+- **Key**: `LAB-2026` (masked `••••••••` for confidentiality against shoulder-surfing)
+- Click **Login** to proceed.
 
 ### Stage 2: Hardware Security Token (PKI / USB HSM Simulation)
 Commercial banking systems require physical cryptographic hardware tokens (e.g., Gemalto or YubiKey HSM tokens) for non-repudiation:
@@ -244,9 +244,9 @@ Setelah login di `admin.html`, instruktur dapat mengedit seluruh konfigurasi sis
 
 ---
 
-### 6.2. Tab 1: Application Owner & Institution Profile
+### 6.2. Tab 1: Application Owner, Institution Profile & Dynamic HTML Title / Favicon Branding
 
-This tab allows universities, colleges, and training academies to rebrand and customize the simulator's legal ownership and institutional metadata:
+This tab allows universities, colleges, and training academies to rebrand and customize the simulator's legal ownership, institutional metadata, and browser tab appearance:
 
 | Field Label | Parameter Key | Description & Educational Purpose |
 |---|---|---|
@@ -260,6 +260,11 @@ This tab allows universities, colleges, and training academies to rebrand and cu
 | **Simulation License / Registry No.**| `licenseNo` | Academic simulation certification or regulatory sandbox code. |
 | **Application Banner Motto** | `appMotto` | The corporate tagline displayed on the SWIFT network header bar. |
 | **Registered Operational Address** | `headOfficeAddress` | Physical address printed on official SWIFT MT/ISO payment advices. |
+| **Browser HTML Title (`<title>`)** | `siteHtmlTitle` | Custom HTML page title rendered on student browser tabs, bookmarks, and OpenGraph tags. *(🔒 Superadmin Exclusive Master Control — student terminal operators have zero permission to alter this).* |
+| **Favicon Preset & Color Scheme** | `faviconPreset` | Select dynamic vector favicon theme: `White` (Standard), `Black` (Ink), `Gold` (Treasury #D4AF37), `Emerald Green` (#10B981), `Cyan GPI` (#06B6D4), `Crimson Alert` (#EF4444), or `Custom`. *(🔒 Superadmin Exclusive)* |
+| **Custom Favicon URL / SVG Vector** | `faviconCustomUrl` | Allows entering direct image URLs or raw `<svg>` vector XML markup for custom university logos. *(🔒 Superadmin Exclusive)* |
+
+> **Live Browser Tab Simulation & Favicon Preview**: Tab 1 features live interactive preview cards simulating how the browser tab and favicon look in both **Dark Mode** and **Light Mode** before saving.
 
 ---
 
@@ -302,12 +307,32 @@ This tab governs the educational strictness and automated controls of the simula
 
 ---
 
-### 6.5. Tab 4: User & Operator Access Control (Create, Edit & Delete Users)
+### 6.5. Tab 4: Dynamic Welcome Guidance & Role Access Matrix
+
+Instructors can customize the student landing dashboard without touching HTML source code:
+
+1. **Core Banking & SWIFT Lab Access Matrix**:
+   - **Show/Hide Matrix Toggle**: Enable or disable the multi-role matrix section on the student welcome screen.
+   - **Matrix Section Title & Subtitle**: Customize the main headline and instructional paragraph.
+   - **Custom Role Descriptions**: Tailor specific instructions and expected responsibilities for each of the 5 roles:
+     - `Operator (Maker)`
+     - `Head Treasury (Checker & Authorizer)`
+     - `Compliance Officer (AML/CFT Reviewer)`
+     - `System Administrator (Master Data)`
+     - `Independent Auditor (Oversight & Reconciliation)`
+2. **Operational Guidance Box (Four-Eyes Principle in Banking)**:
+   - **Show/Hide Guidance Box Toggle**: Dynamically display or hide the operational guidance card.
+   - **Guidance Box Title**: Customize the card header (default: *Four-Eyes Principle (Maker-Checker Oversight) in Banking Operations*).
+   - **Guidance Content (Multi-line bullet points)**: Modify the workflow explanation detailing the sequence between Maker, Compliance, Checker, and Auditor.
+
+---
+
+### 6.6. Tab 5: User & Operator Access Control (Create, Edit, Promote & Multi-Role)
 
 In modern commercial banking, segregation of duties and user lifecycle management are critical operational controls. The **User & Operator Access Management** tab empowers instructors and Super Admins to manage student accounts and assign banking roles dynamically.
 
 #### 1. Creating a New Operator Account:
-1. Navigate to **4. USERS & OPERATORS** tab in `admin.html`.
+1. Navigate to **5. USERS & OPERATORS** tab in `admin.html`.
 2. Click **+ CREATE NEW OPERATOR USER**.
 3. Fill in the operator modal form:
    - **Operator Display Name**: Full name or display label (e.g., `FARHAN RAMADHAN`).
@@ -331,14 +356,18 @@ In modern commercial banking, segregation of duties and user lifecycle managemen
    - Update their staff identifier code.
 3. Click **SAVE OPERATOR USER**. The changes take effect instantly.
 
-#### 3. Deleting an Operator User:
+#### 3. Searching and Filtering Users:
+- Use the real-time search box to find students by name or username.
+- Filter by assigned role (Maker, Checker, Compliance, Admin, Auditor) for streamlined classroom management.
+
+#### 4. Deleting an Operator User:
 1. Click **DELETE** on the operator's row in the table.
 2. Confirm the safety prompt.
 3. The user is permanently removed from the system and will no longer appear on the simulator's login screen.
 
 ---
 
-### 6.6. Tab 5: Application Security, Passwords & Cryptographic Keys
+### 6.7. Tab 6: Application Security, Passwords & Cryptographic Keys
 
 The **Security, Passwords & Application Keys** tab provides Super Admins with full authority over master access credentials, student terminal credentials, and network encryption keys:
 
@@ -369,7 +398,7 @@ The **Security, Passwords & Application Keys** tab provides Super Admins with fu
 
 #### How to Change Super Admin Credentials:
 1. Log in to `admin.html`.
-2. Click the **5. SECURITY, PASSWORDS & KEYS** tab.
+2. Click the **6. SECURITY, PASSWORDS & KEYS** tab.
 3. Under **1. SUPER ADMIN ROOT CREDENTIALS**:
    - Change **Super Admin ID / Username** to your desired admin handle.
    - Change **Master Authorization Key** (e.g., `PROF-HENDRA-KEY-2026`).
@@ -392,14 +421,16 @@ The **Security, Passwords & Application Keys** tab provides Super Admins with fu
 
 ---
 
-### 6.7. Tab 6: Master Data Backup, Restore & Factory Baseline Reset
+### 6.8. Tab 7: Master Data Backup, Restore, Master DB (>1,000 Banks) & Factory Reset
 
-To facilitate repeatable semester practicums across student cohorts, the Super Admin console includes complete data portability:
+To facilitate repeatable semester practicums across student cohorts, the Super Admin console includes complete data portability and master database management:
 
 - **Export Full Simulation State (`JSON`)**:
   Downloads a single, structured `.json` file containing all system configurations, registered bank BICs, active customer accounts with current balances, correspondent Nostro balances, transaction histories with complete UETR audit trails, operator accounts, security credentials, and double-entry General Ledger journals.
 - **Restore / Import Laboratory State**:
   Uploads a previously saved `.json` file to restore the exact laboratory state (useful for grading student assignments or loading pre-configured case study scenarios).
+- **Reload Authentic Master Database (>1,100 Banks & 1,050 Transactions)**:
+  Click **RELOAD MASTER DATABASE** to synchronize storage with over 1,100 authentic global bank BICs (Citibank, HSBC, JPMorgan, Deutsche Bank, BCA, Mandiri, etc.) and 1,050 pre-populated realistic transactions across 190+ jurisdictions.
 - **Reset Simulator to Factory Baseline**:
   Erases all student edits, resets customer balances and Nostro accounts to their default baseline, clears custom transactions, and restores default Bank Praktikum Nusantara configuration.
 
@@ -528,7 +559,32 @@ Bagi Anda yang baru pertama kali mempelajari dunia perbankan atau sistem Core Ba
 2. In **Tab 2 (Bank Identity)**, update the simulated bank name to your assigned banking case study (e.g. `BANK MANDIRI INTERNATIONAL`) and set BIC to `BMRIIDJA`.
 3. Save changes and return to the main application.
 4. Verify that the bank name and BIC are updated in the header, payment advice voucher, and transaction drafting forms.
-5. In **Tab 4 (Backup & Reset)**, export your completed simulation state as a JSON file for assignment submission.
+5. In **Tab 7 (Backup & Reset)**, export your completed simulation state as a JSON file for assignment submission, or verify cloud synchronization status.
+
+---
+
+## 10. High-Availability CBS Host & SWIFT Gateway Real-Time Synchronization
+
+### 10.1. Centralized Enterprise Banking Architecture
+The core banking platform operates on an enterprise-grade, distributed multi-node synchronized host architecture:
+- **Host Network Cluster**: SWIFT GPI High-Availability Live Replication
+- **Database Engine**: Multi-Terminal Real-Time Replication Protocol
+- **Synchronization Engine**: `firebase-sync.js`
+
+### 10.2. Real-Time Multi-Workstation Operational Flow:
+1. **Zero-Configuration Secure Link**:
+   - Whenever an operational terminal, teller workstation, or admin console is opened, it automatically establishes an encrypted, low-latency link with the central Core Banking Host.
+2. **Instant Multi-Department Workflow Execution**:
+   - When the Maker (`iqbal`) inputs a new outward remittance (pacs.008/MT103) on Terminal 1, the Compliance Officer (`salma`) on Terminal 2 immediately receives the pending record for AML/Sanctions clearance in real time without refreshing.
+   - Upon authorization by the Head of Treasury (`dhendy`) on Terminal 3, customer accounts, Nostro liquidity pools, and General Ledger accounting journals immediately reflect updated balances across all enterprise workstations.
+3. **Institutional Status Indicators**:
+   - The header status monitor displays real-time gateway health:
+     - `🟢 CBS HOST & SWIFT GPI: SYNCHRONIZED`: Workstation is linked to the primary Core Banking Host with zero replication lag.
+     - `🟡 CBS HOST REPLICATION: SYNCING...`: Transaction batch or ledger posting is transmitting to the central host.
+     - `🔴 HOST GATEWAY: LOCAL BUFFER`: Local Disaster Recovery cache active during temporary gateway disconnection.
+4. **Central Host Management Controls (Master Console Tab 7)**:
+   - **Replicate Local Data to Central Host (REPLIKASI DATA LOKAL KE HOST CENTRAL ↗)**: Forces synchronization of workstation ledger states to the central host.
+   - **Sync Latest from Central Host (SINKRONISASI DATA TERBARU DARI HOST ↙)**: Pulls the latest centralized transactional records down to the active terminal.
 
 ---
 *Bank Praktikum Nusantara Core Banking & SWIFT Network Simulator — Academic Edition 2026*

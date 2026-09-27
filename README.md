@@ -77,11 +77,21 @@ Super Admin Console telah dipisahkan secara fisik ke file mandiri **`admin.html`
 - **Master Access Key**: `MASTER-SWIFT-2026` *(atau `LAB-2026`)*
 - **Administrative Password**: `supersecret` *(atau `123456`)*
 
-### Configurable Parameters
-1. **Application Owner & Institution Profile**: Application title, operating institution/university, lead supervisor, contact email/telephone, laboratory license registry, corporate motto, and physical head office address.
-2. **Bank Identity & SWIFT Routing**: Primary Bank Name, Primary SWIFT BIC (ISO 9362 8 or 11 characters), country, city, base currency, and standard telex transfer fees (USD & IDR).
-3. **Operational Policies**: Enforce Four-Eyes Maker-Checker principle, strict customer balance validation, automated AML sanctions screening, automated double-entry GL postings, and default message standard (`pacs.008` vs `MT103`).
-4. **Master Data Portability**: Export full simulation state as JSON, import/restore pre-configured scenarios, and one-click factory reset.
+### Configurable Parameters & 7 Management Tabs
+1. **Tab 1: Application Owner, Institution & Dynamic HTML Title/Favicon Branding**: Application title, operating institution/university, lead supervisor, contact email/telephone, laboratory license registry, corporate motto, physical head office address, **Dynamic Browser HTML Title (`<title>` & OpenGraph)**, and **Dynamic Favicon Presets (White globe default, Black ink, Gold treasury, Emerald green, Cyan GPI, Crimson alert, or Custom SVG/URL)** with live dual-mode browser tab simulation preview cards.
+2. **Tab 2: Primary Bank Identity & SWIFT Routing**: Primary Bank Name, Primary SWIFT BIC (ISO 9362 8 or 11 characters), country, city, base currency, and standard telex transfer fees (USD & IDR).
+3. **Tab 3: System Features & Operational Policies**: Enforce Four-Eyes Maker-Checker principle, strict customer balance validation, automated AML sanctions screening, automated double-entry GL postings, splash screen fast bypass, and default message standard (`pacs.008` vs `MT103`).
+4. **Tab 4: Dynamic Welcome Guidance & Role Access Matrix**: Customize and toggle visibility for the **Operational Guidance Box (Four-Eyes Principle in Banking Operations)** and the **Core Banking & SWIFT Lab Access Matrix**. Super Admin can edit the matrix title, subtitle, and custom descriptions for all 5 operator roles (Operator, Head Treasury, Compliance Officer, System Administrator, Auditor).
+5. **Tab 5: User & Operator Access Management**: Full User CRUD engine. Create new student operator profiles, edit usernames/passwords, assign multi-role privileges, search/filter user lists by role, and delete inactive profiles.
+6. **Tab 6: Security Credentials, Passwords & Application Cryptographic Keys**: Modify Super Admin login credentials, Student Terminal Account ID, Password, Access Key, USB Token PIN, and generate cryptographic keys (**SWIFT GPI Signature Key**, **ISO 20022 Schema Validation Key**, **API Gateway Bearer Token**).
+7. **Tab 7: Backup, Master Database (>1,000 Real Banks & Transactions) & Factory Reset**: Download complete state snapshots (JSON), restore past backup files, reload authentic global master database (>1,100 ISO 9362 banks & 1,050 realistic transactions), and execute full factory reset to baseline.
+
+---
+
+## Real-Time Telemetry & Dynamic Footer Display
+
+- **Header & Footer Live Telemetry**: Dynamic live clock, simulated millisecond network ping latency, and connection status indicator.
+- **Dynamic Application Information Footer**: Replaces static boilerplate with real-time, dynamic information displaying the active **SWIFT BIC**, **Bank Name**, **Active Operator**, and **Network Ping**, rendered with responsive typography matching banking terminal specifications.
 
 ---
 
