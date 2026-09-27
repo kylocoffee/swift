@@ -13,11 +13,22 @@ const defaultProfiles = {
 
 function getStoredProfiles() {
   const loaded = load(UK, defaultProfiles);
+  const clean = {};
   Object.keys(loaded).forEach(k => {
-    if (!loaded[k].password) loaded[k].password = '123456';
-    if (!Array.isArray(loaded[k].roles)) loaded[k].roles = [{ code: 'OPS-01', role: 'Operator' }];
+    const item = loaded[k];
+    if (item && typeof item === 'object') {
+      const uname = (item.username || k).toLowerCase().trim();
+      clean[uname] = {
+        display: (item.display || uname).trim().toUpperCase(),
+        username: uname,
+        password: item.password || '123456',
+        roles: Array.isArray(item.roles) && item.roles.length > 0 
+          ? item.roles 
+          : [{ code: 'OPS-01', role: 'Operator' }]
+      };
+    }
   });
-  return loaded;
+  return clean;
 }
 
 let PROFILES = getStoredProfiles();

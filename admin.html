@@ -632,7 +632,7 @@
 
         <div class="backup-card" style="border-color:#b51d1d;background:#fffaf8;">
           <h4 style="color:#b51d1d;">Reset Database to Core Baseline</h4>
-          <p>Erase local transactional edits, reset balances, and restore initial baseline Bank Nusantara International configuration.</p>
+          <p>Erase local transactional edits, reset balances, and restore initial baseline BANK INDONESIA configuration.</p>
           <button id="btnFactoryReset" class="pill" type="button" style="border-color:#b51d1d;color:#b51d1d;">RESET TO FACTORY BASELINE</button>
         </div>
       </div>
@@ -825,7 +825,7 @@
 
     const defaultSysConfig = {
       appName: 'SWIFT Core Banking & Financial Messaging Platform',
-      ownerName: 'Bank Nusantara International',
+      ownerName: 'BANK INDONESIA',
       ownerContact: 'Prof. Dr. Hendra Pratama, M.Sc.',
       ownerTitle: 'Head of Global Treasury & International Settlement',
       ownerEmail: 'treasury@nusantara-bank.co.id',
@@ -1016,11 +1016,22 @@
 
     function getStoredProfiles() {
       const loaded = load(UK, defaultProfiles);
+      const clean = {};
       Object.keys(loaded).forEach(k => {
-        if (!loaded[k].password) loaded[k].password = '123456';
-        if (!Array.isArray(loaded[k].roles)) loaded[k].roles = [{ code: 'OPS-01', role: 'Operator' }];
+        const item = loaded[k];
+        if (item && typeof item === 'object') {
+          const uname = (item.username || k).toLowerCase().trim();
+          clean[uname] = {
+            display: (item.display || uname).trim().toUpperCase(),
+            username: uname,
+            password: item.password || '123456',
+            roles: Array.isArray(item.roles) && item.roles.length > 0 
+              ? item.roles 
+              : [{ code: 'OPS-01', role: 'Operator' }]
+          };
+        }
       });
-      return loaded;
+      return clean;
     }
 
     let users = getStoredProfiles();
@@ -1249,7 +1260,7 @@
 
       const newConfig = {
         appName: (document.getElementById('cfgAppName').value || 'SWIFT Core Banking & Financial Messaging Platform').trim(),
-        ownerName: (document.getElementById('cfgOwnerName').value || 'Bank Nusantara International').trim(),
+        ownerName: (document.getElementById('cfgOwnerName').value || 'BANK INDONESIA').trim(),
         ownerContact: (document.getElementById('cfgOwnerContact').value || 'Prof. Dr. Hendra Pratama, M.Sc.').trim(),
         ownerTitle: (document.getElementById('cfgOwnerTitle').value || 'Head of Global Treasury & International Settlement').trim(),
         ownerEmail: (document.getElementById('cfgOwnerEmail').value || 'treasury@nusantara-bank.co.id').trim(),
@@ -1496,7 +1507,7 @@
 
     document.getElementById('userCrudForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const origKey = document.getElementById('userOriginalKey').value.trim();
+      const origKey = document.getElementById('userOriginalKey').value.trim().toLowerCase();
       const display = document.getElementById('editUserDisplay').value.trim().toUpperCase();
       const username = document.getElementById('editUserUsername').value.trim().toLowerCase();
       const role = document.getElementById('editUserRole').value;
@@ -1510,15 +1521,17 @@
 
       users = getStoredProfiles();
 
-      // Check username collision if changed
+      // Check username collision if changed or adding new
       const newKey = username;
-      if (origKey && origKey !== newKey) {
-        if (users[newKey]) {
+      if (origKey) {
+        if (origKey !== newKey && users[newKey]) {
           alert(`Username '${username}' is already in use by another operator.`);
           return;
         }
-        delete users[origKey];
-      } else if (!origKey && users[newKey]) {
+        if (origKey !== newKey) {
+          delete users[origKey];
+        }
+      } else if (users[newKey]) {
         alert(`Username '${username}' already exists.`);
         return;
       }
@@ -1743,7 +1756,7 @@
 
     // Factory Reset
     document.getElementById('btnFactoryReset').addEventListener('click', () => {
-      if (!confirm('CONFIRM FACTORY RESET: This will reset transactional edits and restore default Bank Nusantara International master database and users. Continue?')) {
+      if (!confirm('CONFIRM FACTORY RESET: This will reset transactional edits and restore default BANK INDONESIA master database and users. Continue?')) {
         return;
       }
       localStorage.removeItem('swiftLabCoreV4');

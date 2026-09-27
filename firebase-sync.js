@@ -217,7 +217,7 @@ class FirebaseSyncManager {
                 [item.field]: parsed,
                 updatedAt: new Date().toISOString(),
                 updatedBy: 'initial_seed'
-              }, { merge: true }).catch(() => {});
+              }).catch(() => {});
             } catch (e) {}
           }
         }
@@ -292,7 +292,7 @@ class FirebaseSyncManager {
       await setDoc(docRef, {
         [syncItem.field]: parsed,
         updatedAt: new Date().toISOString()
-      }, { merge: true });
+      });
       this.updateStatus('connected', `${this.isCustom ? 'Private Cloud' : 'Central CBS Host'} Connected (Live)`);
     } catch (err) {
       this.updateStatus('connected', `CBS Host (${this.isCustom ? 'Private' : 'Central'}) Buffer Active`);
@@ -311,7 +311,7 @@ class FirebaseSyncManager {
           [item.field]: parsed,
           updatedAt: new Date().toISOString(),
           syncedFrom: 'admin_manual_push'
-        }, { merge: true });
+        });
       }
     }
     this.updateStatus('connected', `${this.isCustom ? 'Private Cloud' : 'Central CBS Host'} Connected (Live)`);
